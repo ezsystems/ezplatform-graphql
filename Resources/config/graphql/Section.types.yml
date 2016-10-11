@@ -1,0 +1,14 @@
+Section:
+    type: object
+    config:
+        description: "An eZ Platform repository section."
+        fields:
+            id:
+                type: "Int!"
+                description: "The Section's unique ID."
+            identifier:
+                type: "String"
+                description: "The Section's system identifier."
+            name:
+                type: "String"
+                description: "The Section's name."

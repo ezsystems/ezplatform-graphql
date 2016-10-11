@@ -1,0 +1,16 @@
+{
+    "name": "bdunogier/ezplatform-graphql-bundle",
+    "description": "GraphQL server for the eZ Platform Open Source CMS Repository.",
+    "type": "ezplatform-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bertrand Dunogier",
+            "email": "bertrand.dunogier@ez.no"
+        }
+    ],
+    "require": {
+      "ezsystems/ezpublish-kernel": "^6.0",
+      "overblog/graphql-bundle": "^0.6.0"
+    }
+}

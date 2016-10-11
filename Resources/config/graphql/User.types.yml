@@ -1,0 +1,70 @@
+User:
+    type: object
+    config:
+        description: "An eZ Platform repository User."
+        fields:
+            id:
+                type: "Int"
+                description: "The Content item's id. Shortcut to ContentInfo {id}."
+            name:
+                type: "String"
+                resolve: "@=value.contentInfo.name"
+            fields:
+                type: "[Field]"
+                description: "The Content item's Fields."
+                args:
+                    identifier:
+                        description: "Filter by field def identifier"
+                        type: "String"
+                resolve: "@=resolver('ContentFields', [value, args])"
+            version:
+                type: "Version"
+                description: "Current version metadata"
+                resolve: "@=value.versionInfo"
+            login:
+                type: "String"
+            email:
+                type: "String"
+            passwordHash:
+                type: "String"
+            hashAlgorithm:
+                type: "String"
+            enabled:
+                type: "Boolean"
+            maxLogin:
+                type: "Int"
+            groups:
+                type: "[UserGroup]"
+                resolve: "@=resolver('UserGroupsByUserId', [value.id])"
+
+UserGroup:
+    type: object
+    config:
+        fields:
+            id:
+                type: "Int"
+                description: "The Content item's id. Shortcut to ContentInfo {id}."
+            name:
+                type: "String"
+                resolve: "@=value.contentInfo.name"
+            fields:
+                type: "[Field]"
+                description: "The Content item's Fields."
+                args:
+                    identifier:
+                        description: "Filter by field def identifier"
+                        type: "String"
+                resolve: "@=resolver('ContentFields', [value.id, args])"
+            version:
+                type: "Version"
+                description: "Current version"
+                resolve: "@=value.versionInfo"
+            parentGroup:
+                type: "UserGroup"
+                resolve: "@=resolver('UserGroupById', [value.parentId])"
+            subGroups:
+                type: "[UserGroup]"
+                resolve: "@=resolver('UserGroupSubGroups', [value])"
+            users:
+                type: "[User]"
+                resolve: "@=resolver('UsersOfGroup', [value])"

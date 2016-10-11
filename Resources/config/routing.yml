@@ -1,0 +1,3 @@
+bd_ez_platform_graph_ql_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: BDEzPlatformGraphQLBundle:Default:index }

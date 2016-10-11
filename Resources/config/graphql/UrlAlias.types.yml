@@ -1,0 +1,93 @@
+UrlAlias:
+    type: interface
+    config:
+        fields:
+            id:
+                type: "String"
+            #type:
+            #    type: "Int"
+            #destination:
+            #    type: "String"
+            #    description: "Either a location id, or an URL"
+            path:
+                type: "String"
+            languageCodes:
+                type: "[String]"
+            alwaysAvailable:
+                type: "Boolean"
+            isHistory:
+                type: "Boolean"
+            isCustom:
+                type: "Boolean"
+            forward:
+                type: "Boolean"
+        resolveType: "@=resolver('UrlAliasType', [value])"
+
+LocationUrlAlias:
+    type: object
+    config:
+        fields:
+            id:
+                type: "String"
+            path:
+                type: "String"
+            languageCodes:
+                type: "[String]"
+            alwaysAvailable:
+                type: "Boolean"
+            isHistory:
+                type: "Boolean"
+            isCustom:
+                type: "Boolean"
+            forward:
+                type: "Boolean"
+            location:
+                type: "Location"
+                resolve: "@=resolver('LocationById', [value.destination])"
+        interfaces: [UrlAlias]
+
+ResourceUrlAlias:
+    type: object
+    config:
+        fields:
+            id:
+                type: "String"
+            path:
+                type: "String"
+            languageCodes:
+                type: "[String]"
+            alwaysAvailable:
+                type: "Boolean"
+            isHistory:
+                type: "Boolean"
+            isCustom:
+                type: "Boolean"
+            forward:
+                type: "Boolean"
+            url:
+                type: "String"
+                description: "The aliased URL"
+        interfaces: [UrlAlias]
+
+VirtualUrlAlias:
+    type: object
+    config:
+        fields:
+            id:
+                type: "String"
+            path:
+                type: "String"
+            languageCodes:
+                type: "[String]"
+            alwaysAvailable:
+                type: "Boolean"
+            isHistory:
+                type: "Boolean"
+            isCustom:
+                type: "Boolean"
+            forward:
+                type: "Boolean"
+            url:
+                type: "String"
+                description: "The aliased URL"
+        interfaces: [UrlAlias]

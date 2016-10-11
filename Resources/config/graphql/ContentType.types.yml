@@ -1,0 +1,109 @@
+ContentType:
+    type: object
+    config:
+        description: "An eZ Platform repository ContentType."
+        fields:
+            id:
+                type: "Int!"
+                description: "The Content Type's unique ID."
+            #contentTypeGroups:
+            #    type: "[ContentTypeGroup]"
+            #    description: "ContentType Groups the ContentType is a member of."
+            fieldDefinitions:
+                type: "[FieldDefinition]"
+                description: "The ContentType's Field Definitions."
+                resolve: "@=value.getFieldDefinitions()"
+            status:
+                type: "Int"
+                description: "The status of the content type. One of ContentType::STATUS_DEFINED|ContentType::STATUS_DRAFT|ContentType::STATUS_MODIFIED."
+            identifier:
+                type: "String"
+                description: "The identifier of the Content Type."
+            name:
+                type: "String"
+                description: "The Content Type's name in the main language"
+                args:
+                    languageCode:
+                        type: "String!"
+                resolve: "@=value.getName(args['languageCode'])"
+            names:
+                type: "[String]"
+                description: "The Content Type's names in all languages"
+            creationDate:
+                type: "String"
+                description: "The date of the creation of this Content Type."
+            modificationDate:
+                type: "String"
+                description: "the date of the last modification of this Content Type."
+            creatorId:
+                type: "Int"
+                description: "The user id of the creator of this Content Type."
+            creator:
+                type: "User"
+                description: "The user who created this Content Type."
+                resolve: "@=resolver('UserById', [value.creatorId])"
+            modifierId:
+                type: "Int"
+                description: "The user id of the user which has last modified this content type"
+            modifier:
+                type: "User"
+                description: "The user which has last modified this content type"
+                resolve: "@=resolver('UserById', [value.modifierId])"
+            remoteId:
+                type: "String"
+                description: "A global unique id of the Content Type."
+            urlAliasSchema:
+                type: "String"
+                description: "URL alias schema. If nothing is provided, nameSchema will be used instead."
+            nameSchema:
+                type: "String"
+                description: "The name schema."
+            isContainer:
+                type: "Boolean"
+                description: "This flag hints to UIs if type may have children or not."
+            mainLanguageCode:
+                type: "String"
+                description: "The main language of the content type names and description used for fallback."
+            defaultAlwaysAvailable:
+                type: "Boolean"
+                description: "If an instance of a content type is created the always available flag is set by default this this value."
+            defaultSortField:
+                type: "Int"
+                description: "Specifies which property the child locations should be sorted on by default when created. Valid values are found at {@link Location::SORT_FIELD_*}"
+            defaultSortOrder:
+                type: "Int"
+                description: "Specifies whether the sort order should be ascending or descending by default when created. Valid values are {@link Location::SORT_ORDER_*}"
+            groups:
+                type: "[ContentTypeGroup]"
+                resolve: "@=value.contentTypeGroups"
+            content:
+                type: "[Content]"
+                resolve: "@=resolver('ContentByType', [value.id])"
+ContentTypeGroup:
+    type: object
+    config:
+        fields:
+            id:
+                type: "Int"
+            identifier:
+                type: "String"
+            creationDate:
+                type: "String"
+            modificationDate:
+                type: "String"
+            creatorId:
+                type: "Int"
+            creator:
+                type: "User"
+                resolve: "@=resolver('UserById', [value.creatorId])"
+            modifierId:
+                type: "Int"
+            modifier:
+                type: "User"
+                resolve: "@=resolver('UserById', [value.modifierId])"
+            contentTypes:
+                type: "[ContentType]"
+                resolve: "@=resolver('ContentTypesFromGroup', {'groupId': value.id})"
+            groups:
+                type: "[ContentTypeGroup]"
+

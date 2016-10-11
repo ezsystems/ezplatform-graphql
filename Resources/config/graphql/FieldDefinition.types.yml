@@ -1,0 +1,41 @@
+FieldDefinition:
+    type: object
+    config:
+        description: "An eZ Platform repository FieldDefinition."
+        fields:
+            #fieldSettings:
+            #    type: ""
+            #    description: "Calls getFieldSettings()."
+            #validatorConfiguration:
+            #    type: ""
+            #    description: "Calls getValidatorConfiguration()."
+            id:
+                type: "Int"
+                description: "The id of the field definition."
+            identifier:
+                type: "String"
+                description: "The system identifier of the field definition."
+            fieldGroup:
+                type: "String"
+                description: "The field group name."
+            position:
+                type: "Int"
+                description: "The position of the field definition in the content type"
+            fieldTypeIdentifier:
+                type: "String"
+                description: "The identifier of the field type (ezstring, ezinteger...)."
+            isTranslatable:
+                type: "Boolean"
+                description: "Indicates if fields of this definition are translatable."
+            isRequired:
+                type: "Boolean"
+                description: "Indicates if this field is required in the content object."
+            isSearchable:
+                type: "Boolean"
+                description: "Indicates if the field is searchable."
+            isInfoCollector:
+                type: "Boolean"
+                description: "Indicates if this field is used for information collection"
+            #defaultValue:
+            #    type: "FieldValue"
+            #    description: "The default value of the field."

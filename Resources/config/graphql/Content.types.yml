@@ -1,0 +1,143 @@
+Content:
+    type: object
+    config:
+        description: "An eZ Platform repository ContentInfo."
+        fields:
+            id:
+                type: "Int!"
+                description: "The Content item's unique ID."
+                resolve:
+            contentTypeId:
+                type: "Int!"
+                description: "The Content Type ID of the Content item."
+            contentType:
+                type: "ContentType"
+                description: "The Content Type of the Content item."
+                resolve: "@=resolver('ContentTypeById', [value.contentTypeId])"
+            name:
+                type: "String"
+                description: "The computed name (via name schema) in the main language of the Content item."
+            fields:
+                type: "[Field]"
+                description: "The Content item's Fields."
+                args:
+                    languages:
+                        description: "Return fields in these languages."
+                        type: "[String]"
+                    version:
+                        description: "Return fields of a given content version."
+                        type: "Int"
+                    useAlwaysAvailable:
+                        type: "Boolean"
+                        description: "Use the always available language."
+                    identifier:
+                        description: "Filter by field def identifier"
+                        type: "String"
+                resolve: "@=resolver('ContentFields', [value.id, args])"
+            section:
+                type: "Section"
+                description: "The section to which the Content object is assigned."
+                resolve: "@=resolver('SectionById', [value.sectionId])"
+            currentVersionNo:
+                type: "Int"
+                description: "Version number of the published version, or 1 for a newly created draft."
+            currentVersion:
+                type: "Version"
+                description: "The currently published content item version"
+                resolve: "@=resolver('LoadVersion', [value.id, value.currentVersionNo])"
+            versions:
+                type: "[Version]"
+                description: "All content versions."
+                resolve: "@=resolver('ContentVersions', [value.id])"
+            published:
+                type: "Boolean"
+                description: "If the Content item has a published version."
+            ownerId:
+                type: "Int"
+                description: "The user id of the owner of the Content object"
+            owner:
+                type: "User"
+                description: "The owner user of the Content object"
+                resolve: "@=resolver('UserById', [value.ownerId])"
+            modificationDate:
+                type: "String"
+                description: "Date the Content item was last modified on."
+            publishedDate:
+                type: "String"
+                description: "Date the Content item was first published on."
+            alwaysAvailable:
+                type: "Boolean"
+                description: "Indicates if the Content object is shown in the mainlanguage if its not present in an other requested language."
+            remoteId:
+                type: "String"
+                description: "A global unique id of the Content object"
+            mainLanguageCode:
+                type: "String"
+                description: "The main language code of the Content object. If the available flag is set to true the Content is shown in this language if the requested language does not exist."
+            mainLocationId:
+                type: "Int"
+                description: "Identifier of the Content item's main location."
+            mainLocation:
+                type: "Location"
+                description: "Content item's main location."
+                resolve: "@=resolver('LocationById', [value.mainLocationId])"
+            locations:
+                type: "[Location]"
+                description: "All the locations of the Content item"
+                resolve: "@=resolver('LocationsByContentId', [value.id])"
+            relations:
+                type: "[ContentRelation]"
+                description: "Relations from this Content"
+                resolve: "@=resolver('ContentRelations', [value])"
+            relations:
+                type: "[ContentRelation]"
+                description: "Relations from this Content"
+                resolve: "@=resolver('ContentRelations', [value])"
+            reverseRelations:
+                type: "[ContentRelation]"
+                description: "Relations to this Content"
+                resolve: "@=resolver('ContentReverseRelations', [value])"
+ContentRelation:
+    type: "object"
+    config:
+        fields:
+            sourceFieldDefinitionIdentifier:
+                type: "String"
+            sourceContent:
+                type: "Content"
+                resolve: "@=value.sourceContentInfo"
+            destinationContent:
+                type: "Content"
+                resolve: "@=value.destinationContentInfo"
+            type:
+                type: "String"
+
+ContentCreateStruct:
+    type: object
+    config:
+        description: "A new content item."
+        fields:
+            contentTypeId:
+                type: "Int"
+                description: "The Content item's Content Type ID."
+            sectionId:
+                type: "Int"
+                description: "The Section id the Content item must be assigned."
+            ownerId:
+                type: "Int"
+                description: "The owner of the content. If not given the current authenticated user is set as owner."
+            alwaysAvailable:
+                type: "Boolean"
+                description: "Indicates if the content object is shown in the mainlanguage if its not present in an other requested language."
+            remoteId:
+                type: "String"
+                description: "Remote identifier used as a custom identifier for the object."
+            mainLanguageCode:
+                type: "String"
+                description: "The main language code for the content."
+            modificationDate:
+                type: "String"
+                description: "Modification date. If not given the current timestamp is used."
+            fields:
+                type: "[Field]"
+                description: "The Content fields"

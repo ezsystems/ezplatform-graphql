@@ -1,0 +1,45 @@
+ExampleMutation:
+    type: object
+    config:
+        fields:
+            createSection:
+                builder: Mutation
+                builderConfig:
+                    inputType: createSectionInput
+                    payloadType: sectionPayload
+                    mutateAndGetPayload: "@=mutation('CreateSection', [value])"
+            deleteSection:
+                builder: Mutation
+                builderConfig:
+                    inputType: deleteSectionInput
+                    payloadType: sectionPayload
+                    mutateAndGetPayload: "@=mutation('DeleteSection', [value])"
+
+createSectionInput:
+    type: relay-mutation-input
+    config:
+        fields:
+            identifier:
+                type: "String"
+            name:
+                type: "String"
+
+deleteSectionInput:
+    type: relay-mutation-input
+    config:
+        fields:
+            id:
+                type: "Int"
+            identifier:
+                type: "String"
+
+sectionPayload:
+    type: relay-mutation-payload
+    config:
+        fields:
+            id:
+                type: "Int"
+            identifier:
+                type: "String"
+            name:
+                type: "String"
