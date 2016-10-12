@@ -32,7 +32,7 @@ Content:
                         description: "Use the always available language."
                     identifier:
                         description: "Filter by field def identifier"
-                        type: "String"
+                        type: "[String]"
                 resolve: "@=resolver('ContentFields', [value.id, args])"
             section:
                 type: "Section"
