@@ -44,6 +44,6 @@ Version:
                         description: "Use the always available language."
                     identifier:
                         description: "Filter by field def identifier"
-                        type: "String"
+                        type: "[String]"
                 resolve: "@=resolver('ContentFieldsInVersion', [value.contentInfo.id, value.versionNo, args])"
 

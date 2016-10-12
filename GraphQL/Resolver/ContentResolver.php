@@ -103,46 +103,40 @@ class ContentResolver
             isset($args['useAlwaysAvailable']) ? $args['useAlwaysAvailable'] : true
         );
 
-        if (isset($args['identifier'])) {
-            $field = $content->getField($args['identifier']);
-            $value = new ContentFieldValue(
-                [
-                    'contentId' => $contentId,
-                    'fieldDefIdentifier' => $field->fieldDefIdentifier,
-                    'value' => $field->value,
-                ]
-            );
-            return [
-                new Field(
-                    [
-                        'id' => $field->id,
-                        'value' => $value,
-                        'fieldDefIdentifier' => $field->fieldDefIdentifier,
-                        'languageCode' => $field->languageCode,
-                    ]
-                )
-            ];
+        if (isset($args['identifier']) && count($args['identifier']) === 1) {
+            $fields = [$content->getField($args['identifier'][0])];
+        } else {
+            $fields = $content->getFieldsByLanguage();
+
+            $filteredFields = [];
+            if (isset($args['identifier'])) {
+                foreach ($fields as $field) {
+                    if (in_array($field->fieldDefIdentifier, $args['identifier'])) {
+                        $filteredFields[] = $field;
+                    }
+                }
+                $fields = $filteredFields;
+            }
         }
 
         return array_map(
             function(Field $field) use ($contentId) {
-                $value = new ContentFieldValue(
-                    [
-                        'contentId' => $contentId,
-                        'fieldDefIdentifier' => $field->fieldDefIdentifier,
-                        'value' => $field->value,
-                    ]
-                );
                 return new Field(
                     [
                         'id' => $field->id,
-                        'value' => $value,
+                        'value' => new ContentFieldValue(
+                            [
+                                'contentId' => $contentId,
+                                'fieldDefIdentifier' => $field->fieldDefIdentifier,
+                                'value' => $field->value,
+                            ]
+                        ),
                         'fieldDefIdentifier' => $field->fieldDefIdentifier,
                         'languageCode' => $field->languageCode,
                     ]
                 );
             },
-            $content->getFieldsByLanguage()
+            $fields
         );
     }
 

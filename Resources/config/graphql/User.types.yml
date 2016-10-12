@@ -15,8 +15,8 @@ User:
                 args:
                     identifier:
                         description: "Filter by field def identifier"
-                        type: "String"
-                resolve: "@=resolver('ContentFields', [value, args])"
+                        type: "[String]"
+                resolve: "@=resolver('ContentFields', [value.id, args])"
             version:
                 type: "Version"
                 description: "Current version metadata"
@@ -53,7 +53,7 @@ UserGroup:
                 args:
                     identifier:
                         description: "Filter by field def identifier"
-                        type: "String"
+                        type: "[String]"
                 resolve: "@=resolver('ContentFields', [value.id, args])"
             version:
                 type: "Version"
