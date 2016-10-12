@@ -1,4 +1,4 @@
-ExampleMutation:
+PlatformMutation:
     type: object
     config:
         fields:
