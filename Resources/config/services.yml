@@ -70,6 +70,13 @@ services:
             - { name: overblog_graphql.resolver, alias: "UrlAliasType", method: "resolveUrlAliasType" }
             - { name: overblog_graphql.resolver, alias: "LocationUrlAliases", method: "resolveLocationUrlAliases" }
 
+    bd_ezplatform_graphql.graph.resolver.search:
+        class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\SearchResolver
+        arguments:
+            - "@ezpublish.api.service.search"
+        tags:
+            - { name: overblog_graphql.resolver, alias: "SearchContent", method: "searchContent" }
+
     bd_ezplatform_graphql.graph.resolver.field_value.richtext:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\RichTextResolver
         arguments:
