@@ -20,7 +20,7 @@ FieldValue:
     type: interface
     config:
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
         resolveType: "@=resolver('FieldValueType', [value])"
@@ -30,58 +30,58 @@ GenericFieldValue:
     type: object
     config:
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
         interfaces: [FieldValue]
 
 TextLineFieldValue:
     type: object
     config:
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
         interfaces: [FieldValue]
 
 ImageFieldValue:
     type: object
     config:
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
             id:
                 type: "String"
-                resolve: "@=value.value.id"
+                resolve: "@=value.id"
             alternativeText:
                 type: "String"
-                resolve: "@=value.value.alternativeText"
+                resolve: "@=value.alternativeText"
             fileName:
                 type: "String"
-                resolve: "@=value.value.fileName"
+                resolve: "@=value.fileName"
             fileSize:
                 type: "Int"
-                resolve: "@=value.value.fileSize"
+                resolve: "@=value.fileSize"
             uri:
                 type: "String"
-                resolve: "@=value.value.uri"
+                resolve: "@=value.uri"
             width:
                 type: "Int"
-                resolve: "@=value.value.width"
+                resolve: "@=value.width"
             height:
                 type: "Int"
-                resolve: "@=value.value.height"
+                resolve: "@=value.height"
             variations:
                 type: "[ImageVariation]"
                 args:
                     identifier:
                         type: "[String]"
                         description: "One or more variation identifiers."
-                resolve: "@=resolver('ImageVariation', [value.value, args])"
+                resolve: "@=resolver('ImageVariation', [value, args])"
         interfaces: [FieldValue]
 
 ImageVariation:
@@ -106,13 +106,13 @@ AuthorFieldValue:
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
             authors:
                 type: "[Author]"
-                resolve: "@=value.value.authors"
+                resolve: "@=value.authors"
 Author:
     type: object
     config:
@@ -129,204 +129,204 @@ BinaryFileFieldValue:
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 CheckboxFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 CountryFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 DateFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 DateAndTimeFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 EmailAddressFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 FloatFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 ISBNFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 IntegerFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 KeywordFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 MapLocationFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
             latitude:
                 type: "String"
-                resolve: "@=value.value.latitude"
+                resolve: "@=value.latitude"
             longitude:
                 type: "String"
-                resolve: "@=value.value.longitude"
+                resolve: "@=value.longitude"
             address:
                 type: "String"
-                resolve: "@=value.value.address"
+                resolve: "@=value.address"
 
 MediaFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 PriceFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 RatingFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 RelationFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 RelationListFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 RichTextFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
             html5:
                 type: "String"
                 description: "HTML5 representation."
-                resolve: "@=resolver('RichTextXmlToHtml5', [value.value.xml])"
+                resolve: "@=resolver('RichTextXmlToHtml5', [value.xml])"
             html5_edit:
                 type: "String"
                 description: "Editable HTML5 representation."
-                resolve: "@=resolver('RichTextXmlToHtml5Edit', [value.value.xml])"
+                resolve: "@=resolver('RichTextXmlToHtml5Edit', [value.xml])"
 
 SelectionFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"
 
 TextBlockFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            value:
+            text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value.value"
+                resolve: "@=value"

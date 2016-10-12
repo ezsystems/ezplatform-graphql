@@ -39,6 +39,18 @@ class ContentResolver
      */
     private $typeResolver;
 
+    /**
+     * FieldType <=> GraphQL type mapping.
+     * @var array
+     */
+    private $typesMap = [
+        'ezauthor' => 'AuthorFieldValue',
+        'ezgmaplocation' => 'MapLocationFieldValue',
+        'ezimage' => 'ImageFieldValue',
+        'ezrichtext' => 'RichTextFieldValue',
+        'ezstring' => 'TextLineFieldValue',
+    ];
+
     public function __construct(ContentService $contentService, SearchService $searchService, ContentTypeService $contentTypeService, TypeResolver $typeResolver)
     {
         $this->contentService = $contentService;
@@ -120,13 +132,14 @@ class ContentResolver
         }
 
         return array_map(
-            function(Field $field) use ($contentId) {
+            // This wraps the value as a ContentFieldValue, so that the field definition can be identified later on.
+            function(Field $field) use ($content) {
                 return new Field(
                     [
                         'id' => $field->id,
                         'value' => new ContentFieldValue(
                             [
-                                'contentId' => $contentId,
+                                'contentTypeId' => $content->contentInfo->contentTypeId,
                                 'fieldDefIdentifier' => $field->fieldDefIdentifier,
                                 'value' => $field->value,
                             ]
@@ -157,22 +170,17 @@ class ContentResolver
 
     public function resolveFieldValueType(ContentFieldValue $field)
     {
-        $contentInfo = $this->contentService->loadContentInfo($field->contentId);
-        $contentType = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
-        $fieldDefinition = $contentType->getFieldDefinition($field->fieldDefIdentifier);
+        static $mapCache = [];
 
-        $typesMap = [
-            'ezauthor' => 'AuthorFieldValue',
-            'ezgmaplocation' => 'MapLocationFieldValue',
-            'ezimage' => 'ImageFieldValue',
-            'ezrichtext' => 'RichTextFieldValue',
-            'ezstring' => 'TextLineFieldValue',
-        ];
+        if (!isset($mapCache[$field->contentTypeId])) {
+            $contentType = $this->contentTypeService->loadContentType($field->contentTypeId);
+            foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
+                $mapCache[$contentType->id][$fieldDefinition->identifier] = $fieldDefinition->fieldTypeIdentifier;
+            }
+        }
 
-        $typeString =
-            isset($typesMap[$fieldDefinition->fieldTypeIdentifier]) ?
-            $typesMap[$fieldDefinition->fieldTypeIdentifier] :
-            'GenericFieldValue';
+        $fieldTypeIdentifier = $mapCache[$field->contentTypeId][$field->fieldDefIdentifier];
+        $typeString = isset($this->typesMap[$fieldTypeIdentifier]) ? $this->typesMap[$fieldTypeIdentifier] : 'GenericFieldValue';
 
         return $this->typeResolver->resolve($typeString);
     }
