@@ -233,6 +233,15 @@ MapLocationFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.value"
+            latitude:
+                type: "String"
+                resolve: "@=value.value.latitude"
+            longitude:
+                type: "String"
+                resolve: "@=value.value.longitude"
+            address:
+                type: "String"
+                resolve: "@=value.value.address"
 
 MediaFieldValue:
     type: object

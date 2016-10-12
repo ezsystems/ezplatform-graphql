@@ -169,9 +169,10 @@ class ContentResolver
 
         $typesMap = [
             'ezauthor' => 'AuthorFieldValue',
-            'ezstring' => 'TextLineFieldValue',
+            'ezgmaplocation' => 'MapLocationFieldValue',
             'ezimage' => 'ImageFieldValue',
             'ezrichtext' => 'RichTextFieldValue',
+            'ezstring' => 'TextLineFieldValue',
         ];
 
         $typeString =
