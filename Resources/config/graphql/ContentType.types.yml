@@ -24,7 +24,8 @@ ContentType:
                 description: "The Content Type's name in the main language"
                 args:
                     languageCode:
-                        type: "String!"
+                        type: "String"
+                        defaultValue: "eng-GB"
                 resolve: "@=value.getName(args['languageCode'])"
             names:
                 type: "[String]"
