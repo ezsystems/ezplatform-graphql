@@ -17,5 +17,10 @@
         "psr-4": {
             "BD\\EzPlatformGraphQLBundle\\": ""
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
     }
 }
