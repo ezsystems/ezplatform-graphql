@@ -31,7 +31,7 @@ overblog_graphql:
         config_validation: %kernel.debug%
         schema:
             query: Query
-            mutation: PlatftormMutation
+            mutation: PlatformMutation
 ```
 
 Add the GraphQL server route to `app/config/routing.yml`:
