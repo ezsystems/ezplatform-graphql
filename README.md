@@ -9,7 +9,7 @@ It relies on overblog/graphql-bundle.
 Install the package and its dependencies using composer:
 
 ```
-composer require bdunogier/ezplatform-graphql-bundle
+composer require bdunogier/ezplatform-graphql-bundle:dev-master
 ```
 
 Add the bundles to `app/AppKernel.php`:
