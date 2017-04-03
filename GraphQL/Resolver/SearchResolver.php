@@ -38,10 +38,9 @@ class SearchResolver
             }
         }
 
-        if (count($criteria) === 0) {
-            return null;
+        if (count($criteria)) {
+            $query->filter = count($criteria) > 1 ? new Query\Criterion\LogicalAnd($criteria) : $criteria[0];
         }
-        $query->filter = count($criteria) > 1 ? new Query\Criterion\LogicalAnd($criteria) : $criteria[0];
         $searchResult = $this->searchService->findContentInfo($query);
 
         return array_map(
