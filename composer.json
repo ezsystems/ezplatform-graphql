@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-      "ezsystems/ezpublish-kernel": "^6.0",
+      "ezsystems/ezpublish-kernel": "^6.0|^7.0",
       "overblog/graphql-bundle": "^0.6.0"
     },
     "autoload": {
