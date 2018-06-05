@@ -49,6 +49,7 @@ class ContentResolver
         'ezimage' => 'ImageFieldValue',
         'ezrichtext' => 'RichTextFieldValue',
         'ezstring' => 'TextLineFieldValue',
+        'ezobjectrelationlist' => 'RelationListFieldValue',
     ];
 
     public function __construct(ContentService $contentService, SearchService $searchService, ContentTypeService $contentTypeService, TypeResolver $typeResolver)
@@ -104,6 +105,22 @@ class ContentResolver
     public function resolveContentById($contentId)
     {
         return $this->contentService->loadContentInfo($contentId);
+    }
+
+    public function resolveContentByIdList(array $contentIdList)
+    {
+        $searchResults = $this->searchService->findContentInfo(
+            new Query([
+                'filter' => new Query\Criterion\ContentId($contentIdList)
+            ])
+        );
+
+        return array_map(
+            function(SearchHit $searchHit) {
+                return $searchHit->valueObject;
+            },
+            $searchResults->searchHits
+        );
     }
 
     public function resolveContentFields($contentId, $args)

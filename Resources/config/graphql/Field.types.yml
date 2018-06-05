@@ -282,6 +282,10 @@ RelationFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+            destinationContentItem:
+                type: "Content"
+                description: "The related Content item"
+                resolve: "@=resolver('ContentById', [value.destinationContentId])"
 
 RelationListFieldValue:
     type: object
@@ -292,6 +296,10 @@ RelationListFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+            destinationContentItems:
+                type: "[Content]"
+                description: "The related content items"
+                resolve: "@=resolver('ContentByIdList', [value.destinationContentIds])"
 
 RichTextFieldValue:
     type: object

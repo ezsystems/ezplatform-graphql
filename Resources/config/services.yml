@@ -21,6 +21,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "Content", method: "resolveContent" }
             - { name: overblog_graphql.resolver, alias: "ContentFields", method: "resolveContentFields" }
             - { name: overblog_graphql.resolver, alias: "ContentById", method: "resolveContentById" }
+            - { name: overblog_graphql.resolver, alias: "ContentByIdList", method: "resolveContentByIdList" }
             - { name: overblog_graphql.resolver, alias: "ContentVersions", method: "resolveContentVersions" }
             - { name: overblog_graphql.resolver, alias: "ContentFieldsInVersion", method: "resolveContentFieldsInVersion" }
             - { name: overblog_graphql.resolver, alias: "ContentByType", method: "findContentByType" }
