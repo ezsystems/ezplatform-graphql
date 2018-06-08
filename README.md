@@ -27,11 +27,9 @@ Configure the overblog graphQL bundle in `app/config/config.yml`:
 ```yaml
 overblog_graphql:
     definitions:
-        internal_error_message: "An error occurred, please retry later or contact us!"
         config_validation: %kernel.debug%
         schema:
             query: Query
-            mutation: PlatformMutation
 ```
 
 Add the GraphQL server route to `app/config/routing.yml`:
