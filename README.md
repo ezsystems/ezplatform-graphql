@@ -40,10 +40,26 @@ overblog_graphql_endpoint:
     prefix: /graphql
 ```
 
+### GraphiQL
+The graphical graphQL client, GraphiQL, must be installed separately if you want to use it.
+As a developer, you probably want to.
+
+```
+composer require --dev overblog/graphiql-bundle
+```
+
+Add `OverblogGraphiQLBundle` to the `dev` bundles:
+
+```php
+case 'dev':
+    // ...
+    $bundles[] = new Overblog\GraphiQLBundle\OverblogGraphiQLBundle();
+```
+
 Add the GraphiQL route to `app/config/routing_dev.yml`:
 ```yaml
 overblog_graphql_graphiql:
-    resource: "@OverblogGraphQLBundle/Resources/config/routing/graphiql.yml"
+    resource: "@OverblogGraphiQLBundle/Resources/config/routing/graphiql.yml"
 ```
 
-Go to http://<yourhost>/graphiql to check that everything is configured correctly.
+Go to http://<yourhost>/graphiql.
