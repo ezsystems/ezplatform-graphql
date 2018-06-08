@@ -11,7 +11,7 @@
     ],
     "require": {
       "ezsystems/ezpublish-kernel": "^6.0|^7.0",
-      "overblog/graphql-bundle": "^0.6.0"
+      "overblog/graphql-bundle": "^0.11.0"
     },
     "autoload": {
         "psr-4": {
