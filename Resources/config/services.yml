@@ -103,3 +103,7 @@ services:
         tags:
             - { name: "overblog_graphql.mutation", alias: "CreateSection", method: "createSection" }
             - { name: "overblog_graphql.mutation", alias: "DeleteSection", method: "deleteSection" }
+
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\DateResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "DateTimeFormat", method: "resolveDateToFormat"}

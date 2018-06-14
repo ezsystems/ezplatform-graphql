@@ -19,9 +19,9 @@ Version:
                     languageCode:
                         type: "String"
             modificationDate:
-                type: "String"
+                type: "DateTime"
             creationDate:
-                type: "String"
+                type: "DateTime"
             creatorId:
                 type: "Int"
             #creator:
