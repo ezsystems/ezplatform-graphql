@@ -159,7 +159,7 @@ DateFieldValue:
     config:
         interfaces: [FieldValue]
         fields:
-            text:
+            format:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"

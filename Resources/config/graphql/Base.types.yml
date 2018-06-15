@@ -1,0 +1,36 @@
+DateFormatConstant:
+    type: enum
+    config:
+        values:
+            atom: {value: "@=constant('DateTime::ATOM')", description: "Y-m-d\\TH:i:sP"}
+            cookie: {value: "@=constant('DateTime::COOKIE')", description: "l, d-M-Y H:i:s T"}
+            iso8601: {value: "@=constant('DateTime::ISO8601')", description: "Y-M-D\\TH:I:SO"}
+            rfc822: {value: "@=constant('DateTime::RFC822')", description: "D, D M Y H:I:S O"}
+            rfc850: {value: "@=constant('DateTime::RFC850')", description: "L, D-M-Y H:I:S T"}
+            rfc1036: {value: "@=constant('DateTime::RFC1036')", description: "D, D M Y H:I:S O"}
+            rfc1123: {value: "@=constant('DateTime::RFC1123')", description: "D, D M Y H:I:S O"}
+            rfc2822: {value: "@=constant('DateTime::RFC2822')", description: "D, D M Y H:I:S O"}
+            rfc3339: {value: "@=constant('DateTime::RFC3339')", description: "Y-M-D\\TH:I:SP"}
+            rfc3339_extended: {value: "@=constant('DateTime::RFC3339_EXTENDED')", description: "Y-M-D\\TH:I:S.VP"}
+            rss: {value: "@=constant('DateTime::RSS')", description: "D, D M Y H:I:S O"}
+            w3c: {value: "@=constant('DateTime::W3C')", description: "Y-M-D\\TH:I:SP"}
+
+DateTime:
+    type: object
+    config:
+        description: "A date"
+        fields:
+            format:
+                type: String
+                description: "Date formatted with a date() format"
+                resolve: "@=resolver('DateTimeFormat', [value, args])"
+                args:
+                    format:
+                        type: "String"
+                        description: "A format compatible with date()"
+                    constant:
+                        type: DateFormatConstant
+            timestamp:
+                description: "The raw string value"
+                type: Int
+                resolve: "@=value.getTimestamp()"

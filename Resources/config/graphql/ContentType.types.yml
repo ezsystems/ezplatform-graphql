@@ -31,10 +31,10 @@ ContentType:
                 type: "[String]"
                 description: "The Content Type's names in all languages"
             creationDate:
-                type: "String"
+                type: "DateTime"
                 description: "The date of the creation of this Content Type."
             modificationDate:
-                type: "String"
+                type: "DateTime"
                 description: "the date of the last modification of this Content Type."
             creatorId:
                 type: "Int"
@@ -89,9 +89,9 @@ ContentTypeGroup:
             identifier:
                 type: "String"
             creationDate:
-                type: "String"
+                type: "DateTime"
             modificationDate:
-                type: "String"
+                type: "DateTime"
             creatorId:
                 type: "Int"
             creator:

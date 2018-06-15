@@ -60,10 +60,10 @@ Content:
                 description: "The owner user of the Content object"
                 resolve: "@=resolver('UserById', [value.ownerId])"
             modificationDate:
-                type: "String"
+                type: DateTime
                 description: "Date the Content item was last modified on."
             publishedDate:
-                type: "String"
+                type: DateTime
                 description: "Date the Content item was first published on."
             alwaysAvailable:
                 type: "Boolean"
@@ -136,7 +136,7 @@ ContentCreateStruct:
                 type: "String"
                 description: "The main language code for the content."
             modificationDate:
-                type: "String"
+                type: "DateTime"
                 description: "Modification date. If not given the current timestamp is used."
             fields:
                 type: "[Field]"
