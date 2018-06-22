@@ -50,6 +50,8 @@ class ContentResolver
         'ezrichtext' => 'RichTextFieldValue',
         'ezstring' => 'TextLineFieldValue',
         'ezobjectrelationlist' => 'RelationListFieldValue',
+        'ezdate' => 'DateFieldValue',
+        'ezdatetime' => 'DateAndTimeFieldValue',
     ];
 
     public function __construct(ContentService $contentService, SearchService $searchService, ContentTypeService $contentTypeService, TypeResolver $typeResolver)

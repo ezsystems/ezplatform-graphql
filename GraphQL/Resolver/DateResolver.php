@@ -6,16 +6,11 @@ use Overblog\GraphQLBundle\Definition\Argument;
 
 class DateResolver
 {
-    public function resolveDateToFormat(DateTime $date, Argument $args)
+    public function resolveDateToFormat(string $format, DateTime $date = null)
     {
-        if (isset($args['constant'])) {
-            $format = $args['constant'];
-        } else if (isset($args['format'])) {
-            $format = $args['format'];
-        } else {
-            $format = DateTime::RFC850;
+        if ($date === null) {
+            return $date;
         }
-
         return $date->format($format);
     }
 }

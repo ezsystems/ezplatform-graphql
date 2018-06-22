@@ -159,20 +159,25 @@ DateFieldValue:
     config:
         interfaces: [FieldValue]
         fields:
-            format:
+            text:
                 type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
+                description: "Unix timestamp"
+                resolve: "@=value.value ? value.value.getTimestamp() : null"
+            formatted:
+                type: "String"
+                description: "Formatted date"
+                # @todo: refactor with a datetime resolver
+                resolve: "@=resolver('DateTimeFormat', [args['format'], value.value])"
+                args:
+                    format:
+                        type: String
+                        description: "A format string compatible with PHP's date() function"
 
 DateAndTimeFieldValue:
     type: object
+    inherits: ["DateFieldValue"]
     config:
         interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
 
 EmailAddressFieldValue:
     type: object
