@@ -36,12 +36,12 @@ class ImageFieldResolver
     public function resolveImageVariation(ImageFieldValue $fieldValue, $args)
     {
         $idArray = explode('-', $fieldValue->imageId);
-        if (count($idArray) != 2) {
+        if (count($idArray) != 3) {
             throw new UserError("Invalid image ID {$fieldValue->imageId}");
         }
-        list($contentId, $fieldId) = $idArray;
+        list($contentId, $fieldId, $versionNumber) = $idArray;
 
-        $content = $this->contentService->loadContent($contentId);
+        $content = $this->contentService->loadContent($contentId, [], $versionNumber);
 
         $fieldFound = false;
         /** @var $field \eZ\Publish\API\Repository\Values\Content\Field */
