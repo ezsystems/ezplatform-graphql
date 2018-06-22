@@ -43,7 +43,7 @@ TextLineFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value"
+                resolve: "@=value.text"
         interfaces: [FieldValue]
 
 ImageFieldValue:
@@ -187,7 +187,7 @@ EmailAddressFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value"
+                resolve: "@=value.email"
 
 FloatFieldValue:
     type: object
@@ -197,17 +197,7 @@ FloatFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value"
-
-ISBNFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
+                resolve: "@=value.value"
 
 IntegerFieldValue:
     type: object
@@ -217,7 +207,7 @@ IntegerFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value"
+                resolve: "@=value.value"
 
 KeywordFieldValue:
     type: object
@@ -227,6 +217,7 @@ KeywordFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
+                # @todo will fail, array to string conversion
                 resolve: "@=value"
 
 MapLocationFieldValue:
@@ -256,7 +247,27 @@ MediaFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                resolve: "@=value"
+                resolve: "@=value.uri"
+            hasController:
+                type: "Boolean"
+                description: "If the media has a controller when being displayed."
+                resolve: "@=value.hasController"
+            autoplay:
+                type: "Boolean"
+                description: "If the media should be automatically played."
+                resolve: "@=value.autoplay"
+            loop:
+                type: "Boolean"
+                description: "If the media should be played in a loop."
+                resolve: "@=value.loop"
+            height:
+                type: "Int"
+                description: "Height of the media."
+                resolve: "@=value.height"
+            width:
+                type: "Int"
+                description: "Width of the media."
+                resolve: "@=value.widht"
 
 PriceFieldValue:
     type: object
@@ -315,6 +326,10 @@ RichTextFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+            plaintext:
+                type: "String"
+                description: "Plain text representation of the value, without tags."
+                resolve: "@=resolver('RichTextXmlToPlainText', [value.xml.plain_text])"
             html5:
                 type: "String"
                 description: "HTML5 representation."
