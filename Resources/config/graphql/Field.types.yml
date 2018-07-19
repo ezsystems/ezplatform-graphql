@@ -81,7 +81,7 @@ ImageFieldValue:
                     identifier:
                         type: "[String]"
                         description: "One or more variation identifiers."
-                resolve: "@=resolver('ImageVariation', [value, args])"
+                resolve: "@=resolver('ImageVariation', [value.value, args])"
         interfaces: [FieldValue]
 
 ImageVariation:
