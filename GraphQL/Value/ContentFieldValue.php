@@ -5,6 +5,7 @@
  */
 namespace BD\EzPlatformGraphQLBundle\GraphQL\Value;
 
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\ValueObject;
 
 /**
@@ -27,6 +28,11 @@ class ContentFieldValue extends ValueObject
      * Id of the Content Type this value is from.
      */
     protected $contentTypeId;
+
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Content
+     */
+    protected $content;
 
     /**
      * @var \eZ\Publish\Core\FieldType\Value

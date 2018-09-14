@@ -28,6 +28,11 @@ services:
             - { name: overblog_graphql.resolver, alias: "ContentRelations", method: "findContentRelations" }
             - { name: overblog_graphql.resolver, alias: "ContentReverseRelations", method: "findContentReverseRelations" }
             - { name: overblog_graphql.resolver, alias: "FieldValueType", method: "resolveFieldValueType" }
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\FieldValueHtmlResolver:
+        arguments:
+            - "@ezpublish.twig.extension.field_rendering"
+        tags:
+            - { name: overblog_graphql.resolver, alias: "FieldValueToHtml", method: "resolveFieldValueToHtml" }
 
     bd_ezplatform_graphql.graph.resolver.user:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\UserResolver

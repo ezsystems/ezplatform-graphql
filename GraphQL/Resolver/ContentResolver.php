@@ -9,11 +9,9 @@ use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Field;
 use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Relation;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
@@ -161,6 +159,7 @@ class ContentResolver
                                 'contentTypeId' => $content->contentInfo->contentTypeId,
                                 'fieldDefIdentifier' => $field->fieldDefIdentifier,
                                 'value' => $field->value,
+                                'content' => $content,
                             ]
                         ),
                         'fieldDefIdentifier' => $field->fieldDefIdentifier,

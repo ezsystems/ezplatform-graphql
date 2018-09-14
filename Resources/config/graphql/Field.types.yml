@@ -23,8 +23,39 @@ FieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
+            html:
+                type: "String"
+                description: "HTML representation of the value"
+                args:
+                    template:
+                        type: "String"
+                        description: "Custom field template to use for field rendering"
+                    attributes:
+                        type: "String"
+                        description: "hash of HTML attributes you want to add to the inner markup"
+                    lang:
+                        type: "String"
+                        description: "Override the current language. Must be a valid locale with xxx-YY format"
         resolveType: "@=resolver('FieldValueType', [value])"
 
+HTMLFieldValue:
+    type: object
+    config:
+        fields:
+            html:
+                type: "String"
+                description: "HTML representation of the value"
+                resolve: "@=resolver('FieldValueToHtml', [value, args])"
+                args:
+                    template:
+                        type: "String"
+                        description: "Custom field template to use for field rendering"
+                    attributes:
+                        type: "String"
+                        description: "hash of HTML attributes you want to add to the inner markup"
+                    lang:
+                        type: "String"
+                        description: "Override the current language. Must be a valid locale with xxx-YY format"
 
 GenericFieldValue:
     type: object
@@ -35,6 +66,7 @@ GenericFieldValue:
                 description: "String representation of the value"
                 resolve: "@=value"
         interfaces: [FieldValue]
+    inherits: [HTMLFieldValue]
 
 TextLineFieldValue:
     type: object
@@ -45,6 +77,7 @@ TextLineFieldValue:
                 description: "String representation of the value"
                 resolve: "@=value.text"
         interfaces: [FieldValue]
+    inherits: [HTMLFieldValue]
 
 ImageFieldValue:
     type: object
@@ -82,7 +115,22 @@ ImageFieldValue:
                         type: "[String]"
                         description: "One or more variation identifiers."
                 resolve: "@=resolver('ImageVariation', [value.value, args])"
+            html:
+                type: "String"
+                args:
+                    parameters:
+                        type: "ImageFieldValueHtmlParameters"
         interfaces: [FieldValue]
+    inherits: [HTMLFieldValue]
+
+ImageFieldValueHtmlParameters:
+    type: "input-object"
+    config:
+        fields:
+            alias: {type: "String"}
+            width: {type: "String"}
+            height: {type: "String"}
+            class: {type: "String"}
 
 ImageVariation:
     type: object
@@ -113,6 +161,8 @@ AuthorFieldValue:
             authors:
                 type: "[Author]"
                 resolve: "@=value.authors"
+    inherits: [HTMLFieldValue]
+
 Author:
     type: object
     config:
@@ -133,6 +183,7 @@ BinaryFileFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 CheckboxFieldValue:
     type: object
@@ -143,6 +194,7 @@ CheckboxFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 CountryFieldValue:
     type: object
@@ -153,6 +205,7 @@ CountryFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 DateFieldValue:
     type: object
@@ -172,12 +225,14 @@ DateFieldValue:
                     format:
                         type: String
                         description: "A format string compatible with PHP's date() function"
+    inherits: [HTMLFieldValue]
 
 DateAndTimeFieldValue:
     type: object
     inherits: ["DateFieldValue"]
     config:
         interfaces: [FieldValue]
+    inherits: [HTMLFieldValue]
 
 EmailAddressFieldValue:
     type: object
@@ -188,6 +243,7 @@ EmailAddressFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.email"
+    inherits: [HTMLFieldValue]
 
 FloatFieldValue:
     type: object
@@ -198,6 +254,7 @@ FloatFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.value"
+    inherits: [HTMLFieldValue]
 
 IntegerFieldValue:
     type: object
@@ -208,6 +265,7 @@ IntegerFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.value"
+    inherits: [HTMLFieldValue]
 
 KeywordFieldValue:
     type: object
@@ -219,6 +277,7 @@ KeywordFieldValue:
                 description: "String representation of the value"
                 # @todo will fail, array to string conversion
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 MapLocationFieldValue:
     type: object
@@ -238,6 +297,26 @@ MapLocationFieldValue:
             address:
                 type: "String"
                 resolve: "@=value.address"
+            html:
+                type: "String"
+                args:
+                    params:
+                        type: "MapLocationHtmlParameters"
+
+    inherits: [HTMLFieldValue]
+
+MapLocationHtmlParameters:
+    type: "input-object"
+    config:
+        fields:
+            draggable: { type: "Boolean" }
+            height: { type: "String", description: "The height of the rendered map with its unit (for example \"200px\" or \"20em\")." }
+            width: { type: "String", description: "The width of the rendered map with its unit (for example \"500px\" or \"50em\")." }
+            mapType: { type: "String", description: "One of the GMap types of map (https://developers.google.com/maps/documentation/javascript/maptypes#BasicMapTypes)" }
+            scrollWheel: { type: "Boolean", description: "Allows you to disable scroll wheel starting to zoom when mouse comes over the map as user scrolls down a page." }
+            showInfo: { type: "Boolean", description: "Whether to show a latitude, longitude and the address outside of the map" }
+            showMap: { type: "Boolean", description: "Whether to show a Map" }
+            zoom: { type: "Int", description: "The initial zoom level. Default: 13" }
 
 MediaFieldValue:
     type: object
@@ -268,6 +347,7 @@ MediaFieldValue:
                 type: "Int"
                 description: "Width of the media."
                 resolve: "@=value.widht"
+    inherits: [HTMLFieldValue]
 
 PriceFieldValue:
     type: object
@@ -278,6 +358,7 @@ PriceFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 RatingFieldValue:
     type: object
@@ -288,6 +369,7 @@ RatingFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 RelationFieldValue:
     type: object
@@ -302,6 +384,7 @@ RelationFieldValue:
                 type: "Content"
                 description: "The related Content item"
                 resolve: "@=resolver('ContentById', [value.destinationContentId])"
+    inherits: [HTMLFieldValue]
 
 RelationListFieldValue:
     type: object
@@ -316,6 +399,7 @@ RelationListFieldValue:
                 type: "[Content]"
                 description: "The related content items"
                 resolve: "@=resolver('ContentByIdList', [value.destinationContentIds])"
+    inherits: [HTMLFieldValue]
 
 RichTextFieldValue:
     type: object
@@ -338,6 +422,7 @@ RichTextFieldValue:
                 type: "String"
                 description: "Editable HTML5 representation."
                 resolve: "@=resolver('RichTextXmlToHtml5Edit', [value.xml])"
+    inherits: [HTMLFieldValue]
 
 SelectionFieldValue:
     type: object
@@ -348,6 +433,7 @@ SelectionFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
 
 TextBlockFieldValue:
     type: object
@@ -358,3 +444,4 @@ TextBlockFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+    inherits: [HTMLFieldValue]
