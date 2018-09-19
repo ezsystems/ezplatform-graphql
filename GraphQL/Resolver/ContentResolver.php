@@ -48,6 +48,7 @@ class ContentResolver
         'ezrichtext' => 'RichTextFieldValue',
         'ezstring' => 'TextLineFieldValue',
         'ezobjectrelationlist' => 'RelationListFieldValue',
+        'ezobjectrelation' => 'RelationFieldValue',
         'ezdate' => 'DateFieldValue',
         'ezdatetime' => 'DateAndTimeFieldValue',
     ];
