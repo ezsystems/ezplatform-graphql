@@ -1,0 +1,84 @@
+ContentSearchQuery:
+    type: "input-object"
+    config:
+        fields:
+            ContentTypeIdentifier:
+                type: "[String]"
+                description: "Content type identifier filter"
+            ContentTypeId:
+                type: "[String]"
+                description: "Filter on content type id"
+            Text:
+                type: "[String]"
+                description: "Filter on any text from the content item"
+            Created:
+                type: "DateInput"
+                description: "Filter the date the content was initially created on"
+            Modified:
+                type: "DateInput"
+                description: "Filter on the date the content was last modified on"
+            ParentLocationId:
+                type: "[Int]"
+                description: "Filter content based on its parent location id"
+            Field:
+                type: "FieldCriterionInput"
+                description: "Field filter"
+
+FieldCriterionInput:
+     type: "input-object"
+     config:
+         fields:
+             target:
+                 type: "String"
+                 description: "A field definition identifier"
+             between:
+                 description: "Between two values"
+                 type: "[String]"
+             contains:
+                 description: "Contains the value"
+                 type: 'String'
+             in:
+                 description: "Equal to one of the given values"
+                 type: "[String]"
+             eq:
+                 description: "Equal to the value"
+                 type: "String"
+             gt:
+                 description: "Greater than the value"
+                 type: "String"
+             contains:
+                 description: "Contains than the value"
+                 type: "String"
+             gte:
+                 description: "Greater than or equal to the value"
+                 type: 'String'
+             lt:
+                 description: "Lesser than the value"
+                 type: 'String'
+             lte:
+                 description: "Lesser than or equal to the value"
+                 type: 'String'
+             like:
+                 description: "Like the value"
+                 type: 'String'
+
+DateInput:
+    type: "input-object"
+    config:
+        fields:
+            before:
+                description: "Before the given date or time."
+                type: "String"
+            after:
+                description: "After the given date or time."
+                type: "String"
+            on:
+                description: "On the given date or time."
+                type: "String"
+
+DateCriterionOperator:
+    type: "enum"
+    config:
+        values:
+            before: {}
+            after: {}

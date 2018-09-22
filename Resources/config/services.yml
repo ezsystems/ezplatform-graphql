@@ -80,6 +80,7 @@ services:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\SearchResolver
         arguments:
             - "@ezpublish.api.service.search"
+            - '@BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper'
         tags:
             - { name: overblog_graphql.resolver, alias: "SearchContent", method: "searchContent" }
 
@@ -112,3 +113,5 @@ services:
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\DateResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "DateTimeFormat", method: "resolveDateToFormat"}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper: ~
