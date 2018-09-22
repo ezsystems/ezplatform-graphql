@@ -1,4 +1,15 @@
 services:
+    bd_ezplatform_graphql.command.generate_platform_domain_schema:
+        autoconfigure: true
+        autowire: true
+        class: BD\EzPlatformGraphQLBundle\Command\GeneratePlatformDomainTypesCommand
+        arguments:
+            - "@ezpublish.api.repository"
+        tags:
+            -  { name: console.command }
+
+    BD\EzPlatformGraphQLBundle\GraphQL\TypeDefinition\ContentTypeMapper: ~
+
     bd_ezplatform_graphql.graph.resolver.location:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\LocationResolver
         arguments:
@@ -33,6 +44,21 @@ services:
             - "@ezpublish.twig.extension.field_rendering"
         tags:
             - { name: overblog_graphql.resolver, alias: "FieldValueToHtml", method: "resolveFieldValueToHtml" }
+
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\DomainContentResolver:
+        arguments:
+            - "@ezpublish.api.service.content"
+            - "@ezpublish.api.service.search"
+            - "@ezpublish.api.service.content_type"
+            - "@overblog_graphql.type_resolver"
+            - '@BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper'
+
+        tags:
+            - { name: overblog_graphql.resolver, alias: "DomainArticles", method: "resolveDomainArticles" }
+            - { name: overblog_graphql.resolver, alias: "DomainBlogPosts", method: "resolveDomainBlogPosts" }
+            - { name: overblog_graphql.resolver, alias: "DomainContentItemsByTypeIdentifier", method: "resolveDomainContentItems" }
+            - { name: overblog_graphql.resolver, alias: "DomainFieldValue", method: "resolveDomainFieldValue" }
+            - { name: overblog_graphql.resolver, alias: "DomainContentType", method: "resolveDomainContentType" }
 
     bd_ezplatform_graphql.graph.resolver.user:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Resolver\UserResolver

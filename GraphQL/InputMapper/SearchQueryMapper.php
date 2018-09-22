@@ -52,7 +52,7 @@ class SearchQueryMapper
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Created'));
 
         if (count($criteria) === 0) {
-            return null;
+            return $query;
         }
 
         if (count($criteria)) {

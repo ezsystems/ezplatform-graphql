@@ -8,6 +8,7 @@ namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Field;
@@ -87,7 +88,7 @@ class ContentResolver
         );
     }
 
-    public function findContentReverseRelations(ContentInfo $contentInfo, $version = null)
+    public function findContentReverseRelations(ContentInfo $contentInfo)
     {
         return $this->contentService->loadReverseRelations($contentInfo);
     }
@@ -110,11 +111,15 @@ class ContentResolver
 
     public function resolveContentByIdList(array $contentIdList)
     {
-        $searchResults = $this->searchService->findContentInfo(
-            new Query([
-                'filter' => new Query\Criterion\ContentId($contentIdList)
-            ])
-        );
+        try {
+            $searchResults = $this->searchService->findContentInfo(
+                new Query([
+                    'filter' => new Query\Criterion\ContentId($contentIdList)
+                ])
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
 
         return array_map(
             function(SearchHit $searchHit) {
