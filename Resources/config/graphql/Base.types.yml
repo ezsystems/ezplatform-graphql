@@ -25,9 +25,9 @@ DateTime:
                 description: "Date formatted with a date() format"
                 resolve: "@=resolver('DateTimeFormat', [value, args])"
                 args:
-                    format:
+                    pattern:
                         type: "String"
-                        description: "A format compatible with date()"
+                        description: "A pattern compatible with date()"
                     constant:
                         type: DateFormatConstant
             timestamp:
