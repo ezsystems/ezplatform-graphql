@@ -37,7 +37,6 @@ Add the GraphQL server route to `app/config/routing.yml`:
 ```yaml
 overblog_graphql_endpoint:
     resource: "@OverblogGraphQLBundle/Resources/config/routing/graphql.yml"
-    prefix: /graphql
 ```
 
 ### GraphiQL
