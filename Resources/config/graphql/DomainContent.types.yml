@@ -1,0 +1,17 @@
+# PROTOTYPE
+# These types are meant to be generated based on the content model.
+
+DomainContent:
+    type: "interface"
+    config:
+        fields:
+            _content:
+                description: "Underlying content item"
+                type: "Content"
+            _location:
+                description: "The content's main location"
+                type: "Location"
+            _allLocations:
+                description: "All the content's locations"
+                type: "[Location]"
+        resolveType: "@=resolver('DomainContentType', [value])"

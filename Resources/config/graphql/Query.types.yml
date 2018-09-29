@@ -68,24 +68,10 @@ Query:
                     groupIdentifier:
                         type: "String"
                 resolve: "@=resolver('ContentTypesFromGroup', [args])"
+
             searchContent:
                 type: "[Content]"
                 args:
                     query:
                         type: "ContentSearchQuery!"
                 resolve: "@=resolver('SearchContent', [args])"
-
-ContentSearchQuery:
-    type: "input-object"
-    config:
-        fields:
-            ContentTypeIdentifier:
-                type: "[String]"
-            ContentTypeId:
-                type: "[String]"
-            Text:
-                type: "[String]"
-            CreatedDate:
-                type: "[String]"
-            ModifiedDate:
-                type: "[String]"

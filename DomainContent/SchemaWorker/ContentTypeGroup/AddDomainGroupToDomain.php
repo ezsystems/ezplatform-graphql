@@ -1,0 +1,51 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: bdunogier
+ * Date: 23/09/2018
+ * Time: 14:06
+ */
+
+namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup;
+
+use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker;
+use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
+use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
+use EzSystems\BehatBundle\Context\Object\ContentType;
+
+final class AddDomainGroupToDomain extends BaseWorker implements SchemaWorker
+{
+    public function work(array &$schema, array $args)
+    {
+        $contentTypeGroup = $args['ContentTypeGroup'];
+        $schema['Domain']['config']['fields'][$this->getGroupField($args['ContentTypeGroup'])] = [
+            'type' => $this->getGroupName($args['ContentTypeGroup']),
+            'description' => $contentTypeGroup->getDescription('eng-GB'),
+            'resolve' => [],
+        ];
+    }
+
+    public function canWork(array $schema, array $args)
+    {
+        return isset($args['ContentTypeGroup']) && $args['ContentTypeGroup'] instanceof ContentTypeGroup
+            && !isset($schema['Domain']['config']['fields'][$this->getGroupName($args['ContentTypeGroup'])]);
+    }
+
+    /**
+     * @param ContentTypeGroup $contentTypeGroup
+     * @return string
+     */
+    private function getGroupField(ContentTypeGroup $contentTypeGroup): string
+    {
+        return $this->getNameHelper()->domainGroupField($contentTypeGroup);
+    }
+
+    /**
+     * @param ContentTypeGroup $contentTypeGroup
+     * @return string
+     */
+    private function getGroupName(ContentTypeGroup $contentTypeGroup): string
+    {
+        return $this->getNameHelper()->domainGroupName($contentTypeGroup);
+    }
+}
