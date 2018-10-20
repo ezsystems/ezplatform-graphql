@@ -8,28 +8,29 @@
 
 namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition;
 
+use BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\FieldValueBuilder;
 use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker;
 use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
+
 class AddFieldDefinitionToDomainContent extends BaseWorker implements SchemaWorker
 {
     /**
-     * FieldType <=> GraphQL type mapping.
-     * @todo Deduplicate, this comes from ContentResolver.
-     *
-     * @var array
+     * @var FieldValueBuilder[]
      */
-    private $typesMap = [
-        'ezauthor' => 'AuthorFieldValue',
-        'ezgmaplocation' => 'MapLocationFieldValue',
-        'ezimage' => 'ImageFieldValue',
-        'ezrichtext' => 'RichTextFieldValue',
-        'ezstring' => 'TextLineFieldValue',
-        'ezobjectrelation' => 'RelationFieldValue',
-        'ezobjectrelationlist' => 'RelationListFieldValue',
-    ];
+    private $fieldValueBuilders;
+    /**
+     * @var FieldValueBuilder
+     */
+    private $defaultFieldValueBuilder;
+
+    public function __construct(FieldValueBuilder $defaultFieldValueBuilder, array $fieldValueBuilders = [])
+    {
+        $this->fieldValueBuilders = $fieldValueBuilders;
+        $this->defaultFieldValueBuilder = $defaultFieldValueBuilder;
+    }
 
     public function work(array &$schema, array $args)
     {
@@ -37,13 +38,7 @@ class AddFieldDefinitionToDomainContent extends BaseWorker implements SchemaWork
         $fieldDefinitionField = $this->getFieldDefinitionField($args['FieldDefinition']);
         $domainContentName = $this->getDomainContentName($args['ContentType']);
 
-        $schema[$domainContentName]['config']['fields'][$fieldDefinitionField] = [
-            'type' => $this->mapFieldTypeIdentifierToGraphQLType($fieldDefinition->fieldTypeIdentifier),
-            'resolve' => sprintf(
-                '@=resolver("DomainFieldValue", [value, "%s"])',
-                $fieldDefinition->identifier
-            ),
-        ];
+        $schema[$domainContentName]['config']['fields'][$fieldDefinitionField] = $this->getDefinition($fieldDefinition);
 
         $descriptions = $fieldDefinition->getDescriptions();
         if (isset($descriptions['eng-GB'])) {
@@ -51,11 +46,12 @@ class AddFieldDefinitionToDomainContent extends BaseWorker implements SchemaWork
         }
     }
 
-    private function mapFieldTypeIdentifierToGraphQLType($fieldTypeIdentifier)
+    private function getDefinition(FieldDefinition $fieldDefinition)
     {
-        return isset($this->typesMap[$fieldTypeIdentifier]) ? $this->typesMap[$fieldTypeIdentifier] : 'GenericFieldValue';
+        return isset($this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier])
+            ? $this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier]->buildDefinition($fieldDefinition)
+            : $this->defaultFieldValueBuilder->buildDefinition($fieldDefinition);
     }
-
 
     public function canWork(array $schema, array $args)
     {

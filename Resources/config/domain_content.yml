@@ -27,4 +27,8 @@ services:
 
     BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\AddDomainGroupToDomain: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent: ~
+    BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\BaseFieldValueBuilder: ~
+
+    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent:
+        arguments:
+            $defaultFieldValueBuilder: '@BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\BaseFieldValueBuilder'

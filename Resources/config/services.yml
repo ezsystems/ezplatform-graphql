@@ -10,7 +10,6 @@ services:
 
     BD\EzPlatformGraphQLBundle\GraphQL\TypeDefinition\ContentTypeMapper: ~
 
-
     bd_ezplatform_graphql.graph.mutation.section:
         class: BD\EzPlatformGraphQLBundle\GraphQL\Mutation\SectionMutation
         arguments:
