@@ -15,3 +15,24 @@ DomainContent:
                 description: "All the content's locations"
                 type: "[Location]"
         resolveType: "@=resolver('DomainContentType', [value])"
+
+AbstractDomainContent:
+    type: "object"
+    config:
+        fields:
+            id:
+                type: "ID!"
+                builder: Relay::GlobalId
+                description: "The Content item's unique ID."
+            _content:
+                description: 'Underlying content item'
+                type: Content
+                resolve: '@=value["_content"].contentInfo'
+            _location:
+                description: 'Main location'
+                type: Location
+                resolve: '@=resolver("LocationById", [value["_content"].contentInfo.mainLocationId])'
+            _allLocations:
+                description: 'All the locations'
+                type: '[Location]'
+                resolve: '@=resolver("LocationsByContentId", [value["_content"].id])'

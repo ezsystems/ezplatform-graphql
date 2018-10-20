@@ -19,24 +19,9 @@ class DefineDomainContent extends BaseWorker implements SchemaWorker
     {
         $schema[$this->getDomainContentName($args['ContentType'])] = [
             'type' => 'object',
+            'inherits' => ['AbstractDomainContent'],
             'config' => [
-                'fields' => [
-                    '_content' => [
-                        'description' => 'Underlying content item',
-                        'type' => 'Content',
-                        'resolve' => '@=value["_content"].contentInfo'
-                    ],
-                    '_location' => [
-                        'description' => 'Main location',
-                        'type' => 'Location',
-                        'resolve' => '@=resolver("LocationById", [value["_content"].contentInfo.mainLocationId])'
-                    ],
-                    '_allLocations' => [
-                        'description' => 'All the locations',
-                        'type' => '[Location]',
-                        'resolve' => '@=resolver("LocationsByContentId", [value["_content"].id])'
-                    ]
-                ],
+                'fields' => [],
                 'interfaces' => ['DomainContent'],
             ]
         ];
