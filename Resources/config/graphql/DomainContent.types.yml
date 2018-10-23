@@ -27,7 +27,7 @@ AbstractDomainContent:
             _content:
                 description: 'Underlying content item'
                 type: Content
-                resolve: '@=value["_content"].contentInfo'
+                resolve: '@=value'
             _location:
                 description: 'Main location'
                 type: Location
