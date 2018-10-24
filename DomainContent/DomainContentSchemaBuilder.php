@@ -1,50 +1,40 @@
 <?php
 namespace BD\EzPlatformGraphQLBundle\DomainContent;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\ContentTypeGroupSchemaWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\ContentTypeSchemaWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\FieldDefinitionSchemaWorker;
 use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
+use BD\EzPlatformGraphQLBundle\Schema\SchemaBuilder;
 use eZ\Publish\API\Repository\Repository;
-use InvalidArgumentException;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
-class RepositoryDomainGenerator
+class DomainContentSchemaBuilder implements SchemaBuilder
 {
+    /**
+     * @var Repository
+     */
+    private $repository;
+
     /**
      * @var SchemaWorker[]
      */
     private $workers = [];
+
+    public function __construct(Repository $repository, array $workers = [])
+    {
+        $this->repository = $repository;
+        $this->workers = $workers;
+    }
     
-    public function __construct()
+    public function build(array &$schema)
     {
-    }
+        $contentTypeService = $this->repository->getContentTypeService();
 
-    public function addWorker(SchemaWorker $worker)
-    {
-        $this->workers[] = $worker;
-    }
-
-    /**
-     * @param Repository $repository
-     *
-     * @return array
-     */
-    public function generateFromRepository(Repository $repository)
-    {
-        $contentTypeService = $repository->getContentTypeService();
-
-        $schema = [
-            'Domain' => [
-                'type' => 'object',
-                'config' => [
-                    'fields' => []
-                ]
+        $schema['Domain'] = [
+            'type' => 'object',
+            'config' => [
+                'fields' => []
             ]
         ];
 
-        foreach ($contentTypeService->loadContentTypeGroups() as $contentTypeGroup)
-        {
+        foreach ($contentTypeService->loadContentTypeGroups() as $contentTypeGroup) {
             $this->runWorkers($schema, [
                 'ContentTypeGroup' => $contentTypeGroup
             ]);
@@ -65,8 +55,6 @@ class RepositoryDomainGenerator
                 }
             }
         }
-
-        return $schema;
     }
 
     private function runWorkers(&$schema, $args)
@@ -77,4 +65,5 @@ class RepositoryDomainGenerator
             }
         }
     }
+
 }

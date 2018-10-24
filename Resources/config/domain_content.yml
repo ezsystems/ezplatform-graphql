@@ -4,20 +4,26 @@ services:
         autowire: true
         public: false
 
-    BD\EzPlatformGraphQLBundle\DomainContent\RepositoryDomainGenerator:
-        calls:
-            - [addWorker, ['@BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\DefineDomainGroup']]
-            - [addWorker, ['@BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\AddDomainGroupToDomain']]
-            - [addWorker, ['@BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\DefineDomainContent']]
-            - [addWorker, ['@BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\AddDomainContentToDomainGroup']]
-            - [addWorker, ['@BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent']]
-
-    BD\EzPlatformGraphQLBundle\DomainContent\NameHelper: ~
-
     _instanceof:
         BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker:
             calls:
                 - [setNameHelper, ['@BD\EzPlatformGraphQLBundle\DomainContent\NameHelper']]
+
+        BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker:
+            tags:
+                - {name: 'ezplatform_graphql.domain_schema_worker'}
+
+        BD\EzPlatformGraphQLBundle\Schema\SchemaBuilder:
+            tags:
+                - {name: 'ezplatform_graphql.schema_builder'}
+
+    BD\EzPlatformGraphQLBundle\DomainContent\DomainContentSchemaBuilder: ~
+
+    BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator: ~
+
+    BD\EzPlatformGraphQLBundle\DomainContent\RepositoryDomainGenerator:
+
+    BD\EzPlatformGraphQLBundle\DomainContent\NameHelper: ~
 
     BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\DefineDomainContent: ~
 

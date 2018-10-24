@@ -5,7 +5,7 @@
  */
 namespace BD\EzPlatformGraphQLBundle\Command;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\RepositoryDomainGenerator;
+use BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator;
 use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,13 +21,13 @@ class GeneratePlatformDomainTypesCommand extends Command
     private $repository;
 
     /**
-     * @var \BD\EzPlatformGraphQLBundle\DomainContent\RepositoryTypesGenerator
+     * @var \BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator
      */
     private $generator;
 
     const TYPES_DIRECTORY = "src/AppBundle/Resources/config/graphql";
 
-    public function __construct(Repository $repository, RepositoryDomainGenerator $generator)
+    public function __construct(Repository $repository, SchemaGenerator $generator)
     {
         parent::__construct();
         $this->repository = $repository;
@@ -41,10 +41,10 @@ class GeneratePlatformDomainTypesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $types = $this->generator->generateFromRepository($this->repository);
+        $schema = $this->generator->generate();
 
         $fs = new Filesystem();
-        foreach ($types as $type => $definition) {
+        foreach ($schema as $type => $definition) {
             $typeFilePath = self::TYPES_DIRECTORY . "/$type.types.yml";
             $fs->dumpFile(
                 $typeFilePath,
