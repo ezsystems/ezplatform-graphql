@@ -14,7 +14,7 @@ Queries look like this:
 {
   content {
     articles {
-      title { text }
+      title
       body { html }
       image {
         name
@@ -22,7 +22,7 @@ Queries look like this:
       }
     }
     folders {
-      name { text }
+      name
     }
   }
 }
