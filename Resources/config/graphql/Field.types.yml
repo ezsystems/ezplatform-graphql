@@ -68,17 +68,6 @@ GenericFieldValue:
         interfaces: [FieldValue]
     inherits: [HTMLFieldValue]
 
-TextLineFieldValue:
-    type: object
-    config:
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value.text"
-        interfaces: [FieldValue]
-    inherits: [HTMLFieldValue]
-
 ImageFieldValue:
     type: object
     config:
@@ -185,17 +174,6 @@ BinaryFileFieldValue:
                 resolve: "@=value"
     inherits: [HTMLFieldValue]
 
-CheckboxFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-    inherits: [HTMLFieldValue]
-
 CountryFieldValue:
     type: object
     config:
@@ -243,28 +221,6 @@ EmailAddressFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.email"
-    inherits: [HTMLFieldValue]
-
-FloatFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value.value"
-    inherits: [HTMLFieldValue]
-
-IntegerFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value.value"
     inherits: [HTMLFieldValue]
 
 KeywordFieldValue:
@@ -425,17 +381,6 @@ RichTextFieldValue:
     inherits: [HTMLFieldValue]
 
 SelectionFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-    inherits: [HTMLFieldValue]
-
-TextBlockFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
