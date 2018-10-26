@@ -32,11 +32,10 @@ services:
 
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\DomainContentResolver:
         tags:
-            - { name: overblog_graphql.resolver, alias: "DomainArticles", method: "resolveDomainArticles" }
-            - { name: overblog_graphql.resolver, alias: "DomainBlogPosts", method: "resolveDomainBlogPosts" }
             - { name: overblog_graphql.resolver, alias: "DomainContentItemsByTypeIdentifier", method: "resolveDomainContentItems" }
             - { name: overblog_graphql.resolver, alias: "DomainFieldValue", method: "resolveDomainFieldValue" }
             - { name: overblog_graphql.resolver, alias: "DomainContentType", method: "resolveDomainContentType" }
+            - { name: overblog_graphql.resolver, alias: "DomainContentItem", method: "resolveDomainContentItem" }
 
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\UserResolver:
         tags:

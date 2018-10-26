@@ -15,7 +15,9 @@ use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
+use Overblog\GraphQLBundle\Error\UserWarning;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
@@ -55,16 +57,6 @@ class DomainContentResolver
         $this->queryMapper = $queryMapper;
     }
 
-    public function resolveDomainArticles()
-    {
-        return $this->resolveDomainContentItems('article');
-    }
-
-    public function resolveDomainBlogPosts()
-    {
-        return $this->resolveDomainContentItems('blog_post');
-    }
-
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
     {
         return array_map(
@@ -73,6 +65,23 @@ class DomainContentResolver
             },
             $this->findContentItemsByTypeIdentifier($contentTypeIdentifier, $query)
         );
+    }
+
+    /**
+     * Resolves a domain content item by id, and checks that it is of the requested type.
+     */
+    public function resolveDomainContentItem($contentId, $contentTypeIdentifier)
+    {
+        $contentInfo = $this->contentService->loadContentInfo($contentId);
+
+        // @todo consider optimizing using a map of contentTypeId
+        $contentType = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
+
+        if ($contentType->identifier !== $contentTypeIdentifier) {
+            throw new UserError("Content $contentId is not of type '$contentTypeIdentifier'");
+        }
+
+        return $contentInfo;
     }
 
     /**

@@ -26,6 +26,7 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
             ['config']['fields']
             [$this->getContentCollectionField($contentType)] = [
                 'type' => sprintf("[%s]", $this->getContentName($contentType)),
+                // @todo Improve description to mention that it is a collection ?
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
                 'resolve' => sprintf(
                     '@=resolver("DomainContentItemsByTypeIdentifier", ["%s", args])',
@@ -37,6 +38,23 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
                         'description' => "A Content query used to filter results"
                     ],
                 ],
+            ];
+
+        $schema
+            [$this->getGroupName($contentTypeGroup)]
+            ['config']['fields']
+            [$this->getContentField($contentType)] = [
+                'type' => $this->getContentName($contentType),
+                'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
+                'resolve' => sprintf('@=resolver("DomainContentItem", [args["id"], "%s"])', $contentType->identifier),
+                'args' => [
+                    // @todo How do we constraint this so that it only takes an id of an item of that type ?
+                    // same approach than GlobalId ? (<type>-<id>)
+                    'id' => [
+                        'type' => 'Int',
+                        'description' => 'A content id'
+                    ],
+                ]
             ];
     }
 
@@ -66,6 +84,15 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
     protected function getContentCollectionField($contentType): string
     {
         return $this->getNameHelper()->domainContentCollectionField($contentType);
+    }
+
+    /**
+     * @param $contentType
+     * @return string
+     */
+    protected function getContentField($contentType): string
+    {
+        return $this->getNameHelper()->domainContentField($contentType);
     }
 
     /**
