@@ -1,7 +1,9 @@
 # The domain schema
 
-The domain content is the GraphQL schema representation of an eZ Platform content model.
-It can be accessed with the `/graphql/domain` endpoint. Its usage requires that the GraphQL model is generated for a given repository, as a set of configuration files in the project's app.
+The domain content is the main GraphQL schema of eZ Platform. It is created
+based on the content model: your types and theirs fields.
+
+Its usage requires that the GraphQL model is generated for a given repository, as a set of configuration files in the project's app.
 
 The generated schema will list:
 - the content types groups

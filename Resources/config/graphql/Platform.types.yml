@@ -1,0 +1,8 @@
+Platform:
+    type: object
+    config:
+        fields:
+            _repository:
+                type: Repository
+                resolve: { }
+                description: "eZ Platform repository API"

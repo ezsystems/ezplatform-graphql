@@ -1,4 +1,4 @@
-Query:
+Repository:
     type: object
     config:
         description: "eZ Platform repository"

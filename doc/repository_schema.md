@@ -6,23 +6,24 @@ It gives access to Content, Fields, Locations, Content types... It can be access
 `https://<host>/graphql`, as well as `http://<host>/graphiql` if
 you have installed GraphiQL.
 
+Items from this schema are accessible from the `_repository` root namespace:
+
 ## Examples
 
 ### List content types and their fields
 ```
 {
-  contentTypes
-  {
-    identifier
-    groups {
-      identifier
+    _repository {
+        contentTypes
+        {
+            identifier
+            groups {
+              identifier
+        }
+        fieldDefinitions {
+            identifier
+            fieldTypeIdentifier
+        }
     }
-    fieldDefinitions {
-      identifier
-      fieldTypeIdentifier
-    }
-  }
 }
 ```
-
-### List

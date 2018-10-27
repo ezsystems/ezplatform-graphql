@@ -28,6 +28,7 @@ class DomainContentSchemaBuilder implements SchemaBuilder
         $contentTypeService = $this->repository->getContentTypeService();
 
         $schema['Domain'] = [
+            'inherits' => ['Platform'],
             'type' => 'object',
             'config' => [
                 'fields' => []
