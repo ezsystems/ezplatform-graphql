@@ -9,6 +9,8 @@ class BaseFieldValueBuilder implements FieldValueBuilder
 
     private $typesMap = [
         'ezauthor' => 'AuthorFieldValue',
+        'ezcountry' => 'String',
+        'ezemail' => 'String',
         'ezgmaplocation' => 'MapLocationFieldValue',
         'ezimage' => 'ImageFieldValue',
         'ezrichtext' => 'RichTextFieldValue',
