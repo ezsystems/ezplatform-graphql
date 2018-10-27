@@ -16,9 +16,10 @@ class BaseFieldValueBuilder implements FieldValueBuilder
         'ezrichtext' => 'RichTextFieldValue',
         'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezinteger' => ['Int', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
+        'ezkeyword' => ['[String]', '@=resolver("DomainFieldValue", [value, "%s"]).values'],
         'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
-        'ezstring' => ['String', '@=resolver("DomainFieldValue", [value, "%s"]).text'],
-        'eztext' => ['String', '@=resolver("DomainFieldValue", [value, "%s"]).text'],
+        'ezstring' => 'String',
+        'eztext' => 'String',
         'ezobjectrelation' => 'RelationFieldValue',
         'ezobjectrelationlist' => 'RelationListFieldValue',
     ];
