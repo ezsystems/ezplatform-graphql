@@ -8,7 +8,7 @@ class BaseFieldValueBuilder implements FieldValueBuilder
     const DEFAULT_RESOLVER = '@=resolver("DomainFieldValue", [value, "%s"])';
 
     private $typesMap = [
-        'ezauthor' => 'AuthorFieldValue',
+        'ezauthor' => ["[AuthorFieldValue]", '@=resolver("DomainFieldValue", [value, "%s"]).authors'],
         'ezcountry' => 'String',
         'ezemail' => 'String',
         'ezgmaplocation' => 'MapLocationFieldValue',

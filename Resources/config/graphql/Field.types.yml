@@ -141,20 +141,6 @@ ImageVariation:
 AuthorFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-            authors:
-                type: "[Author]"
-                resolve: "@=value.authors"
-    inherits: [HTMLFieldValue]
-
-Author:
-    type: object
-    config:
         fields:
             id:
                 type: "Int"
