@@ -9,19 +9,21 @@ class BaseFieldValueBuilder implements FieldValueBuilder
 
     private $typesMap = [
         'ezauthor' => ["[AuthorFieldValue]", '@=resolver("DomainFieldValue", [value, "%s"]).authors'],
+        'ezbinaryfile' => 'BinaryFileFieldValue',
+        'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
         'ezcountry' => 'String',
         'ezemail' => 'String',
+        'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezgmaplocation' => 'MapLocationFieldValue',
         'ezimage' => 'ImageFieldValue',
-        'ezrichtext' => 'RichTextFieldValue',
-        'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezinteger' => ['Int', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezkeyword' => ['[String]', '@=resolver("DomainFieldValue", [value, "%s"]).values'],
-        'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
-        'ezstring' => 'String',
-        'eztext' => 'String',
+        'ezmedia' => 'MediaFieldValue',
         'ezobjectrelation' => 'RelationFieldValue',
         'ezobjectrelationlist' => 'RelationListFieldValue',
+        'ezrichtext' => 'RichTextFieldValue',
+        'ezstring' => 'String',
+        'eztext' => 'String',
     ];
 
     public function buildDefinition(FieldDefinition $fieldDefinition)

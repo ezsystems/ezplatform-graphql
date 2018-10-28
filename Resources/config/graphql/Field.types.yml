@@ -149,16 +149,31 @@ AuthorFieldValue:
             email:
                 type: "String"
 
+BinaryBaseFieldValue:
+    type: object
+    config:
+        fields:
+            id:
+                type: String
+            fileName:
+                type: String
+            fileSize:
+                type: Int
+            mimeType:
+                type: String
+            uri:
+                type: String
+            text:
+                type: String
+
 BinaryFileFieldValue:
     type: object
     config:
         interfaces: [FieldValue]
         fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-    inherits: [HTMLFieldValue]
+            downloadCount:
+                type: Int
+    inherits: [BinaryBaseFieldValue, HTMLFieldValue]
 
 CountryFieldValue:
     type: object
@@ -266,30 +281,30 @@ MediaFieldValue:
         interfaces: [FieldValue]
         fields:
             text:
-                type: "String"
+                type: String
                 description: "String representation of the value"
                 resolve: "@=value.uri"
             hasController:
-                type: "Boolean"
+                type: Boolean
                 description: "If the media has a controller when being displayed."
                 resolve: "@=value.hasController"
             autoplay:
-                type: "Boolean"
+                type: Boolean
                 description: "If the media should be automatically played."
                 resolve: "@=value.autoplay"
             loop:
-                type: "Boolean"
+                type: Boolean
                 description: "If the media should be played in a loop."
                 resolve: "@=value.loop"
             height:
-                type: "Int"
+                type: Int
                 description: "Height of the media."
                 resolve: "@=value.height"
             width:
-                type: "Int"
+                type: Int
                 description: "Width of the media."
                 resolve: "@=value.widht"
-    inherits: [HTMLFieldValue]
+    inherits: [BinaryBaseFieldValue, HTMLFieldValue]
 
 PriceFieldValue:
     type: object
