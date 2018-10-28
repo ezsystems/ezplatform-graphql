@@ -6,7 +6,6 @@
 namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
 class ContentTypeResolver

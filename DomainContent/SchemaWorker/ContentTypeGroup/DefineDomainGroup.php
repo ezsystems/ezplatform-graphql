@@ -21,8 +21,19 @@ class DefineDomainGroup extends BaseWorker implements SchemaWorker
             'type' => 'object',
             'inherits' => ['DomainContentTypeGroup'],
             'config' => [
-                'fields' => []
+                'fields' => [
+                    '_types' => [
+                        'type' => $this->getGroupTypesName($args['ContentTypeGroup']),
+                        'resolve' => []
+                    ]
+                ],
             ]
+        ];
+
+        // Type that indexes the types from a group by identifier
+        $schema[$this->getGroupTypesName($args['ContentTypeGroup'])] = [
+            'type' => 'object',
+            'config' => ['fields' => []]
         ];
     }
 
@@ -40,5 +51,10 @@ class DefineDomainGroup extends BaseWorker implements SchemaWorker
     protected function getGroupName(ContentTypeGroup $contentTypeGroup): string
     {
         return $this->getNameHelper()->domainGroupName($contentTypeGroup);
+    }
+
+    private function getGroupTypesName($contentTypeGroup): string
+    {
+        return $this->getNameHelper()->domainGroupName($contentTypeGroup) . 'Types';
     }
 }

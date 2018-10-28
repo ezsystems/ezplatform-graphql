@@ -5,12 +5,19 @@ DomainContent:
     type: "interface"
     config:
         fields:
+            _info:
+                description: "Item's content info"
+                type: Content
             _content:
                 description: "Underlying content item"
-                type: "Content"
+                type: Content
+                deprecationReason: "Renamed to _info"
+            _type:
+                description: "Item's content type"
+                type: ContentType
             _location:
                 description: "The content's main location"
-                type: "Location"
+                type: Location
             _allLocations:
                 description: "All the content's locations"
                 type: "[Location]"
@@ -24,8 +31,17 @@ AbstractDomainContent:
                 type: "ID!"
                 builder: Relay::GlobalId
                 description: "The Content item's unique ID."
+            _type:
+                description: "The item's Content type"
+                type: ContentType
+                resolve: '@=resolver("ContentTypeById", [value.contentTypeId])'
             _content:
-                description: 'Underlying content item'
+                description: 'Underlying content info item'
+                type: Content
+                resolve: '@=value'
+                deprecationReason: "Renamed to _info"
+            _info:
+                description: 'Underlying content info item'
                 type: Content
                 resolve: '@=value'
             _location:
@@ -36,3 +52,32 @@ AbstractDomainContent:
                 description: 'All the locations'
                 type: '[Location]'
                 resolve: '@=resolver("LocationsByContentId", [value.id])'
+
+# @todo interface ?
+DomainContentTypeGroup:
+    type: object
+    config:
+        fields:
+            _info:
+                type: ContentTypeGroup
+                description: "The contenttype group's properties"
+                resolve: "@=value"
+            _types:
+                type: DomainGroupContentTypes
+                description: "Content types from this group"
+
+DomainContentType:
+    type: interface
+    config:
+        fields:
+            _info:
+                type: ContentType
+                description: "The content type's properties"
+
+BaseDomainContentType:
+    type: object
+    config:
+        fields:
+            _info:
+                type: ContentType
+                resolve: "@=value"

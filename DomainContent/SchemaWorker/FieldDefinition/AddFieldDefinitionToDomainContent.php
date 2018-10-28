@@ -44,6 +44,17 @@ class AddFieldDefinitionToDomainContent extends BaseWorker implements SchemaWork
         if (isset($descriptions['eng-GB'])) {
             $fields[$fieldDefinitionField]['description'] = $descriptions['eng-GB'];
         }
+
+        $schema
+            [$this->getNameHelper()->domainContentTypeName($args['ContentType'])]
+            ['config']['fields']
+            [$fieldDefinitionField] = [
+                'type' => $this->getFieldDefinitionType($args['FieldDefinition']),
+                'resolve' => sprintf(
+                    '@=value.getFieldDefinition("%s")',
+                    $args['FieldDefinition']->identifier
+                ),
+            ];
     }
 
     private function getDefinition(FieldDefinition $fieldDefinition)
@@ -87,5 +98,28 @@ class AddFieldDefinitionToDomainContent extends BaseWorker implements SchemaWork
             $schema[$this->getDomainContentName($args['ContentType'])]
                    ['config']['fields']
                    [$this->getFieldDefinitionField($args['FieldDefinition'])]);
+    }
+
+    private function getFieldDefinitionType(FieldDefinition $fieldDefinition)
+    {
+        $map = [
+            'ezbinaryfile' => 'BinaryFieldDefinition',
+            'ezboolean' => 'CheckboxFieldDefinition',
+            'ezcountry' => 'CountryFieldDefinition',
+            'ezmediafile' => 'CheckboxFieldDefinition',
+            'ezfloat' => 'FloatFieldDefinition',
+            'ezimage' => 'BinaryFieldDefinition',
+            'ezinteger' => 'IntegerFieldDefinition',
+            'ezmedia' => 'MediaFieldDefinition',
+            'ezobjectrelation' => 'RelationFieldDefinition',
+            'ezobjectrelationlist' => 'RelationListFieldDefinition',
+            'ezstring' => 'TextLineFieldDefinition',
+            'ezselection' => 'SelectionFieldDefinition',
+            'eztext' => 'TextBlockFieldDefinition',
+        ];
+
+        return isset($map[$fieldDefinition->fieldTypeIdentifier])
+            ? $map[$fieldDefinition->fieldTypeIdentifier]
+            : 'FieldDefinition';
     }
 }

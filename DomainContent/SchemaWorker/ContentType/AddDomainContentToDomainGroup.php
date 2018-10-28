@@ -56,6 +56,16 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
                     ],
                 ]
             ];
+
+        $schema[$this->getGroupTypesName($contentTypeGroup)]
+            ['config']['fields']
+            [$this->getNameHelper()->domainContentField($contentType)] = [
+                'type' => $this->getNameHelper()->domainContentTypeName($contentType),
+                'resolve' => sprintf(
+                    '@=resolver("ContentType", [{"identifier": "%s"}])',
+                    $contentType->identifier
+                ),
+            ];
     }
 
     public function canWork(array $schema, array $args)
@@ -75,6 +85,15 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
     protected function getGroupName($contentTypeGroup): string
     {
         return $this->getNameHelper()->domainGroupName($contentTypeGroup);
+    }
+
+    /**
+     * @param $contentTypeGroup
+     * @return string
+     */
+    protected function getGroupTypesName($contentTypeGroup): string
+    {
+        return $this->getNameHelper()->domainGroupName($contentTypeGroup) . 'Types';
     }
 
     /**

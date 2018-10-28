@@ -108,11 +108,3 @@ ContentTypeGroup:
             groups:
                 type: "[ContentTypeGroup]"
 
-DomainContentTypeGroup:
-    type: object
-    config:
-        fields:
-            _typeGroup:
-                type: ContentTypeGroup
-                resolve: "@=value"
-

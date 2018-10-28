@@ -69,6 +69,12 @@ services:
         arguments:
             $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
 
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\FieldDefinitionResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "FieldDefinitionName", method: "resolveFieldDefinitionName" }
+            - { name: overblog_graphql.resolver, alias: "FieldDefinitionDescription", method: "resolveFieldDefinitionDescription" }
+            - { name: overblog_graphql.resolver, alias: "SelectionFieldDefinitionOptions", method: "resolveSelectionFieldDefinitionOptions" }
+
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\SectionResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "SectionById", method: "resolveSectionById" }

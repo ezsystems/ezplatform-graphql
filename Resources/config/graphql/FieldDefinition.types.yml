@@ -3,39 +3,236 @@ FieldDefinition:
     config:
         description: "An eZ Platform repository FieldDefinition."
         fields:
-            #fieldSettings:
-            #    type: ""
-            #    description: "Calls getFieldSettings()."
-            #validatorConfiguration:
-            #    type: ""
-            #    description: "Calls getValidatorConfiguration()."
             id:
-                type: "Int"
+                type: Int
                 description: "The id of the field definition."
+            name:
+                type: String
+                description: "The field definition name, either in the most prioritized language, or in the language given as an argument"
+                resolve: "@=resolver('FieldDefinitionName', [value, args])"
+                args:
+                    languageCode:
+                        type: String
+            description:
+                type: String
+                description: "The field definition description, either in the most prioritized language, or in the language given as an argument"
+                resolve: "@=resolver('FieldDefinitionDescription', [value, args])"
+                args:
+                    languageCode:
+                        type: String
+                        defaultValue: 'default'
             identifier:
-                type: "String"
+                type: String
                 description: "The system identifier of the field definition."
             fieldGroup:
-                type: "String"
+                type: String
                 description: "The field group name."
             position:
-                type: "Int"
+                type: Int
                 description: "The position of the field definition in the content type"
             fieldTypeIdentifier:
-                type: "String"
+                type: String
                 description: "The identifier of the field type (ezstring, ezinteger...)."
             isTranslatable:
-                type: "Boolean"
+                type: Boolean
                 description: "Indicates if fields of this definition are translatable."
             isRequired:
-                type: "Boolean"
-                description: "Indicates if this field is required in the content object."
-            isSearchable:
-                type: "Boolean"
-                description: "Indicates if the field is searchable."
-            isInfoCollector:
-                type: "Boolean"
+                type: Boolean
                 description: "Indicates if this field is used for information collection"
-            #defaultValue:
-            #    type: "FieldValue"
-            #    description: "The default value of the field."
+
+CheckboxFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            defaultValue:
+                type: Boolean
+
+TextBlockFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            defaultValue:
+                type: String
+
+TextLineFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            constraints:
+                type: TextLineFieldDefinitionConstraints
+                resolve: "@=value.getValidatorConfiguration()"
+            defaultValue:
+                type: String
+
+TextLineFieldDefinitionConstraints:
+    type: object
+    config:
+        fields:
+            minLength:
+                type: Int
+                resolve: "@=value['StringLengthValidator']['minStringLength']"
+            maxLength:
+                type: Int
+                resolve: "@=value['StringLengthValidator']['maxStringLength']"
+
+FloatFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            defaultValue:
+                type: Float
+            constraints:
+                type: FloatFieldDefinitionConstraints
+                resolve: "@=value.getValidatorConfiguration()"
+
+FloatFieldDefinitionConstraints:
+    type: object
+    config:
+        fields:
+            minValue:
+                type: Float
+                resolve: "@=value['FloatValueValidator']['minFloatValue']"
+            maxValue:
+                type: Float
+                resolve: "@=value['FloatValueValidator']['maxFloatValue']"
+
+IntegerFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            defaultValue:
+                type: Int
+            constraints:
+                type: IntegerFieldDefinitionConstraints
+                resolve: "@=value.getValidatorConfiguration()"
+
+IntegerFieldDefinitionConstraints:
+    type: object
+    config:
+        fields:
+            minIntegerValue:
+                type: Int
+                resolve: "@=value['IntegerValueValidator']['minIntegerValue']"
+            maxIntegerValue:
+                type: Int
+                resolve: "@=value['IntegerValueValidator']['maxIntegerValue']"
+
+BinaryFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            constraints:
+                type: BinaryFieldDefinitionConstraints
+                resolve: "@=value.getValidatorConfiguration()"
+
+BinaryFieldDefinitionConstraints:
+    type: object
+    config:
+        fields:
+            maxFileSize:
+                type: Int
+                resolve: "@=value['FileSizeValidator']['maxFileSize']"
+
+MediaFieldDefinition:
+    type: object
+    inherits: [BinaryFieldDefinition]
+    config:
+        fields:
+            settings:
+                type: MediaFieldDefinitionSettings
+                resolve: "@=value.getFieldSettings()"
+
+MediaFieldDefinitionSettings:
+    type: object
+    config:
+        fields:
+            mediaType:
+                type: String
+
+CountryFieldDefinition:
+    type: object
+    inherits: [FieldDefinition]
+    config:
+        fields:
+            settings:
+                type: CountryFieldDefinitionSettings
+                resolve: "@=value.getFieldSettings()"
+
+CountryFieldDefinitionSettings:
+    type: object
+    config:
+        fields:
+            isMultiple:
+                type: Boolean
+
+SelectionFieldDefinition:
+    type: object
+    config:
+        fields:
+            settings:
+                type: SelectionFieldDefinitionSettings
+                resolve: "@=value.getFieldSettings()"
+
+SelectionFieldDefinitionSettings:
+    type: object
+    config:
+        fields:
+            isMultiple:
+                type: Boolean
+            options:
+                type: "[SelectionFieldDefinitionOption]"
+                resolve: "@=resolver('SelectionFieldDefinitionOptions', [value['options']])"
+
+SelectionFieldDefinitionOption:
+    type: object
+    config:
+        fields:
+            index:
+                type: Int
+            label:
+                type: String
+
+RelationFieldDefinition:
+    type: object
+    config:
+        fields:
+            settings:
+                type: RelationFieldDefinitionSettings
+                resolve: "@=value.getFieldSettings()"
+
+RelationFieldDefinitionSettings:
+    type: object
+    config:
+        fields:
+            selectionMethod:
+                type: String
+                resolve: "@=value['selectionMethod'] == 0 ? 'browse' : 'dropdown'"
+            selectionDefaultLocation:
+                type: String
+            selectionContentTypes:
+                type: "[Int]"
+
+RelationListFieldDefinitionConstraints:
+    type: object
+    config:
+        fields:
+            selectionLimit:
+                type: Int
+                resolve: "@=value['RelationValueValidator']['selectionLimit']"
+
+RelationListFieldDefinition:
+    type: object
+    config:
+        fields:
+            settings:
+                type: RelationFieldDefinitionSettings
+                resolve: "@=value.getFieldSettings()"
+            constraints:
+                type: RelationListFieldDefinitionConstraints
+                resolve: "@=value.getValidatorConfiguration()"

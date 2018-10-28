@@ -17,13 +17,23 @@ class DefineDomainContent extends BaseWorker implements SchemaWorker
 {
     public function work(array &$schema, array $args)
     {
-        $schema[$this->getDomainContentName($args['ContentType'])] = [
+        $contentType = $args['ContentType'];
+        $schema[$this->getDomainContentName($contentType)] = [
             'type' => 'object',
             'inherits' => ['AbstractDomainContent'],
             'config' => [
                 'fields' => [],
                 'interfaces' => ['DomainContent'],
             ]
+        ];
+
+        $schema[$this->getNameHelper()->domainContentTypeName($contentType)] = [
+            'type' => 'object',
+            'inherits' => ['BaseDomainContentType'],
+            'config' => [
+                'interfaces' => ['DomainContentType'],
+                'fields' => []
+            ],
         ];
     }
 

@@ -35,6 +35,11 @@ class NameHelper
         return ucfirst($this->toCamelCase($contentType->identifier)) . 'Content';
     }
 
+    public function domainContentTypeName(ContentType $contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentType';
+    }
+
     public function domainContentField(ContentType $contentType)
     {
         return lcfirst($this->toCamelCase($contentType->identifier));
