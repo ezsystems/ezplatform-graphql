@@ -19,6 +19,7 @@ class DefineDomainGroup extends BaseWorker implements SchemaWorker
     {
         $schema[$this->getGroupName($args['ContentTypeGroup'])] = [
             'type' => 'object',
+            'inherits' => ['DomainContentTypeGroup'],
             'config' => [
                 'fields' => []
             ]

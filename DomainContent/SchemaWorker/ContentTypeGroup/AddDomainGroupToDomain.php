@@ -21,7 +21,10 @@ final class AddDomainGroupToDomain extends BaseWorker implements SchemaWorker
         $schema['Domain']['config']['fields'][$this->getGroupField($args['ContentTypeGroup'])] = [
             'type' => $this->getGroupName($args['ContentTypeGroup']),
             'description' => $contentTypeGroup->getDescription('eng-GB'),
-            'resolve' => [],
+            'resolve' => sprintf(
+                "@=resolver(\"ContentTypeGroupByIdentifier\", [\"%s\"])",
+                $args['ContentTypeGroup']->identifier
+            ),
         ];
     }
 

@@ -29,7 +29,8 @@ class ContentTypeResolver
 
     /**
      * @return \eZ\Publish\API\Repository\Values\ContentType\ContentType[]
-     */public function resolveContentTypesFromGroup($args)
+     */
+    public function resolveContentTypesFromGroup($args)
     {
         if (isset($args['groupId'])) {
             $group = $this->contentTypeService->loadContentTypeGroup($args['groupId']);
@@ -57,6 +58,11 @@ class ContentTypeResolver
     public function resolveContentTypeById($contentTypeId)
     {
         return $this->contentTypeService->loadContentType($contentTypeId);
+    }
+
+    public function resolveContentTypeGroupByIdentifier($identifier)
+    {
+        return $this->contentTypeService->loadContentTypeGroupByIdentifier($identifier);
     }
 
     public function resolveContentType($args)

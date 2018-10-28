@@ -65,6 +65,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "ContentType", method: "resolveContentType" }
             - { name: overblog_graphql.resolver, alias: "ContentTypesFromGroup", method: "resolveContentTypesFromGroup" }
             - { name: overblog_graphql.resolver, alias: "ContentTypeGroupsFromContentType", method: "resolveGroupsFromContentType" }
+            - { name: overblog_graphql.resolver, alias: "ContentTypeGroupByIdentifier", method: "resolveContentTypeGroupByIdentifier" }
         arguments:
             $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
 
