@@ -3,7 +3,7 @@ ContentSearchQuery:
     config:
         fields:
             ContentTypeIdentifier:
-                type: "[String]"
+                type: "[ContentTypeIdentifier]"
                 description: "Content type identifier filter"
             ContentTypeId:
                 type: "[String]"
