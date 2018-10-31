@@ -115,3 +115,6 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "DateTimeFormat", method: "resolveDateToFormat"}
 
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\ImageAssetFieldResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "DomainImageAssetFieldValue", method: "resolveDomainImageAssetFieldValue"}

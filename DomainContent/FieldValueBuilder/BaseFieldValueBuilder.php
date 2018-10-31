@@ -16,6 +16,7 @@ class BaseFieldValueBuilder implements FieldValueBuilder
         'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezgmaplocation' => 'MapLocationFieldValue',
         'ezimage' => 'ImageFieldValue',
+        'ezimageasset' => ['ImageFieldValue', '@=resolver("DomainImageAssetFieldValue", [value, "%s"]).value'],
         'ezinteger' => ['Int', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezkeyword' => ['[String]', '@=resolver("DomainFieldValue", [value, "%s"]).values'],
         'ezmedia' => 'MediaFieldValue',

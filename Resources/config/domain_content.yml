@@ -44,3 +44,7 @@ services:
     BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\RelationListFieldValueBuilder:
         tags:
             - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelationlist'}
+
+    #BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\ImageAssetFieldValueBuilder:
+    #    tags:
+    #        - {name: ezplatform_graphql.field_value_builder, type: 'ezimageasset'}

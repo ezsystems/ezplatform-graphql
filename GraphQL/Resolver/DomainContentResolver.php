@@ -7,7 +7,7 @@ namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
-use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
+use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\SearchService;
@@ -139,7 +139,7 @@ class DomainContentResolver
         // @todo check content type
         $fieldValue = $content->getFieldValue($fieldDefinitionIdentifier);
 
-        if (!$fieldValue instanceof RelationListValue) {
+        if (!$fieldValue instanceof FieldType\RelationList\Value) {
             throw new UserError("$fieldDefinitionIdentifier is not a RelationList field value");
         }
 
