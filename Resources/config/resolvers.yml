@@ -118,3 +118,7 @@ services:
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\ImageAssetFieldResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "DomainImageAssetFieldValue", method: "resolveDomainImageAssetFieldValue"}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\Resolver\SelectionFieldResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "SelectionFieldValue", method: "resolveSelectionFieldValue"}
