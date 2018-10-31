@@ -43,6 +43,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "DomainFieldValue", method: "resolveDomainFieldValue" }
             - { name: overblog_graphql.resolver, alias: "DomainContentType", method: "resolveDomainContentType" }
             - { name: overblog_graphql.resolver, alias: "DomainContentItem", method: "resolveDomainContentItem" }
+            - { name: overblog_graphql.resolver, alias: "DomainRelationFieldValue", method: "resolveDomainRelationFieldValue" }
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
             $contentService: '@ezpublish.siteaccessaware.service.content'

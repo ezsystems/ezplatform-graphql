@@ -7,6 +7,7 @@ namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\SearchService;
@@ -17,7 +18,6 @@ use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
-use Overblog\GraphQLBundle\Error\UserWarning;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
@@ -131,6 +131,31 @@ class DomainContentResolver
             'content' => $content,
             'value' => $content->getFieldValue($fieldDefinitionIdentifier)
         ]);
+    }
+
+    public function resolveDomainRelationFieldValue($contentInfo, $fieldDefinitionIdentifier, $multiple = false)
+    {
+        $content = $this->contentService->loadContent($contentInfo->id);
+        // @todo check content type
+        $fieldValue = $content->getFieldValue($fieldDefinitionIdentifier);
+
+        if (!$fieldValue instanceof RelationListValue) {
+            throw new UserError("$fieldDefinitionIdentifier is not a RelationList field value");
+        }
+
+        if ($multiple) {
+            return array_map(
+                function ($contentId) {
+                    return $this->contentService->loadContentInfo($contentId);
+                },
+                $fieldValue->destinationContentIds
+            );
+        } else {
+            return
+                isset($fieldValue->destinationContentIds[0])
+                ? $this->contentService->loadContentInfo($fieldValue->destinationContentIds[0])
+                : null;
+        }
     }
 
     public function ResolveDomainContentType(ContentInfo $contentInfo)

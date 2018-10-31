@@ -40,3 +40,7 @@ services:
             $defaultFieldValueBuilder: '@BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\BaseFieldValueBuilder'
 
     BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\AddContentTypeToContentTypeIdentifierList: ~
+
+    BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\RelationListFieldValueBuilder:
+        tags:
+            - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelationlist'}
