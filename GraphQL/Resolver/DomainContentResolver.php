@@ -7,6 +7,7 @@ namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -48,13 +49,25 @@ class DomainContentResolver
      */
     private $queryMapper;
 
-    public function __construct(ContentService $contentService, SearchService $searchService, ContentTypeService $contentTypeService, TypeResolver $typeResolver, SearchQueryMapper $queryMapper)
+    /**
+     * @var LocationService
+     */
+    private $locationService;
+
+    public function __construct(
+        ContentService $contentService,
+        SearchService $searchService,
+        ContentTypeService $contentTypeService,
+        LocationService $locationService,
+        TypeResolver $typeResolver,
+        SearchQueryMapper $queryMapper)
     {
         $this->contentService = $contentService;
         $this->searchService = $searchService;
         $this->contentTypeService = $contentTypeService;
         $this->typeResolver = $typeResolver;
         $this->queryMapper = $queryMapper;
+        $this->locationService = $locationService;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
@@ -70,15 +83,21 @@ class DomainContentResolver
     /**
      * Resolves a domain content item by id, and checks that it is of the requested type.
      */
-    public function resolveDomainContentItem($contentId, $contentTypeIdentifier)
+    public function resolveDomainContentItem(Argument $args, $contentTypeIdentifier)
     {
-        $contentInfo = $this->contentService->loadContentInfo($contentId);
+        if (isset($args['id'])) {
+            $contentInfo = $this->contentService->loadContentInfo($args['id']);
+        } elseif (isset($args['remoteId'])) {
+            $contentInfo = $this->contentService->loadContentInfoByRemoteId($args['remoteId']);
+        } elseif (isset($args['locationId'])) {
+            $contentInfo = $this->locationService->loadLocation($args['locationId'])->contentInfo;
+        }
 
         // @todo consider optimizing using a map of contentTypeId
         $contentType = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
 
         if ($contentType->identifier !== $contentTypeIdentifier) {
-            throw new UserError("Content $contentId is not of type '$contentTypeIdentifier'");
+            throw new UserError("Content $contentInfo->id is not of type '$contentTypeIdentifier'");
         }
 
         return $contentInfo;

@@ -46,14 +46,22 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
             [$this->getContentField($contentType)] = [
                 'type' => $this->getContentName($contentType),
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => sprintf('@=resolver("DomainContentItem", [args["id"], "%s"])', $contentType->identifier),
+                'resolve' => sprintf('@=resolver("DomainContentItem", [args, "%s"])', $contentType->identifier),
                 'args' => [
                     // @todo How do we constraint this so that it only takes an id of an item of that type ?
                     // same approach than GlobalId ? (<type>-<id>)
                     'id' => [
                         'type' => 'Int',
-                        'description' => 'A content id'
+                        'description' => sprintf('A %s content id', $contentType->identifier),
                     ],
+                    'locationId' => [
+                        'type' => 'Int',
+                        'description' => sprintf('A %s content location id', $contentType->identifier),
+                    ],
+                    'remoteId' => [
+                        'type' => 'String',
+                        'description' => sprintf('A %s content remote id', $contentType->identifier),
+                    ]
                 ]
             ];
 
