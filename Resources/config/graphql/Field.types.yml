@@ -367,6 +367,10 @@ RichTextFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+            xml:
+                type: "String"
+                description: "The raw docbook xml"
+                resolve: "@=value"
             plaintext:
                 type: "String"
                 description: "Plain text representation of the value, without tags."
