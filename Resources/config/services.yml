@@ -1,10 +1,13 @@
 services:
-    bd_ezplatform_graphql.command.generate_platform_domain_schema:
+    BD\EzPlatformGraphQLBundle\Command\GeneratePlatformDomainTypesCommand:
         autoconfigure: true
         autowire: true
-        class: BD\EzPlatformGraphQLBundle\Command\GeneratePlatformDomainTypesCommand
-        arguments:
-            - "@ezpublish.api.repository"
+        tags:
+            -  { name: console.command }
+
+    BD\EzPlatformGraphQLBundle\Command\GeneratePlatformSchemaCommand:
+        autoconfigure: true
+        autowire: true
         tags:
             -  { name: console.command }
 
