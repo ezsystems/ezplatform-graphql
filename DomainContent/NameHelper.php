@@ -47,12 +47,12 @@ class NameHelper
 
     public function domainGroupName(ContentTypeGroup $contentTypeGroup)
     {
-        return 'DomainGroup' . ucfirst($this->toCamelCase($contentTypeGroup->identifier));
+        return 'DomainGroup' . ucfirst($this->toCamelCase($this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)));
     }
 
     public function domainGroupField(ContentTypeGroup $contentTypeGroup)
     {
-        return lcfirst($this->toCamelCase($contentTypeGroup->identifier));
+        return lcfirst($this->toCamelCase($this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)));
     }
 
     public function fieldDefinitionField(FieldDefinition $fieldDefinition)
@@ -108,5 +108,17 @@ class NameHelper
         }
 
         return $name . 's';
+    }
+
+    /**
+     * Removes potential spaces in content types groups names.
+     * (content types groups identifiers are actually their name)
+     *
+     * @param ContentTypeGroup $contentTypeGroup
+     * @return string
+     */
+    protected function sanitizeContentTypeGroupIdentifier(ContentTypeGroup $contentTypeGroup): string
+    {
+        return str_replace(' ', '_', $contentTypeGroup->identifier);
     }
 }
