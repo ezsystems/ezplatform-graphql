@@ -63,7 +63,7 @@ php bin/console bd:platform-graphql:generate-domain-schema
 php bin/console cache:clear
 ```
 
-It will generate a lot of yaml files in `src/AppBundle/Resources/config/graphql`, based on your content types.
+It will generate a lot of yaml files in `app/config/graphql`, based on your content types.
 
 ### GraphiQL
 The graphical graphQL client, GraphiQL, must be installed separately if you want to use it.
