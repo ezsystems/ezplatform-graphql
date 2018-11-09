@@ -48,3 +48,5 @@ services:
     BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\SelectionFieldValueBuilder:
         tags:
             - {name: ezplatform_graphql.field_value_builder, type: 'ezselection'}
+
+    BD\EzPlatformGraphQLBundle\Schema\ImagesVariationsBuilder: ~
