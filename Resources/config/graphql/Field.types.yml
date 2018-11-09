@@ -101,8 +101,15 @@ ImageFieldValue:
                 type: "[ImageVariation]"
                 args:
                     identifier:
-                        type: "[String]"
+                        type: "[ImageVariationIdentifier]!"
                         description: "One or more variation identifiers."
+                resolve: "@=resolver('ImageVariation', [value.value, args])"
+            variation:
+                type: ImageVariation
+                args:
+                    identifier:
+                        type: ImageVariationIdentifier!
+                        description: "A variation identifier."
                 resolve: "@=resolver('ImageVariation', [value.value, args])"
             html:
                 type: "String"

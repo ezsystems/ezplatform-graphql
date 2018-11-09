@@ -33,7 +33,34 @@ class ImageFieldResolver
         $this->variations = $variations;
     }
 
+    public function resolveImageVariations(ImageFieldValue $fieldValue, $args)
+    {
+        list($content, $field) = $this->getImageField($fieldValue);
+
+        $variations = [];
+        foreach ($args['identifier'] as $identifier) {
+            $versionInfo = $this->contentService->loadVersionInfo($content->contentInfo);
+            $variations[] = $this->variationHandler->getVariation($field, $versionInfo, $identifier);
+        }
+
+        return $variations;
+    }
+
     public function resolveImageVariation(ImageFieldValue $fieldValue, $args)
+    {
+        list($content, $field) = $this->getImageField($fieldValue);
+        $versionInfo = $this->contentService->loadVersionInfo($content->contentInfo);
+
+        return $this->variationHandler->getVariation($field, $versionInfo, $args['identifier']);
+    }
+
+    /**
+     * @param ImageFieldValue $fieldValue
+     * @return array
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     */
+    protected function getImageField(ImageFieldValue $fieldValue): array
     {
         $idArray = explode('-', $fieldValue->imageId);
         if (count($idArray) != 3) {
@@ -61,15 +88,6 @@ class ImageFieldResolver
             throw new UserError("Image file {$field->value->id} doesn't exist");
         }
 
-        $variations = [];
-        foreach ($args['identifier'] as $identifier) {
-            $variations[] = $this->variationHandler->getVariation(
-                $field,
-                $this->contentService->loadVersionInfo($content->contentInfo),
-                $identifier
-            );
-        }
-
-        return $variations;
+        return array($content, $field);
     }
 }

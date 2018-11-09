@@ -110,6 +110,7 @@ services:
             $contentService: "@ezpublish.siteaccessaware.service.content"
             $variations: "$image_variations$"
         tags:
+            - { name: overblog_graphql.resolver, alias: "ImageVariations", method: "resolveImageVariations" }
             - { name: overblog_graphql.resolver, alias: "ImageVariation", method: "resolveImageVariation" }
 
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\DateResolver:
