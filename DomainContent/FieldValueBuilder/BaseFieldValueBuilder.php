@@ -12,6 +12,8 @@ class BaseFieldValueBuilder implements FieldValueBuilder
         'ezbinaryfile' => 'BinaryFileFieldValue',
         'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
         'ezcountry' => 'String',
+        'ezdate' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
+        'ezdatetime' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezemail' => 'String',
         'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezgmaplocation' => 'MapLocationFieldValue',
