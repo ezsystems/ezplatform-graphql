@@ -45,10 +45,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "DomainContentItem", method: "resolveDomainContentItem" }
             - { name: overblog_graphql.resolver, alias: "DomainRelationFieldValue", method: "resolveDomainRelationFieldValue" }
         arguments:
-            $searchService: '@ezpublish.siteaccessaware.service.search'
-            $contentService: '@ezpublish.siteaccessaware.service.content'
-            $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
-            $locationService: '@ezpublish.siteaccessaware.service.location'
+            $repository: "@ezpublish.siteaccessaware.repository"
 
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\UserResolver:
         tags:

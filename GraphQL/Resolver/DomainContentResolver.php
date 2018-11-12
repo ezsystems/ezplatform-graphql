@@ -8,6 +8,7 @@ namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -25,21 +26,6 @@ use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
 class DomainContentResolver
 {
     /**
-     * @var \eZ\Publish\API\Repository\ContentService
-     */
-    private $contentService;
-
-    /**
-     * @var \eZ\Publish\API\Repository\SearchService
-     */
-    private $searchService;
-
-    /**
-     * @var \eZ\Publish\API\Repository\ContentTypeService
-     */
-    private $contentTypeService;
-
-    /**
      * @var \Overblog\GraphQLBundle\Resolver\TypeResolver
      */
     private $typeResolver;
@@ -50,24 +36,18 @@ class DomainContentResolver
     private $queryMapper;
 
     /**
-     * @var LocationService
+     * @var Repository
      */
-    private $locationService;
+    private $repository;
 
     public function __construct(
-        ContentService $contentService,
-        SearchService $searchService,
-        ContentTypeService $contentTypeService,
-        LocationService $locationService,
+        Repository $repository,
         TypeResolver $typeResolver,
         SearchQueryMapper $queryMapper)
     {
-        $this->contentService = $contentService;
-        $this->searchService = $searchService;
-        $this->contentTypeService = $contentTypeService;
+        $this->repository = $repository;
         $this->typeResolver = $typeResolver;
         $this->queryMapper = $queryMapper;
-        $this->locationService = $locationService;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
@@ -86,15 +66,15 @@ class DomainContentResolver
     public function resolveDomainContentItem(Argument $args, $contentTypeIdentifier)
     {
         if (isset($args['id'])) {
-            $contentInfo = $this->contentService->loadContentInfo($args['id']);
+            $contentInfo = $this->getContentService()->loadContentInfo($args['id']);
         } elseif (isset($args['remoteId'])) {
-            $contentInfo = $this->contentService->loadContentInfoByRemoteId($args['remoteId']);
+            $contentInfo = $this->getContentService()->loadContentInfoByRemoteId($args['remoteId']);
         } elseif (isset($args['locationId'])) {
-            $contentInfo = $this->locationService->loadLocation($args['locationId'])->contentInfo;
+            $contentInfo = $this->getLocationService()->loadLocation($args['locationId'])->contentInfo;
         }
 
         // @todo consider optimizing using a map of contentTypeId
-        $contentType = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
+        $contentType = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
 
         if ($contentType->identifier !== $contentTypeIdentifier) {
             throw new UserError("Content $contentInfo->id is not of type '$contentTypeIdentifier'");
@@ -118,7 +98,7 @@ class DomainContentResolver
         $args['query'] = $queryArg;
 
         $query = $this->queryMapper->mapInputToQuery($args['query']);
-        $searchResults = $this->searchService->findContent($query);
+        $searchResults = $this->getSearchService()->findContent($query);
 
         return array_map(
             function (SearchHit $searchHit) {
@@ -130,7 +110,7 @@ class DomainContentResolver
 
     public function resolveDomainSearch()
     {
-        $searchResults = $this->searchService->findContentInfo(new Query([]));
+        $searchResults = $this->getSearchService()->findContentInfo(new Query([]));
 
         return array_map(
             function (SearchHit $searchHit) {
@@ -142,7 +122,7 @@ class DomainContentResolver
 
     public function resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier)
     {
-        $content = $this->contentService->loadContent($contentInfo->id);
+        $content = $this->getContentService()->loadContent($contentInfo->id);
 
         return new ContentFieldValue([
             'contentTypeId' => $contentInfo->contentTypeId,
@@ -154,7 +134,7 @@ class DomainContentResolver
 
     public function resolveDomainRelationFieldValue($contentInfo, $fieldDefinitionIdentifier, $multiple = false)
     {
-        $content = $this->contentService->loadContent($contentInfo->id);
+        $content = $this->getContentService()->loadContent($contentInfo->id);
         // @todo check content type
         $fieldValue = $content->getFieldValue($fieldDefinitionIdentifier);
 
@@ -165,14 +145,14 @@ class DomainContentResolver
         if ($multiple) {
             return array_map(
                 function ($contentId) {
-                    return $this->contentService->loadContentInfo($contentId);
+                    return $this->getContentService()->loadContentInfo($contentId);
                 },
                 $fieldValue->destinationContentIds
             );
         } else {
             return
                 isset($fieldValue->destinationContentIds[0])
-                ? $this->contentService->loadContentInfo($fieldValue->destinationContentIds[0])
+                ? $this->getContentService()->loadContentInfo($fieldValue->destinationContentIds[0])
                 : null;
         }
     }
@@ -183,7 +163,7 @@ class DomainContentResolver
 
         if (!isset($contentTypesMap[$contentInfo->contentTypeId])) {
             try {
-                $contentTypesMap[$contentInfo->contentTypeId] = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
+                $contentTypesMap[$contentInfo->contentTypeId] = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
             } catch (\Exception $e) {
                 $contentTypesLoadErrors[$contentInfo->contentTypeId] = $e;
                 throw $e;
@@ -198,5 +178,37 @@ class DomainContentResolver
         $converter = new CamelCaseToSnakeCaseNameConverter(null, false);
 
         return $converter->denormalize($contentType->identifier) . 'Content';
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\ContentService
+     */
+    private function getContentService()
+    {
+        return $this->repository->getContentService();
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\LocationService
+     */
+    private function getLocationService()
+    {
+        return $this->repository->getLocationService();
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\ContentTypeService
+     */
+    private function getContentTypeService()
+    {
+        return $this->repository->getContentTypeService();
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\SearchService
+     */
+    private function getSearchService()
+    {
+        return $this->repository->getSearchService();
     }
 }
