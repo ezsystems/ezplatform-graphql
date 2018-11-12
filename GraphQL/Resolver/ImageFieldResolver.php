@@ -6,6 +6,7 @@
 namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\Core\FieldType;
 use eZ\Publish\SPI\Variation\VariationHandler;
 use Overblog\GraphQLBundle\Error\UserError;
 use eZ\Publish\Core\FieldType\Image\Value as ImageFieldValue;
@@ -25,22 +26,34 @@ class ImageFieldResolver
      * @var array
      */
     private $variations;
+    /**
+     * @var FieldType\Image\Type
+     */
+    private $fieldType;
 
-    public function __construct(VariationHandler $variationHandler, ContentService $contentService, array $variations)
+    public function __construct(
+        FieldType\Image\Type $imageFieldType,
+        VariationHandler $variationHandler,
+        ContentService $contentService,
+        array $variations
+    )
     {
         $this->variationHandler = $variationHandler;
         $this->contentService = $contentService;
         $this->variations = $variations;
+        $this->fieldType = $imageFieldType;
     }
 
     public function resolveImageVariations(ImageFieldValue $fieldValue, $args)
     {
+        if ($this->fieldType->isEmptyValue($fieldValue)) {
+            return null;
+        }
         list($content, $field) = $this->getImageField($fieldValue);
 
         $variations = [];
         foreach ($args['identifier'] as $identifier) {
-            $versionInfo = $this->contentService->loadVersionInfo($content->contentInfo);
-            $variations[] = $this->variationHandler->getVariation($field, $versionInfo, $identifier);
+            $variations[] = $this->variationHandler->getVariation($field, $content->versionInfo, $identifier);
         }
 
         return $variations;
@@ -48,6 +61,10 @@ class ImageFieldResolver
 
     public function resolveImageVariation(ImageFieldValue $fieldValue, $args)
     {
+        if ($this->fieldType->isEmptyValue($fieldValue)) {
+            return null;
+        }
+
         list($content, $field) = $this->getImageField($fieldValue);
         $versionInfo = $this->contentService->loadVersionInfo($content->contentInfo);
 
@@ -56,17 +73,13 @@ class ImageFieldResolver
 
     /**
      * @param ImageFieldValue $fieldValue
-     * @return array
+     * @return [Content, Field]
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
     protected function getImageField(ImageFieldValue $fieldValue): array
     {
-        $idArray = explode('-', $fieldValue->imageId);
-        if (count($idArray) != 3) {
-            throw new UserError("Invalid image ID {$fieldValue->imageId}");
-        }
-        list($contentId, $fieldId, $versionNumber) = $idArray;
+        list($contentId, $fieldId, $versionNumber) = $this->decomposeImageId($fieldValue);
 
         $content = $this->contentService->loadContent($contentId, [], $versionNumber);
 
@@ -89,5 +102,18 @@ class ImageFieldResolver
         }
 
         return array($content, $field);
+    }
+
+    /**
+     * @param ImageFieldValue $fieldValue
+     * @return array
+     */
+    protected function decomposeImageId(ImageFieldValue $fieldValue): array
+    {
+        $idArray = explode('-', $fieldValue->imageId);
+        if (count($idArray) != 3) {
+            throw new UserError("Invalid image ID {$fieldValue->imageId}");
+        }
+        return $idArray;
     }
 }

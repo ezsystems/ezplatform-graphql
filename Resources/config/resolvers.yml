@@ -106,6 +106,7 @@ services:
 
     BD\EzPlatformGraphQLBundle\GraphQL\Resolver\ImageFieldResolver:
         arguments:
+            $imageFieldType: "@ezpublish.fieldType.ezimage"
             $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
             $contentService: "@ezpublish.siteaccessaware.service.content"
             $variations: "$image_variations$"
