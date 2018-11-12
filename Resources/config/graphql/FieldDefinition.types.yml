@@ -39,7 +39,9 @@ FieldDefinition:
             isRequired:
                 type: Boolean
                 description: "Indicates if this field is used for information collection"
-
+            isSearchable:
+                type: Boolean
+                description: "Indicates if the content is searchable by this attribute"
 CheckboxFieldDefinition:
     type: object
     inherits: [FieldDefinition]
