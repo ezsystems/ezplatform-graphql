@@ -51,6 +51,37 @@ class SearchQueryMapper
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Modified'));
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Created'));
 
+        if (isset($inputArray['sortBy'])) {
+            $query->sortClauses = array_map(
+                function ($sortClauseClass) {
+                    /** @var Query\SortClause $lastSortClause */
+                    static $lastSortClause;
+
+                    if ($sortClauseClass === Query::SORT_DESC) {
+                        if (!$lastSortClause instanceof Query\SortClause) {
+                            return null;
+                        }
+
+                        $lastSortClause->direction = $sortClauseClass;
+                        return null;
+                    }
+
+                    if (!class_exists($sortClauseClass)) {
+                        return null;
+                    }
+
+                    if (!in_array(Query\SortClause::class, class_parents($sortClauseClass))) {
+                        return null;
+                    }
+
+                    return $lastSortClause = new $sortClauseClass;
+                },
+                $inputArray['sortBy']
+            );
+            // remove null entries left out because of sort direction
+            $query->sortClauses = array_filter($query->sortClauses);
+        }
+
         if (count($criteria) === 0) {
             return $query;
         }

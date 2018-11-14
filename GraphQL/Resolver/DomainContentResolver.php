@@ -95,6 +95,9 @@ class DomainContentResolver
     {
         $queryArg = $args['query'];
         $queryArg['ContentTypeIdentifier'] = $contentTypeIdentifier;
+        if (isset($args['sortBy'])) {
+            $queryArg['sortBy'] = $args['sortBy'];
+        }
         $args['query'] = $queryArg;
 
         $query = $this->queryMapper->mapInputToQuery($args['query']);

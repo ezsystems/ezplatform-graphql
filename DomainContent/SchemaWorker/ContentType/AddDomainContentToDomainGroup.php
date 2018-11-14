@@ -37,6 +37,10 @@ class AddDomainContentToDomainGroup extends BaseWorker implements SchemaWorker
                         'type' => "ContentSearchQuery",
                         'description' => "A Content query used to filter results"
                     ],
+                    'sortBy' => [
+                        'type' => '[SortByOptions]',
+                        'description' => "A sort clause, or array of clauses. Add _desc after a clause to reverse it"
+                    ],
                 ],
             ];
 
