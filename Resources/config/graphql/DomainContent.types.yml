@@ -21,6 +21,9 @@ DomainContent:
             _allLocations:
                 description: "All the content's locations"
                 type: "[Location]"
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
         resolveType: "@=resolver('DomainContentType', [value])"
 
 AbstractDomainContent:
@@ -52,6 +55,10 @@ AbstractDomainContent:
                 description: 'All the locations'
                 type: '[Location]'
                 resolve: '@=resolver("LocationsByContentId", [value.id])'
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
+                resolve: "@=resolver('ContentName', [value])"
 
 # @todo interface ?
 DomainContentTypeGroup:

@@ -180,6 +180,11 @@ class DomainContentResolver
         return $converter->denormalize($contentType->identifier) . 'Content';
     }
 
+    public function resolveContentName(ContentInfo $contentInfo)
+    {
+        return $this->repository->getContentService()->loadContentByContentInfo($contentInfo)->getName();
+    }
+
     /**
      * @return \eZ\Publish\API\Repository\ContentService
      */
