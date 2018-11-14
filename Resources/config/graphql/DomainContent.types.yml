@@ -24,6 +24,9 @@ DomainContent:
             _name:
                 description: "The content item's name, in the prioritized language(s), based on the object name pattern"
                 type: String
+            _url:
+                description: "The content item's url alias, based on the main location."
+                type: String
         resolveType: "@=resolver('DomainContentType', [value])"
 
 AbstractDomainContent:
@@ -59,6 +62,10 @@ AbstractDomainContent:
                 description: "The content item's name, in the prioritized language(s), based on the object name pattern"
                 type: String
                 resolve: "@=resolver('ContentName', [value])"
+            _url:
+                description: "The content item's url alias, based on the main location."
+                type: String
+                resolve: "@=resolver('MainUrlAlias', [value])"
 
 # @todo interface ?
 DomainContentTypeGroup:

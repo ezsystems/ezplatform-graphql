@@ -120,6 +120,16 @@ class DomainContentResolver
         );
     }
 
+    public function resolveMainUrlAlias(ContentInfo $contentInfo)
+    {
+        $aliases = $this->repository->getURLAliasService()->listLocationAliases(
+            $this->getLocationService()->loadLocation($contentInfo->mainLocationId),
+            false
+        );
+
+        return isset($aliases[0]->path) ? $aliases[0]->path : null;
+    }
+
     public function resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier)
     {
         $content = $this->getContentService()->loadContent($contentInfo->id);

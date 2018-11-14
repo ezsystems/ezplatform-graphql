@@ -45,6 +45,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "DomainContentItem", method: "resolveDomainContentItem" }
             - { name: overblog_graphql.resolver, alias: "DomainRelationFieldValue", method: "resolveDomainRelationFieldValue" }
             - { name: overblog_graphql.resolver, alias: "ContentName", method: "resolveContentName" }
+            - { name: overblog_graphql.resolver, alias: "MainUrlAlias", method: "resolveMainUrlAlias" }
         arguments:
             $repository: "@ezpublish.siteaccessaware.repository"
 
