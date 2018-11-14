@@ -10,6 +10,7 @@ use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -66,5 +67,14 @@ class GeneratePlatformSchemaCommand extends Command
                 $output->writeln("\n# $type\n$yaml\n");
             }
         }
+
+        $output->writeln('');
+        $this->compileTypes($output);
+    }
+
+    private function compileTypes(OutputInterface $output)
+    {
+        $command = $this->getApplication()->find('graphql:compile');
+        $command->run(new StringInput('graphql:compile'), $output);
     }
 }
