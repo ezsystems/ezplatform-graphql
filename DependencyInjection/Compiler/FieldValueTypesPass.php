@@ -1,6 +1,7 @@
 <?php
 namespace BD\EzPlatformGraphQLBundle\DependencyInjection\Compiler;
 
+use BD\EzPlatformGraphQLBundle\DependencyInjection\BDEzPlatformGraphQLExtension;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
@@ -12,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FieldValueTypesPass implements CompilerPassInterface
 {
-    const TYPES_YAML = __DIR__ . '/../../Resources/config/graphql/Field.types.yml';
+    const TYPES_YAML = BDEzPlatformGraphQLExtension::SCHEMA_DIR . BDEzPlatformGraphQLExtension::SCHEMA_DIR . '/Field.types.yml';
 
     public function process(ContainerBuilder $container)
     {

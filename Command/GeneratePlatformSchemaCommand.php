@@ -26,7 +26,7 @@ class GeneratePlatformSchemaCommand extends Command
      */
     private $generator;
 
-    const TYPES_DIRECTORY = "app/config/graphql";
+    const TYPES_DIRECTORY = 'app/config/graphql/ezplatform';
 
     public function __construct(Repository $repository, SchemaGenerator $generator)
     {

@@ -34,7 +34,7 @@ Queries look like this:
 
 Run `php bin/console bd:platform-graphql:generate-domain-schema` from the root of your
 eZ Platform installation. It will go over your repository, and generate the matching
-types in `app/config/graphql/`.
+types in `app/config/graphql/ezplatform`.
 
 Open `<host>/graphiql`. The content type groups, content types and their fields
 will be exposed as the schema.

@@ -16,7 +16,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 class BDEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
 {
-    const DOMAIN_SCHEMA_FILE = __DIR__. '/../../../../app/config/graphql/Domain.types.yml';
+    const SCHEMA_DIR = __DIR__ . '/../../../../app/config/graphql/ezplatform';
+    const DOMAIN_SCHEMA_FILE = self::SCHEMA_DIR . '/Domain.types.yml';
 
     /**
      * {@inheritdoc}
