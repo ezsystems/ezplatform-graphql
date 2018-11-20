@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 7.1
+
+# test only master (+ Pull requests)
+branches:
+  only:
+    - master
+
+# setup requirements for running unit tests
+before_script:
+  - COMPOSER_MEMORY_LIMIT=-1 composer install
+
+branches:
+  only:
+    - master
+    - dev
+
+# disable mail notifications
+notification:
+  email: false
