@@ -8,7 +8,10 @@ branches:
   only:
     - master
 
-# setup requirements for running unit tests
+matrix:
+  env:
+    - TARGET="phpspec"
+
 before_script:
   - COMPOSER_MEMORY_LIMIT=-1 composer install
 
@@ -17,6 +20,8 @@ branches:
     - master
     - dev
 
-# disable mail notifications
+script:
+  - if [ "$TARGET" == "phpspec" ] ; then ./vendor/bin/phpspec run --format=pretty; fi
+
 notification:
   email: false

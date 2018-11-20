@@ -14,7 +14,8 @@
         "overblog/graphql-bundle": "^0.11"
     },
     "require-dev": {
-        "overblog/graphiql-bundle": "^0.1"
+        "overblog/graphiql-bundle": "^0.1",
+        "phpspec/phpspec": "^5.1"
     },
     "autoload": {
         "psr-4": {
