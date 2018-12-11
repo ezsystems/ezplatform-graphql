@@ -59,7 +59,7 @@ overblog_graphql_endpoint:
 ### Generate your schema
 Run the command that generates the GraphQL schema:
 ```
-php bin/console bd:platform-graphql:generate-domain-schema
+php bin/console ezplatform:graphql:generate-schema
 php bin/console cache:clear
 ```
 
