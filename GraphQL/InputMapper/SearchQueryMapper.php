@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 21/09/2018
- * Time: 16:50
- */
-
 namespace BD\EzPlatformGraphQLBundle\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;

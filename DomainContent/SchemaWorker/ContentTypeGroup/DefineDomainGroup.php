@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 23/09/2018
- * Time: 14:06
- */
-
 namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup;
 
 use BD\EzPlatformGraphQLBundle\DomainContent\NameHelper;

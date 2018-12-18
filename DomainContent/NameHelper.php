@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 23/09/2018
- * Time: 23:05
- */
-
 namespace BD\EzPlatformGraphQLBundle\DomainContent;
-
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;

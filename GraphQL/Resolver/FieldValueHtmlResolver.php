@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 14/09/2018
- * Time: 12:55
- */
-
 namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
 
 use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;

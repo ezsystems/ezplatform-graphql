@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 23/09/2018
- * Time: 23:45
- */
-
 namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition;
 
 use BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\FieldValueBuilder;

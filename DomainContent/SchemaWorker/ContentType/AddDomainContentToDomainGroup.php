@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 23/09/2018
- * Time: 23:24
- */
-
 namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType;
 
 use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker;
