@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 

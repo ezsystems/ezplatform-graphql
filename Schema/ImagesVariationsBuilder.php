@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\Schema;
+namespace EzSystems\EzPlatformGraphQL\Schema;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
 

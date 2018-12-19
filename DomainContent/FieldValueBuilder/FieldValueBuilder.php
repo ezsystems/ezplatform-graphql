@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder;
+namespace EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder;
 
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 

@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DependencyInjection\Compiler;
+namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class SchemaWorkersPass implements CompilerPassInterface
 {
-    const ID = 'BD\EzPlatformGraphQLBundle\DomainContent\DomainContentSchemaBuilder';
+    const ID = 'EzSystems\EzPlatformGraphQL\DomainContent\DomainContentSchemaBuilder';
 
     public function process(ContainerBuilder $container)
     {

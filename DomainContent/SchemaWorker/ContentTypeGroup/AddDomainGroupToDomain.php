@@ -1,8 +1,8 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup;
+namespace EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\BaseWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use EzSystems\BehatBundle\Context\Object\ContentType;
 

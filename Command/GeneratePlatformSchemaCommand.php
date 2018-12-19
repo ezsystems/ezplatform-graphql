@@ -3,9 +3,9 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\EzPlatformGraphQLBundle\Command;
+namespace EzSystems\EzPlatformGraphQL\Command;
 
-use BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator;
+use EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator;
 use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ class GeneratePlatformSchemaCommand extends Command
     private $repository;
 
     /**
-     * @var \BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator
+     * @var \EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator
      */
     private $generator;
 

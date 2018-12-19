@@ -1,12 +1,12 @@
 <?php
 
-namespace BD\EzPlatformGraphQLBundle;
+namespace EzSystems\EzPlatformGraphQL;
 
-use BD\EzPlatformGraphQLBundle\DependencyInjection\Compiler;
+use EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class BDEzPlatformGraphQLBundle extends Bundle
+class EzSystemsEzPlatformGraphQLBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

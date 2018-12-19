@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent;
+namespace EzSystems\EzPlatformGraphQL\DomainContent;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;

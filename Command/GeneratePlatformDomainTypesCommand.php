@@ -1,7 +1,7 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\Command;
+namespace EzSystems\EzPlatformGraphQL\Command;
 
-use BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator;
+use EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator;
 use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

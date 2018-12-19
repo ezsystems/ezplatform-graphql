@@ -1,7 +1,7 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\Core\FieldType;

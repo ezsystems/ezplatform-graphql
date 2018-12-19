@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "BD\\EzPlatformGraphQLBundle\\": ""
+            "EzSystems\\EzPlatformGraphQL\\": ""
         }
     },
     "extra": {

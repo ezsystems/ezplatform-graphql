@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\EzPlatformGraphQLBundle\DependencyInjection;
+namespace EzSystems\EzPlatformGraphQL\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class BDEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
+class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
 {
     const SCHEMA_DIR = __DIR__ . '/../../../../app/config/graphql/ezplatform';
     const DOMAIN_SCHEMA_FILE = self::SCHEMA_DIR . '/Domain.types.yml';

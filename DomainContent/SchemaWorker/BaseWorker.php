@@ -1,12 +1,12 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker;
+namespace EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\NameHelper;
+use EzSystems\EzPlatformGraphQL\DomainContent\NameHelper;
 
 class BaseWorker
 {
     /**
-     * @var \BD\EzPlatformGraphQLBundle\DomainContent\NameHelper
+     * @var \EzSystems\EzPlatformGraphQL\DomainContent\NameHelper
      */
     private $nameHelper;
 

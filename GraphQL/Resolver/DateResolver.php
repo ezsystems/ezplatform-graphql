@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
