@@ -67,7 +67,7 @@ A worker implements the `DomainSchema\SchemaWorker\SchemaWorker` interface. They
 
 Both method receive as arguments a reference to the schema array, and an array of arguments.
 
-A custom worker must be passed to the `BD\EzPlatformGraphQLBundle\DomainContent\RepositoryDomainGenerator` service
+A custom worker must be passed to the `EzSystems\EzPlatformGraphQL\DomainContent\RepositoryDomainGenerator` service
 by means of a compiler pass that adds a call to `addWorker()`.
 
 ### Data available to workers

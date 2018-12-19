@@ -3,9 +3,9 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;

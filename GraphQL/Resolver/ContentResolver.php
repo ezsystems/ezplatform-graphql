@@ -3,9 +3,9 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;

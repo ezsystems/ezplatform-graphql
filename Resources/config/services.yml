@@ -1,24 +1,24 @@
 services:
-    BD\EzPlatformGraphQLBundle\Command\GeneratePlatformDomainTypesCommand:
+    EzSystems\EzPlatformGraphQL\Command\GeneratePlatformDomainTypesCommand:
         autoconfigure: true
         autowire: true
         tags:
             -  { name: console.command }
 
-    BD\EzPlatformGraphQLBundle\Command\GeneratePlatformSchemaCommand:
+    EzSystems\EzPlatformGraphQL\Command\GeneratePlatformSchemaCommand:
         autoconfigure: true
         autowire: true
         tags:
             -  { name: console.command }
 
-    BD\EzPlatformGraphQLBundle\GraphQL\TypeDefinition\ContentTypeMapper: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\TypeDefinition\ContentTypeMapper: ~
 
     bd_ezplatform_graphql.graph.mutation.section:
-        class: BD\EzPlatformGraphQLBundle\GraphQL\Mutation\SectionMutation
+        class: EzSystems\EzPlatformGraphQL\GraphQL\Mutation\SectionMutation
         arguments:
             - "@ezpublish.api.service.section"
         tags:
             - { name: "overblog_graphql.mutation", alias: "CreateSection", method: "createSection" }
             - { name: "overblog_graphql.mutation", alias: "DeleteSection", method: "deleteSection" }
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper: ~

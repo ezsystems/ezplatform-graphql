@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\Schema;
+namespace EzSystems\EzPlatformGraphQL\Schema;
 
 interface SchemaBuilder
 {

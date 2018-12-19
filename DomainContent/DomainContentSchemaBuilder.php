@@ -1,8 +1,8 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent;
+namespace EzSystems\EzPlatformGraphQL\DomainContent;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
-use BD\EzPlatformGraphQLBundle\Schema\SchemaBuilder;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker;
+use EzSystems\EzPlatformGraphQL\Schema\SchemaBuilder;
 use eZ\Publish\API\Repository\Repository;
 
 class DomainContentSchemaBuilder implements SchemaBuilder

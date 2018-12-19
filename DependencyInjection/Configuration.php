@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\EzPlatformGraphQLBundle\DependencyInjection;
+namespace EzSystems\EzPlatformGraphQL\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('bd_ez_platform_graph_ql');
+        $rootNode = $treeBuilder->root('ezplatform_graphql');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

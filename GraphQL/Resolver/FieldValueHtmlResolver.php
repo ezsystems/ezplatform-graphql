@@ -1,7 +1,7 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension;
 use Overblog\GraphQLBundle\Definition\Argument;
 

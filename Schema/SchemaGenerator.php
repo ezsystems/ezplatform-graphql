@@ -1,11 +1,11 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\Schema;
+namespace EzSystems\EzPlatformGraphQL\Schema;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\ContentTypeGroupSchemaWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\ContentTypeSchemaWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\FieldDefinitionSchemaWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
-use BD\EzPlatformGraphQLBundle\Schema\SchemaBuilder;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup\ContentTypeGroupSchemaWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentType\ContentTypeSchemaWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\FieldDefinition\FieldDefinitionSchemaWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker;
+use EzSystems\EzPlatformGraphQL\Schema\SchemaBuilder;
 use eZ\Publish\API\Repository\Repository;
 use GraphQL\Type\Schema;
 use InvalidArgumentException;

@@ -1,7 +1,7 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\Resolver;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\Value\ContentFieldValue;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
 use eZ\Publish\Core\FieldType\ImageAsset\Value as ImageAssetValue;

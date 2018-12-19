@@ -5,48 +5,48 @@ services:
         public: false
 
     _instanceof:
-        BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker:
+        EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\BaseWorker:
             calls:
-                - [setNameHelper, ['@BD\EzPlatformGraphQLBundle\DomainContent\NameHelper']]
+                - [setNameHelper, ['@EzSystems\EzPlatformGraphQL\DomainContent\NameHelper']]
 
-        BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker:
+        EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker:
             tags:
                 - {name: 'ezplatform_graphql.domain_schema_worker'}
 
-        BD\EzPlatformGraphQLBundle\Schema\SchemaBuilder:
+        EzSystems\EzPlatformGraphQL\Schema\SchemaBuilder:
             tags:
                 - {name: 'ezplatform_graphql.schema_builder'}
 
-    BD\EzPlatformGraphQLBundle\DomainContent\DomainContentSchemaBuilder: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\DomainContentSchemaBuilder: ~
 
-    BD\EzPlatformGraphQLBundle\Schema\SchemaGenerator: ~
+    EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\RepositoryDomainGenerator:
+    EzSystems\EzPlatformGraphQL\DomainContent\RepositoryDomainGenerator:
 
-    BD\EzPlatformGraphQLBundle\DomainContent\NameHelper: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\NameHelper: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\DefineDomainContent: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentType\DefineDomainContent: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\AddDomainContentToDomainGroup: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentType\AddDomainContentToDomainGroup: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\DefineDomainGroup: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup\DefineDomainGroup: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup\AddDomainGroupToDomain: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup\AddDomainGroupToDomain: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\BaseFieldValueBuilder: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder\BaseFieldValueBuilder: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent:
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent:
         arguments:
-            $defaultFieldValueBuilder: '@BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\BaseFieldValueBuilder'
+            $defaultFieldValueBuilder: '@EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder\BaseFieldValueBuilder'
 
-    BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentType\AddContentTypeToContentTypeIdentifierList: ~
+    EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentType\AddContentTypeToContentTypeIdentifierList: ~
 
-    BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\RelationListFieldValueBuilder:
+    EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder\RelationListFieldValueBuilder:
         tags:
             - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelationlist'}
 
-    BD\EzPlatformGraphQLBundle\DomainContent\FieldValueBuilder\SelectionFieldValueBuilder:
+    EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder\SelectionFieldValueBuilder:
         tags:
             - {name: ezplatform_graphql.field_value_builder, type: 'ezselection'}
 
-    BD\EzPlatformGraphQLBundle\Schema\ImagesVariationsBuilder: ~
+    EzSystems\EzPlatformGraphQL\Schema\ImagesVariationsBuilder: ~

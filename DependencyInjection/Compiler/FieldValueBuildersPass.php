@@ -1,7 +1,7 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DependencyInjection\Compiler;
+namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\FieldDefinition\AddFieldDefinitionToDomainContent;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

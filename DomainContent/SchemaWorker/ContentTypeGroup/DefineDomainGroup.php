@@ -1,9 +1,9 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\ContentTypeGroup;
+namespace EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup;
 
-use BD\EzPlatformGraphQLBundle\DomainContent\NameHelper;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\BaseWorker;
-use BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker\SchemaWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\NameHelper;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\BaseWorker;
+use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 
 class DefineDomainGroup extends BaseWorker implements SchemaWorker

@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\TypeDefinition;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\TypeDefinition;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 

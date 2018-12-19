@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\DomainContent\SchemaWorker;
+namespace EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker;
 
 interface SchemaWorker
 {

@@ -1,5 +1,5 @@
 <?php
-namespace BD\EzPlatformGraphQLBundle\GraphQL\InputMapper;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
 use InvalidArgumentException;
