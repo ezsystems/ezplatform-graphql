@@ -29,7 +29,7 @@ Example: an eZ Platform Admin UI extension.
 Install the package and its dependencies using composer:
 
 ```
-composer require ezsustems/ezplatform-graphql
+composer require ezsystems/ezplatform-graphql
 ```
 
 Add the bundles to `app/AppKernel.php` (*pay attention to the order*, it is important):
