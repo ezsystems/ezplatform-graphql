@@ -37,7 +37,7 @@ Add the bundles to `app/AppKernel.php` (*pay attention to the order*, it is impo
 ```php
 $bundles = array(
     // ...
-    new EzSystems\EzPlatformGraphQL\BDEzPlatformGraphQLBundle(),
+    new EzSystems\EzPlatformGraphQL\EzSystemsEzPlatformGraphQLBundle(),
     new Overblog\GraphQLBundle\OverblogGraphQLBundle(),
     new AppBundle\AppBundle(),
 );
