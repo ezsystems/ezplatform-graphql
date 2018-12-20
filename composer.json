@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "EzSystems\\EzPlatformGraphQL\\": ""
+            "EzSystems\\EzPlatformGraphQL\\": "src"
         }
     },
     "extra": {
