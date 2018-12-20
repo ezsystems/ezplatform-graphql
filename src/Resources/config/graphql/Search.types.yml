@@ -9,7 +9,7 @@ ContentSearchQuery:
                 type: "[String]"
                 description: "Filter on content type id"
             Text:
-                type: "[String]"
+                type: "String"
                 description: "Filter on any text from the content item"
             Created:
                 type: "DateInput"

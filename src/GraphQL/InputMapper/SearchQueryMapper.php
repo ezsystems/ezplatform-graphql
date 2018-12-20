@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: bdunogier
+ * Date: 21/09/2018
+ * Time: 16:50
+ */
+
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -19,22 +26,19 @@ class SearchQueryMapper
         }
 
         if (isset($inputArray['Text'])) {
-            foreach ($inputArray['Text'] as $text) {
-                $criteria[] = new Query\Criterion\FullText($text);
-            }
+            $criteria[] = new Query\Criterion\FullText($inputArray['Text']);
         }
 
-        if (isset($inputArray['Field']))
-        {
+        if (isset($inputArray['Field'])) {
             $args = $inputArray['Field'];
             foreach (['in', 'eq', 'like', 'contains', 'between', 'lt', 'lte', 'gt', 'gte'] as $opString) {
                 if (isset($args[$opString])) {
                     $value = $args[$opString];
-                    $operator = constant('eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator::' . strtoupper($opString));
+                    $operator = constant(Query\Criterion\Operator::class . '::' . strtoupper($opString));
                 }
             }
 
-            if (!isset($operator)) {
+            if (!isset($operator) || !isset($value)) {
                 throw new InvalidArgumentException("Unspecified operator");
             }
 
@@ -103,7 +107,6 @@ class SearchQueryMapper
         ];
 
         if (!isset($targetMap[$dateMetadata])) {
-            echo "Not a date metadata\n";
             return [];
         }
 
@@ -116,7 +119,6 @@ class SearchQueryMapper
         $criteria = [];
         foreach ($queryArg[$dateMetadata] as $operator => $dateString) {
             if (!isset($dateOperatorsMap[$operator])) {
-                echo "Not a valid operator\n";
                 continue;
             }
 

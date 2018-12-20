@@ -1,11 +1,11 @@
 <?php
-namespace EzSystems\EzPlatformGraphQL\DomainContent\FieldValueBuilder;
+namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder;
 
-use EzSystems\EzPlatformGraphQL\DomainContent\NameHelper;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
-class ImageAssetFieldValueBuilder implements FieldValueBuilder
+class RelationListFieldValueBuilder implements FieldValueBuilder
 {
     /**
      * @var NameHelper
@@ -28,15 +28,15 @@ class ImageAssetFieldValueBuilder implements FieldValueBuilder
         $settings = $fieldDefinition->getFieldSettings();
         $constraints = $fieldDefinition->getValidatorConfiguration();
 
-        if (isset($settings['selectionContentTypes']) && count($settings['selectionContentTypes']) === 1) {
+        if (count($settings['selectionContentTypes']) === 1) {
             $contentType = $this->contentTypeService->loadContentTypeByIdentifier($settings['selectionContentTypes'][0]);
             $type = $this->nameHelper->domainContentName($contentType);
         } else {
             $type = 'DomainContent';
         }
 
-        $isMultiple = false;
-        if (isset($constraints['RelationListValueValidator']['selectionLimit']) && $constraints['RelationListValueValidator']['selectionLimit'] !== 1) {
+        $isMultiple = 'false';
+        if ($constraints['RelationListValueValidator']['selectionLimit'] !== 1) {
             $isMultiple = 'true';
             $type = "[$type]";
         }
@@ -48,5 +48,10 @@ class ImageAssetFieldValueBuilder implements FieldValueBuilder
         );
 
         return ['type' => $type, 'resolve' => $resolver];
+    }
+
+    private function mapFieldTypeIdentifierToGraphQLType($fieldTypeIdentifier)
+    {
+        return isset($this->typesMap[$fieldTypeIdentifier]) ? $this->typesMap[$fieldTypeIdentifier] : 'GenericFieldValue';
     }
 }
