@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: bdunogier
+ * Date: 21/09/2018
+ * Time: 16:50
+ */
+
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -19,9 +26,7 @@ class SearchQueryMapper
         }
 
         if (isset($inputArray['Text'])) {
-            foreach ($inputArray['Text'] as $text) {
-                $criteria[] = new Query\Criterion\FullText($text);
-            }
+            $criteria[] = new Query\Criterion\FullText($inputArray['Text']);
         }
 
         if (isset($inputArray['Field']))
@@ -107,7 +112,6 @@ class SearchQueryMapper
         ];
 
         if (!isset($targetMap[$dateMetadata])) {
-            echo "Not a date metadata\n";
             return [];
         }
 
@@ -120,7 +124,6 @@ class SearchQueryMapper
         $criteria = [];
         foreach ($queryArg[$dateMetadata] as $operator => $dateString) {
             if (!isset($dateOperatorsMap[$operator])) {
-                echo "Not a valid operator\n";
                 continue;
             }
 

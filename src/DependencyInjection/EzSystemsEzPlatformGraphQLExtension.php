@@ -16,7 +16,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
 {
-    const SCHEMA_DIR = __DIR__ . '/../../../../app/config/graphql/ezplatform';
+    const SCHEMA_DIR = __DIR__ . '/../../../../../app/config/graphql/ezplatform';
     const DOMAIN_SCHEMA_FILE = self::SCHEMA_DIR . '/Domain.types.yml';
 
     /**
@@ -28,7 +28,7 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('domain_content.yml');
+        $loader->load('schema.yml');
         $loader->load('resolvers.yml');
         $loader->load('services.yml');
     }

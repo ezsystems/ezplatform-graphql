@@ -1,7 +1,7 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\Command;
 
-use EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator;
+use EzSystems\EzPlatformGraphQL\Schema\Generator;
 use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GeneratePlatformDomainTypesCommand extends GeneratePlatformSchemaCommand
 {
-    public function __construct(Repository $repository, SchemaGenerator $generator)
+    public function __construct(Repository $repository, Generator $generator)
     {
         parent::__construct($repository, $generator);
     }

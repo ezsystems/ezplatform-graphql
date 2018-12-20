@@ -11,8 +11,6 @@ services:
         tags:
             -  { name: console.command }
 
-    EzSystems\EzPlatformGraphQL\GraphQL\TypeDefinition\ContentTypeMapper: ~
-
     bd_ezplatform_graphql.graph.mutation.section:
         class: EzSystems\EzPlatformGraphQL\GraphQL\Mutation\SectionMutation
         arguments:

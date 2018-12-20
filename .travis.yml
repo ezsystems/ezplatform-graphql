@@ -3,22 +3,17 @@ language: php
 php:
   - 7.1
 
-# test only master (+ Pull requests)
-branches:
-  only:
-    - master
-
-matrix:
-  env:
-    - TARGET="phpspec"
-
-before_script:
-  - COMPOSER_MEMORY_LIMIT=-1 composer install
-
 branches:
   only:
     - master
     - dev
+
+env:
+  matrix:
+    - TARGET="phpspec"
+
+before_script:
+  - COMPOSER_MEMORY_LIMIT=-1 composer install
 
 script:
   - if [ "$TARGET" == "phpspec" ] ; then ./vendor/bin/phpspec run --format=pretty; fi

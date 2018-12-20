@@ -25,6 +25,12 @@
             "EzSystems\\EzPlatformGraphQL\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "spec\\EzSystems\\EzPlatformGraphQL\\Tools\\": "spec/Tools",
+            "spec\\EzSystems\\EzPlatformGraphQL\\": "spec/EzSystems/EzPlatformGraphQL"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "0.4.x-dev"
