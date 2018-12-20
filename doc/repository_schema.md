@@ -19,10 +19,11 @@ Items from this schema are accessible from the `_repository` root namespace:
             identifier
             groups {
               identifier
-        }
-        fieldDefinitions {
-            identifier
-            fieldTypeIdentifier
+            }
+            fieldDefinitions {
+              identifier
+              fieldTypeIdentifier
+            }  
         }
     }
 }
