@@ -21,7 +21,7 @@ ContentSearchQuery:
                 type: "[Int]"
                 description: "Filter content based on its parent location id"
             Field:
-                type: "FieldCriterionInput"
+                type: "[FieldCriterionInput]"
                 description: "Field filter"
 
 FieldCriterionInput:
