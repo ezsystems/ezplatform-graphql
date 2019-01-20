@@ -5,13 +5,13 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
@@ -36,50 +36,65 @@ class DomainContentResolver
      */
     private $repository;
 
+    /**
+     * @var ContentLoader
+     */
+    private $contentLoader;
+
+    /**
+     * @var ContentTypeLoader
+     */
+    private $contentTypeLoader;
+
     public function __construct(
         Repository $repository,
         TypeResolver $typeResolver,
-        SearchQueryMapper $queryMapper)
+        SearchQueryMapper $queryMapper,
+        ContentLoader $contentLoader,
+        ContentTypeLoader $contentTypeLoader)
     {
         $this->repository = $repository;
         $this->typeResolver = $typeResolver;
         $this->queryMapper = $queryMapper;
+        $this->contentLoader = $contentLoader;
+        $this->contentTypeLoader = $contentTypeLoader;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
     {
-        return array_map(
-            function (Content $content) {
-                return $content->contentInfo;
-            },
-            $this->findContentItemsByTypeIdentifier($contentTypeIdentifier, $query)
-        );
+        return $this->findContentItemsByTypeIdentifier($contentTypeIdentifier, $query);
     }
 
     /**
      * Resolves a domain content item by id, and checks that it is of the requested type.
+     *
+     * @param \Overblog\GraphQLBundle\Definition\Argument $args
+     * @param $contentTypeIdentifier
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Content
      */
     public function resolveDomainContentItem(Argument $args, $contentTypeIdentifier)
     {
         if (isset($args['id'])) {
-            $contentInfo = $this->getContentService()->loadContentInfo($args['id']);
+            $criterion = new Query\Criterion\ContentId($args['id']);
         } elseif (isset($args['remoteId'])) {
-            $contentInfo = $this->getContentService()->loadContentInfoByRemoteId($args['remoteId']);
+            $criterion = new Query\Criterion\RemoteId($args['remoteId']);
         } elseif (isset($args['locationId'])) {
-            $contentInfo = $this->getLocationService()->loadLocation($args['locationId'])->contentInfo;
+            $criterion = new Query\Criterion\LocationId($args['locationId']);
         } else {
-            throw new UserError("Missing argument: id, remoteId or locationId");
+            throw new UserError("Missing required argument id, remoteId or locationId");
         }
 
+        $content = $this->contentLoader->findSingle($criterion);
 
         // @todo consider optimizing using a map of contentTypeId
-        $contentType = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
+        $contentType = $this->contentTypeLoader->load($content->contentInfo->contentTypeId);
 
         if ($contentType->identifier !== $contentTypeIdentifier) {
-            throw new UserError("Content $contentInfo->id is not of type '$contentTypeIdentifier'");
+            throw new UserError("Content {$content->contentInfo->id} is not of type '$contentTypeIdentifier'");
         }
 
-        return $contentInfo;
+        return $content;
     }
 
     /**
@@ -88,94 +103,62 @@ class DomainContentResolver
      * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
     private function findContentItemsByTypeIdentifier($contentTypeIdentifier, Argument $args): array
     {
-        $queryArg = $args['query'];
-        $queryArg['ContentTypeIdentifier'] = $contentTypeIdentifier;
+        $input = $args['query'];
+        $input['ContentTypeIdentifier'] = $contentTypeIdentifier;
         if (isset($args['sortBy'])) {
-            $queryArg['sortBy'] = $args['sortBy'];
+            $input['sortBy'] = $args['sortBy'];
         }
-        $args['query'] = $queryArg;
 
-        $query = $this->queryMapper->mapInputToQuery($args['query']);
-        $searchResults = $this->getSearchService()->findContent($query);
-
-        return array_map(
-            function (SearchHit $searchHit) {
-                return $searchHit->valueObject;
-            },
-            $searchResults->searchHits
+        return $this->contentLoader->find(
+            $this->queryMapper->mapInputToQuery($input)
         );
     }
 
-    public function resolveDomainSearch()
-    {
-        $searchResults = $this->getSearchService()->findContentInfo(new Query([]));
-
-        return array_map(
-            function (SearchHit $searchHit) {
-                return $searchHit->valueObject;
-            },
-            $searchResults->searchHits
-        );
-    }
-
-    public function resolveMainUrlAlias(ContentInfo $contentInfo)
+    public function resolveMainUrlAlias(Content $content)
     {
         $aliases = $this->repository->getURLAliasService()->listLocationAliases(
-            $this->getLocationService()->loadLocation($contentInfo->mainLocationId),
+            $this->getLocationService()->loadLocation($content->contentInfo->mainLocationId),
             false
         );
 
         return isset($aliases[0]->path) ? $aliases[0]->path : null;
     }
 
-    public function resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier)
+    public function resolveDomainFieldValue(Content $content, $fieldDefinitionIdentifier)
     {
-        $content = $this->getContentService()->loadContent($contentInfo->id);
-
-        return Field::fromField(
-            $content->getField($fieldDefinitionIdentifier),
-            [
-                'content' => $content,
-                'contentTypeId' => $contentInfo->contentTypeId,
-            ]
-        );
+        return Field::fromField($content->getField($fieldDefinitionIdentifier));
     }
 
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
     {
+        if (!$field->value instanceof FieldType\RelationList\Value) {
+            throw new UserError("$field->fieldTypeIdentifier is not a RelationList field value");
+        }
+
         if ($multiple) {
-            return array_map(
-                function ($contentId) {
-                    return $this->getContentService()->loadContentInfo($contentId);
-                },
-                $field->value->destinationContentIds
-            );
+            if (count($field->value->destinationContentIds) > 0) {
+                return $this->contentLoader->find(new Query(
+                    ['filter' => new Query\Criterion\ContentId($field->value->destinationContentIds)]
+                ));
+            } else {
+                return [];
+            }
         } else {
             return
-                isset($field->value->destinationContentIds[0])
-                ? $this->getContentService()->loadContentInfo($field->value->destinationContentIds[0])
-                : null;
+                isset($fieldValue->destinationContentIds[0])
+                    ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentIds[0]))
+                    : null;
         }
     }
 
-    public function ResolveDomainContentType(ContentInfo $contentInfo)
+    public function ResolveDomainContentType(Content $content)
     {
-        static $contentTypesMap = [], $contentTypesLoadErrors = [];
-
-        if (!isset($contentTypesMap[$contentInfo->contentTypeId])) {
-            try {
-                $contentTypesMap[$contentInfo->contentTypeId] = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
-            } catch (\Exception $e) {
-                $contentTypesLoadErrors[$contentInfo->contentTypeId] = $e;
-                throw $e;
-            }
-        }
-
-        return $this->makeDomainContentTypeName($contentTypesMap[$contentInfo->contentTypeId]);
+        return $this->makeDomainContentTypeName(
+            $this->contentTypeLoader->loadByIdentifier($content->contentInfo->contentTypeId)
+        );
     }
 
     private function makeDomainContentTypeName(ContentType $contentType)
@@ -185,40 +168,11 @@ class DomainContentResolver
         return $converter->denormalize($contentType->identifier) . 'Content';
     }
 
-    public function resolveContentName(ContentInfo $contentInfo)
-    {
-        return $this->repository->getContentService()->loadContentByContentInfo($contentInfo)->getName();
-    }
-
-    /**
-     * @return \eZ\Publish\API\Repository\ContentService
-     */
-    private function getContentService()
-    {
-        return $this->repository->getContentService();
-    }
-
     /**
      * @return \eZ\Publish\API\Repository\LocationService
      */
     private function getLocationService()
     {
         return $this->repository->getLocationService();
-    }
-
-    /**
-     * @return \eZ\Publish\API\Repository\ContentTypeService
-     */
-    private function getContentTypeService()
-    {
-        return $this->repository->getContentTypeService();
-    }
-
-    /**
-     * @return \eZ\Publish\API\Repository\SearchService
-     */
-    private function getSearchService()
-    {
-        return $this->repository->getSearchService();
     }
 }

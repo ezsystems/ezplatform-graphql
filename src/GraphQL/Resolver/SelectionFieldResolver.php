@@ -1,10 +1,11 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 
 class SelectionFieldResolver
 {
@@ -14,23 +15,25 @@ class SelectionFieldResolver
     private $domainContentResolver;
 
     /**
-     * @var ContentTypeService
+     * @var ContentTypeLoader
      */
-    private $contentTypeService;
+    private $contentTypeLoader;
 
-    public function __construct(ContentTypeService $contentTypeService, DomainContentResolver $domainContentResolver)
-    {
-        $this->contentTypeService = $contentTypeService;
+    public function __construct(
+        ContentTypeLoader $contentTypeLoader,
+        DomainContentResolver $domainContentResolver
+    ) {
+        $this->contentTypeLoader = $contentTypeLoader;
         $this->domainContentResolver = $domainContentResolver;
     }
 
-    public function resolveSelectionFieldValue(Field $field, ContentInfo $contentInfo)
+    public function resolveSelectionFieldValue(Field $field, Content $content)
     {
         $fieldDefinition = $this
-            ->contentTypeService->loadContentType($contentInfo->contentTypeId)
+            ->contentTypeLoader->load($content->contentInfo->contentTypeId)
             ->getFieldDefinition($field->fieldDefIdentifier);
 
-        $options = $this->getOptions($field, $fieldDefinition, $contentInfo);
+        $options = $this->getOptions($content, $field, $fieldDefinition);
 
         if ($fieldDefinition->getFieldSettings()['isMultiple']) {
             $return = [];
@@ -48,22 +51,22 @@ class SelectionFieldResolver
     /**
      * Returns the options set based on the language.
      *
-     * @param Field $field
+     * @param \eZ\Publish\API\Repository\Values\Content\Content $content
+     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\Field $field
      * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      *
      * @return array
      */
-    private function getOptions(Field $field, FieldDefinition $fieldDefinition, ContentInfo $contentInfo)
+    private function getOptions(Content $content, Field $field, FieldDefinition $fieldDefinition)
     {
         $fieldSettings = $fieldDefinition->getFieldSettings();
 
         if (isset($fieldSettings['multilingualOptions'])) {
             $multilingualOptions = $fieldSettings['multilingualOptions'];
-            $fieldLanguageCode = $field->languageCode;
-            $mainLanguageCode = $contentInfo->mainLanguageCode;
+            $mainLanguageCode = $content->contentInfo->mainLanguageCode;
 
-            if (isset($multilingualOptions[$fieldLanguageCode])) {
-                return $multilingualOptions[$fieldLanguageCode];
+            if (isset($multilingualOptions[$field->languageCode])) {
+                return $multilingualOptions[$field->languageCode];
             } elseif (isset($multilingualOptions[$mainLanguageCode])) {
                 return $multilingualOptions[$mainLanguageCode];
             }

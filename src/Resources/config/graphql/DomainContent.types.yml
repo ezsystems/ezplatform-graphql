@@ -42,28 +42,28 @@ AbstractDomainContent:
             _type:
                 description: "The item's Content type"
                 type: ContentType
-                resolve: '@=resolver("ContentTypeById", [value.contentTypeId])'
+                resolve: '@=resolver("ContentTypeById", [value.contentInfo.contentTypeId])'
             _content:
                 description: 'Underlying content info item'
                 type: Content
-                resolve: '@=value'
+                resolve: '@=value.contentInfo'
                 deprecationReason: "Renamed to _info"
             _info:
                 description: 'Underlying content info item'
                 type: Content
-                resolve: '@=value'
+                resolve: '@=value.contentInfo'
             _location:
                 description: 'Main location'
                 type: Location
-                resolve: '@=resolver("LocationById", [value.mainLocationId])'
+                resolve: '@=resolver("LocationById", [value.contentInfo.mainLocationId])'
             _allLocations:
                 description: 'All the locations'
                 type: '[Location]'
-                resolve: '@=resolver("LocationsByContentId", [value.id])'
+                resolve: '@=resolver("LocationsByContentId", [value.contentInfo.id])'
             _name:
                 description: "The content item's name, in the prioritized language(s), based on the object name pattern"
                 type: String
-                resolve: "@=resolver('ContentName', [value])"
+                resolve: "@=value.getName()"
             _url:
                 description: "The content item's url alias, based on the main location."
                 type: String

@@ -6,8 +6,10 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\ContentService;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\SPI\Variation\VariationHandler;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use Overblog\GraphQLBundle\Error\UserError;
 use eZ\Publish\Core\FieldType\Image\Value as ImageFieldValue;
 
@@ -30,10 +32,15 @@ class ImageFieldResolver
      * @var FieldType\Image\Type
      */
     private $fieldType;
+    /**
+     * @var ContentLoader
+     */
+    private $contentLoader;
 
     public function __construct(
         FieldType\Image\Type $imageFieldType,
         VariationHandler $variationHandler,
+        ContentLoader $contentLoader,
         ContentService $contentService,
         array $variations
     )
@@ -42,6 +49,7 @@ class ImageFieldResolver
         $this->contentService = $contentService;
         $this->variations = $variations;
         $this->fieldType = $imageFieldType;
+        $this->contentLoader = $contentLoader;
     }
 
     public function resolveImageVariations(ImageFieldValue $fieldValue, $args)
@@ -79,9 +87,9 @@ class ImageFieldResolver
      */
     protected function getImageField(ImageFieldValue $fieldValue): array
     {
-        list($contentId, $fieldId, $versionNumber) = $this->decomposeImageId($fieldValue);
+        list($contentId, $fieldId) = $this->decomposeImageId($fieldValue);
 
-        $content = $this->contentService->loadContent($contentId, [], $versionNumber);
+        $content = $this->contentLoader->findSingle(new Criterion\ContentId($contentId));
 
         $fieldFound = false;
         /** @var $field \eZ\Publish\API\Repository\Values\Content\Field */
