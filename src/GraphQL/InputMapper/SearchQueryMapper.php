@@ -13,6 +13,13 @@ use InvalidArgumentException;
 
 class SearchQueryMapper
 {
+    private $criteriaMappers;
+
+    public function __construct($criteriaMappers)
+    {
+        $this->criteriaMappers = $criteriaMappers;
+    }
+
     /**
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
@@ -21,6 +28,11 @@ class SearchQueryMapper
         $query = new Query();
         $criteria = [];
 
+        foreach ($inputArray as $key => $value) {
+            $criteria[] = $this->criteriaMappers[$key]->resolve($value);
+        }
+
+        /**
         if (isset($inputArray['ContentTypeIdentifier'])) {
             $criteria[] = new Query\Criterion\ContentTypeIdentifier($inputArray['ContentTypeIdentifier']);
         }
@@ -52,11 +64,13 @@ class SearchQueryMapper
 
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Modified'));
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Created'));
+        */
 
+        /*
         if (isset($inputArray['sortBy'])) {
             $query->sortClauses = array_map(
                 function ($sortClauseClass) {
-                    /** @var Query\SortClause $lastSortClause */
+
                     static $lastSortClause;
 
                     if ($sortClauseClass === Query::SORT_DESC) {
@@ -83,7 +97,7 @@ class SearchQueryMapper
             // remove null entries left out because of sort direction
             $query->sortClauses = array_filter($query->sortClauses);
         }
-
+        */
         if (count($criteria) === 0) {
             return $query;
         }
