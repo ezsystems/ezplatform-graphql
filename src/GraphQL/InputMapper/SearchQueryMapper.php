@@ -28,8 +28,10 @@ class SearchQueryMapper
         $query = new Query();
         $criteria = [];
 
-        foreach ($inputArray as $key => $value) {
-            $criteria = array_merge($criteria, $this->criteriaMappers[$key]->resolve($value));
+        foreach ($inputArray as $inputField => $inputValue) {
+            if ($this->existsCriteriaMapperForField($inputField)) {
+                $criteria = array_merge($criteria, $this->criteriaMappers[$inputValue]->map($value));
+            }
         }
 
         if (isset($inputArray['Text'])) {
@@ -104,5 +106,13 @@ class SearchQueryMapper
         return $query;
     }
 
+    /**
+     * @param string $inputField
+     * @return bool
+     */
+    private function existsCriteriaMapperForField(string $inputField) : bool
+    {
+        return isset($this->criteriaMappers[$inputField]);
+    }
 
 }
