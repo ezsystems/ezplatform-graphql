@@ -9,7 +9,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 //@todo remove it, not needed anymore
 class ContentTypeIdentifier implements SearchCriterion
 {
-    public function resolve($value): array
+    public function map($value): array
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException($value, 'value needs to be an string');
