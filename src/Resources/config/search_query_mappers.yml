@@ -2,3 +2,23 @@ services:
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeIdentifier:
         tags:
             - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'ContentTypeIdentifier'}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeId:
+        tags:
+            - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'ContentTypeId'}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Text:
+      tags:
+        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Text'}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Created:
+      tags:
+        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Created'}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Modified:
+      tags:
+        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Modified'}
+
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Field:
+      tags:
+        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Field'}

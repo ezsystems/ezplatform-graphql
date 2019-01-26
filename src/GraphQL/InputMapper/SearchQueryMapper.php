@@ -29,12 +29,7 @@ class SearchQueryMapper
         $criteria = [];
 
         foreach ($inputArray as $key => $value) {
-            $criteria[] = $this->criteriaMappers[$key]->resolve($value);
-        }
-
-        /**
-        if (isset($inputArray['ContentTypeIdentifier'])) {
-            $criteria[] = new Query\Criterion\ContentTypeIdentifier($inputArray['ContentTypeIdentifier']);
+            $criteria = array_merge($criteria, $this->criteriaMappers[$key]->resolve($value));
         }
 
         if (isset($inputArray['Text'])) {
@@ -109,61 +104,5 @@ class SearchQueryMapper
         return $query;
     }
 
-    /**
-     * @param array $queryArg
-     * @param $dateMetadata
-     * @return \eZ\Publish\API\Repository\Values\Content\Query\Criterion\DateMetadata[]
-     */
-    private function mapDateMetadata(array $queryArg = [], $dateMetadata)
-    {
-        if (!isset($queryArg[$dateMetadata]) || !is_array($queryArg[$dateMetadata])) {
-            return [];
-        }
 
-        $targetMap = [
-            'Created' => Query\Criterion\DateMetadata::CREATED,
-            'Modified' => Query\Criterion\DateMetadata::MODIFIED,
-        ];
-
-        if (!isset($targetMap[$dateMetadata])) {
-            return [];
-        }
-
-        $dateOperatorsMap = [
-            'on' => Query\Criterion\Operator::EQ,
-            'before' => Query\Criterion\Operator::LTE,
-            'after' => Query\Criterion\Operator::GTE,
-        ];
-
-        $criteria = [];
-        foreach ($queryArg[$dateMetadata] as $operator => $dateString) {
-            if (!isset($dateOperatorsMap[$operator])) {
-                continue;
-            }
-
-            $criteria[] = new Query\Criterion\DateMetadata(
-                $targetMap[$dateMetadata],
-                $dateOperatorsMap[$operator],
-                strtotime($dateString)
-            );
-        }
-
-        return $criteria;
-    }
-
-    private function mapInputToFieldCriterion($input)
-    {
-        $operators = ['in', 'eq', 'like', 'contains', 'between', 'lt', 'lte', 'gt', 'gte'];
-        foreach ($operators as $opString) {
-            if (isset($input[$opString])) {
-                $value = $input[$opString];
-                $operator = constant('eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator::' . strtoupper($opString));
-            }
-        }
-
-        if (!isset($operator)) {
-            throw new InvalidArgumentException("Unspecified operator");
-        }
-
-        return new Query\Criterion\Field($input['target'], $operator, $value);    }
 }
