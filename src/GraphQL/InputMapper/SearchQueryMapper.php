@@ -29,72 +29,18 @@ class SearchQueryMapper
         $criteria = [];
 
         foreach ($inputArray as $inputField => $inputValue) {
-            if ($this->existsCriteriaMapperForField($inputField)) {
-                $criteria = array_merge($criteria, $this->criteriaMappers[$inputValue]->map($value));
+            if ($criteriaMapper = $this->existsCriteriaMapperForField($inputField)) {
+                $criteria = array_merge($criteria, $this->criteriaMappers[$inputField]->map($inputValue));
+            }
+
+            if ($inputField == 'sortBy') {
+                $query->sortClauses = $this->mapSortByPart($inputValue);
+
+                // remove null entries left out because of sort direction
+                $query->sortClauses = array_filter($query->sortClauses);
             }
         }
 
-        if (isset($inputArray['Text'])) {
-            $criteria[] = new Query\Criterion\FullText($inputArray['Text']);
-        }
-
-        if (isset($inputArray['Field']))
-        {
-            if (isset($inputArray['Field']['target'])) {
-                $criteria[] = $this->mapInputToFieldCriterion($inputArray['Field']);
-            } else {
-                $criteria = array_merge(
-                    $criteria,
-                    array_map(
-                        function($input) {
-                            return $this->mapInputToFieldCriterion($input);
-                        },
-                        $inputArray['Field']
-                    )
-                );
-            }
-        }
-
-        if (isset($inputArray['ParentLocationId'])) {
-            $criteria[] = new Query\Criterion\ParentLocationId($inputArray['ParentLocationId']);
-        }
-
-        $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Modified'));
-        $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Created'));
-        */
-
-        /*
-        if (isset($inputArray['sortBy'])) {
-            $query->sortClauses = array_map(
-                function ($sortClauseClass) {
-
-                    static $lastSortClause;
-
-                    if ($sortClauseClass === Query::SORT_DESC) {
-                        if (!$lastSortClause instanceof Query\SortClause) {
-                            return null;
-                        }
-
-                        $lastSortClause->direction = $sortClauseClass;
-                        return null;
-                    }
-
-                    if (!class_exists($sortClauseClass)) {
-                        return null;
-                    }
-
-                    if (!in_array(Query\SortClause::class, class_parents($sortClauseClass))) {
-                        return null;
-                    }
-
-                    return $lastSortClause = new $sortClauseClass;
-                },
-                $inputArray['sortBy']
-            );
-            // remove null entries left out because of sort direction
-            $query->sortClauses = array_filter($query->sortClauses);
-        }
-        */
         if (count($criteria) === 0) {
             return $query;
         }
@@ -113,6 +59,39 @@ class SearchQueryMapper
     private function existsCriteriaMapperForField(string $inputField) : bool
     {
         return isset($this->criteriaMappers[$inputField]);
+    }
+
+    /**
+     * @param $inputValue
+     * @return array
+     */
+    private function mapSortByPart($inputValue) {
+        return array_map(
+            function ($sortClauseClass) {
+
+                static $lastSortClause;
+
+                if ($sortClauseClass === Query::SORT_DESC) {
+                    if (!$lastSortClause instanceof Query\SortClause) {
+                        return null;
+                    }
+
+                    $lastSortClause->direction = $sortClauseClass;
+                    return null;
+                }
+
+                if (!class_exists($sortClauseClass)) {
+                    return null;
+                }
+
+                if (!in_array(Query\SortClause::class, class_parents($sortClauseClass))) {
+                    return null;
+                }
+
+                return $lastSortClause = new $sortClauseClass;
+            },
+            $inputValue
+        );
     }
 
 }
