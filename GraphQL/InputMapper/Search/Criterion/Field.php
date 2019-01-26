@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 
 class Field implements SearchCriterion
 {
-    public function resolve($value): array
+    public function map($value): array
     {
         $criteria = [];
 

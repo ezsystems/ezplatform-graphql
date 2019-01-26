@@ -8,7 +8,7 @@ use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 
 class ContentTypeId implements SearchCriterion
 {
-    public function resolve($value): array
+    public function map($value): array
     {
         return [new Query\Criterion\ContentTypeId($value)];
     }

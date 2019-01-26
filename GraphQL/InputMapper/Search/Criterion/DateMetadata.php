@@ -6,7 +6,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 
 class DateMetadata implements SearchCriterion
 {
-    public function resolve($value): array
+    public function map($value): array
     {
         $dateOperatorsMap = [
             'on' => Query\Criterion\Operator::EQ,

@@ -7,7 +7,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 
 class Text implements SearchCriterion
 {
-    public function resolve($value): array
+    public function map($value): array
     {
         $criteria = [];
 
