@@ -6,5 +6,5 @@ use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
 
 interface SearchCriterion
 {
-    public function resolve($value) : CriterionInterface;
+    public function resolve($value) : array;
 }
