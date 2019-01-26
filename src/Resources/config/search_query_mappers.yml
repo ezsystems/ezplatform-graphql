@@ -1,0 +1,4 @@
+services:
+    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeIdentifier:
+        tags:
+            - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'ContentTypeIdentifier'}
