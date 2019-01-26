@@ -15,6 +15,7 @@ class EzSystemsEzPlatformGraphQLBundle extends Bundle
         $container->addCompilerPass(new Compiler\FieldValueTypesPass());
         $container->addCompilerPass(new Compiler\FieldValueBuildersPass());
         $container->addCompilerPass(new Compiler\SchemaWorkersPass());
-        $container->addCompilerPass(new Compiler\SchemaDomainIteratorsPass());
+        $container->addCompilerPass(new Compiler\SchemaBuildersPass());
+        $container->addCompilerPass(new Compiler\SearchQueryMappersPass());
     }
 }
