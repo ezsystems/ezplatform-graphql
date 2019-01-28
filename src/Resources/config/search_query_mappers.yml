@@ -1,24 +1,24 @@
 services:
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeIdentifier:
         tags:
-            - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'ContentTypeIdentifier'}
+            - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'ContentTypeIdentifier'}
 
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeId:
         tags:
-            - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'ContentTypeId'}
+            - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'ContentTypeId'}
 
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Text:
       tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Text'}
+        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Text'}
 
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Created:
       tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Created'}
+        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Created'}
 
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Modified:
       tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Modified'}
+        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Modified'}
 
     BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Field:
       tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', criteria: 'Field'}
+        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Field'}

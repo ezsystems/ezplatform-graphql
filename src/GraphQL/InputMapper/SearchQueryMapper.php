@@ -23,7 +23,7 @@ class SearchQueryMapper
     /**
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
-    public function mapInputToQuery(array $inputArray)
+    public function mapInputToQuery(array $inputArray) : Query
     {
         $query = new Query();
         $criteria = [];
@@ -65,7 +65,8 @@ class SearchQueryMapper
      * @param $inputValue
      * @return array
      */
-    private function mapSortByPart($inputValue) {
+    private function mapSortByPart($inputValue) : array
+    {
         return array_map(
             function ($sortClauseClass) {
 

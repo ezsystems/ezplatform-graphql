@@ -23,8 +23,8 @@ class SearchQueryMappersPass implements CompilerPassInterface
         $criteriaMappers = [];
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {
-                if (isset($tag['criteria'])) {
-                    $criteriaMappers[$tag['criteria']] = new Reference($id);
+                if (isset($tag['inputKey'])) {
+                    $criteriaMappers[$tag['inputKey']] = new Reference($id);
                 }
             }
         }
