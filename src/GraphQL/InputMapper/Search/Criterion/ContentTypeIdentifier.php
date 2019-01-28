@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion;
 
 use eZ\Publish\API\Repository\Values\Content;
 use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;

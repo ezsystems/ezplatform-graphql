@@ -1,6 +1,6 @@
 <?php
 
-namespace BD\EzPlatformGraphQLBundle\DependencyInjection\Compiler;
+namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
 use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
