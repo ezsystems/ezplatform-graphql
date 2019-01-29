@@ -1,24 +1,32 @@
 services:
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeIdentifier:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\ContentTypeIdentifier:
         tags:
-            - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'ContentTypeIdentifier'}
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ContentTypeIdentifier'}
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\ContentTypeId:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\ContentTypeId:
         tags:
-            - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'ContentTypeId'}
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ContentTypeId'}
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Text:
-      tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Text'}
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Text:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Text'}
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Created:
-      tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Created'}
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Created:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Created'}
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Modified:
-      tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Modified'}
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Modified:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Modified'}
 
-    BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\Search\Criterion\Field:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Field:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Field'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\ParentLocationId:
       tags:
-        - {name: 'ezplatform_graphql.search_query_mapper', inputKey: 'Field'}
+        - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ParentLocationId'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortBy:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'SortBy'}

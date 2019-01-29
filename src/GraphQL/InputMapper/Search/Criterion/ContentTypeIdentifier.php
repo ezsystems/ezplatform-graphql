@@ -2,19 +2,15 @@
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion;
 
-use eZ\Publish\API\Repository\Values\Content;
-use eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\API\Repository\Values\Content\Query;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;
 
 //@todo remove it, not needed anymore
-class ContentTypeIdentifier implements SearchCriterion
+class ContentTypeIdentifier implements QueryInputVisitor
 {
-    public function map($value): array
+    public function visit(QueryBuilder $queryBuilder, $value): void
     {
-        if (!is_string($value)) {
-            throw new InvalidArgumentException($value, 'value needs to be an string');
-        }
-
-        return [new Content\Query\Criterion\ContentTypeIdentifier($value)];
+        $queryBuilder->addCriterion(new Query\Criterion\ContentTypeIdentifier($value));
     }
 }

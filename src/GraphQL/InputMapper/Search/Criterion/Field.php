@@ -3,10 +3,12 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;
 
-class Field implements SearchCriterion
+class Field implements QueryInputVisitor
 {
-    public function map($value): array
+    public function visit(QueryBuilder $queryBuilder, $value): void
     {
         $criteria = [];
 
@@ -24,7 +26,9 @@ class Field implements SearchCriterion
             );
         }
 
-        return $criteria;
+        foreach ($criteria as $criterion) {
+            $queryBuilder->addCriterion($criterion);
+        }
     }
 
     private function mapInputToFieldCriterion($input)

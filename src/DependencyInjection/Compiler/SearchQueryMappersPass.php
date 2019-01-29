@@ -2,14 +2,14 @@
 
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
-use BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class SearchQueryMappersPass implements CompilerPassInterface
 {
-    const ID = 'BD\EzPlatformGraphQLBundle\GraphQL\InputMapper\SearchQueryMapper';
+    const ID = 'EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper';
 
     public function process(ContainerBuilder $container)
     {
@@ -18,17 +18,17 @@ class SearchQueryMappersPass implements CompilerPassInterface
         }
 
         $definition = $container->findDefinition(SearchQueryMapper::class);
-        $taggedServices = $container->findTaggedServiceIds('ezplatform_graphql.search_query_mapper');
+        $taggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_visitor');
 
-        $criteriaMappers = [];
+        $queryInputVisitors = [];
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {
                 if (isset($tag['inputKey'])) {
-                    $criteriaMappers[$tag['inputKey']] = new Reference($id);
+                    $queryInputVisitors[$tag['inputKey']] = new Reference($id);
                 }
             }
         }
 
-        $definition->setArgument('$criteriaMappers', $criteriaMappers);
+        $definition->setArgument('$queryInputVisitors', $queryInputVisitors);
     }
 }

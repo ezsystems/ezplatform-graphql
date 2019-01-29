@@ -19,4 +19,8 @@ services:
             - { name: "overblog_graphql.mutation", alias: "CreateSection", method: "createSection" }
             - { name: "overblog_graphql.mutation", alias: "DeleteSection", method: "deleteSection" }
 
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper:
+        arguments:
+            $queryBuilder: '@EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder'
