@@ -12,3 +12,5 @@
   Dedicated ContentType objects would be instances of their ContentType, and provide
   direct access to their fields.
   `ArticleContent` would have `title`, `intro`, `body` and `image` fields.
+- Fix lists by adding the `edges {cursor node}` structure specified by Relay
+  https://facebook.github.io/relay/graphql/connections.htm

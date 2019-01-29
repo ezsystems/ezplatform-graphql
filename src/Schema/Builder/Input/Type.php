@@ -14,4 +14,5 @@ class Type extends Input
     public $type;
     public $inherits = [];
     public $interfaces = [];
+    public $nodeType;
 }

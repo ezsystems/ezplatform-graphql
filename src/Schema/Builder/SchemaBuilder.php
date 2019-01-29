@@ -30,6 +30,9 @@ class SchemaBuilder implements SchemaBuilderInterface
                 [$typeInput->interfaces];
         }
 
+        if (isset($typeInput->nodeType)) {
+            $type['config']['nodeType'] = $typeInput->nodeType;
+        }
         $this->schema[$typeInput->name] = $type;
     }
 
@@ -49,6 +52,9 @@ class SchemaBuilder implements SchemaBuilderInterface
         }
         if (isset($fieldInput->resolve)) {
             $field['resolve'] = $fieldInput->resolve;
+        }
+        if (isset($fieldInput->argsBuilder)) {
+            $field['argsBuilder'] = $fieldInput->argsBuilder;
         }
 
         $this->schema[$type]['config']['fields'][$fieldInput->name] = $field;

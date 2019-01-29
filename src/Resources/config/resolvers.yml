@@ -92,6 +92,7 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SearchResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "SearchContent", method: "searchContent" }
+            - { name: overblog_graphql.resolver, alias: "SearchContentOfTypeAsConnection", method: "searchContentOfTypeAsConnection" }
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
 
@@ -124,3 +125,12 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SelectionFieldResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "SelectionFieldValue", method: "resolveSelectionFieldValue"}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Relay\NodeResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "node", method: "resolveNode" }
+            - { name: overblog_graphql.resolver, alias: "node_type", method: "resolveType" }
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Relay\SearchResolver:
+        tags:
+            - {name: overblog_graphql.resolver, alias: "SearchContentConnection", method: "searchContent"}

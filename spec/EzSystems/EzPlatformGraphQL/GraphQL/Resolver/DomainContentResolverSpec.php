@@ -2,6 +2,7 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentResolver;
 use eZ\Publish\API\Repository\Repository;

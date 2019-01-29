@@ -16,7 +16,7 @@ class DefineDomainContent extends BaseWorker implements Worker, GroupProvider
             $this->typeName($args), 'object',
             [
                 'inherits' => 'AbstractDomainContent',
-                'interfaces' => 'DomainContent'
+                'interfaces' => ['DomainContent', 'Node']
             ]
         ));
     }

@@ -1,23 +1,20 @@
 # eZ Platform GraphQL Bundle
 
-This Symfony bundle adds a GraphQL server to eZ Platform, the Open Source CMS. It exposes two endpoints.
+This Symfony bundle adds a GraphQL server to eZ Platform, the Open Source CMS.
 
-## The domain schema: `/graphql`
+## The schema: `/graphql`
 `https://<host>/graphql`
 
-A graph of the repository's domain. It exposes the domain modelled using the repository,
+It first and foremost exposes the domain modelled using the repository,
 based on  content types groups, content types and fields definitions. Use it to implement
 apps or sites dedicated to a given repository structure.
 
 Example: an eZ Platform site.
 
-**Warning: this feature requires extra configuration steps. See the [Domain Schema documentation](doc/domain_schema.md).**
+**Warning: this feature requires specific setup steps. See the [Domain Schema documentation](doc/domain_schema.md).**
 
-## The repository schema: `/graphql/repository`
-`https://<host>/graphql/repository`
-
-A graph of the repository's Public API. It exposes value objects from the repository:
-content, location, field, url alias...
+In addition to the schema based on the content model, the repository's Public API is also available under `_repository`.
+It exposes content, location, field, url alias...
 It is recommended for admin like applications, not limited to a particular repository.
 
 Example: an eZ Platform Admin UI extension.

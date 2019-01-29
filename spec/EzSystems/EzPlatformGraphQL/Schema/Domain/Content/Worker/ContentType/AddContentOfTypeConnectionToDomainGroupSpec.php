@@ -4,6 +4,7 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentT
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddContentOfTypeConnectionToDomainGroup;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddDomainContentCollectionToDomainGroup;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeGroupArgument;
@@ -12,10 +13,10 @@ use spec\EzSystems\EzPlatformGraphQL\Tools\FieldArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\TypeArgument;
 use Prophecy\Argument;
 
-class AddDomainContentCollectionToDomainGroupSpec extends ContentTypeWorkerBehavior
+class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehavior
 {
     const GROUP_TYPE = 'DomainGroupTestGroup';
-    const TYPE_TYPE = 'TestTypeContent';
+    const TYPE_TYPE = 'TestTypeContentConnection';
     const COLLECTION_FIELD = 'testTypes';
 
     function let(NameHelper $nameHelper)
@@ -31,13 +32,13 @@ class AddDomainContentCollectionToDomainGroupSpec extends ContentTypeWorkerBehav
             ->willReturn(self::COLLECTION_FIELD);
 
         $nameHelper
-            ->domainContentName(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
+            ->domainContentConnection(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
             ->willReturn(self::TYPE_TYPE);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AddDomainContentCollectionToDomainGroup::class);
+        $this->shouldHaveType(AddContentOfTypeConnectionToDomainGroup::class);
     }
 
     function it_can_not_work_if_args_do_not_include_a_ContentTypeGroup(SchemaBuilder $schema)
@@ -65,9 +66,9 @@ class AddDomainContentCollectionToDomainGroupSpec extends ContentTypeWorkerBehav
                 self::GROUP_TYPE,
                 Argument::allOf(
                     FieldArgument::hasName(self::COLLECTION_FIELD),
-                    FieldArgument::hasType('[' . self::TYPE_TYPE . ']'),
+                    FieldArgument::hasType(self::TYPE_TYPE),
                     FieldArgument::hasDescription(self::TYPE_DESCRIPTION),
-                    FieldArgument::withResolver('DomainContentItemsByTypeIdentifier')
+                    FieldArgument::withResolver('SearchContentOfTypeAsConnection')
                 )
             )
             ->shouldBeCalled();

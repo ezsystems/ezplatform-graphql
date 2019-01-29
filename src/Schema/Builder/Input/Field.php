@@ -14,4 +14,5 @@ class Field extends Input
     public $description;
     public $type;
     public $resolve;
+    public $argsBuilder;
 }

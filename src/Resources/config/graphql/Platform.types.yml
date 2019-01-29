@@ -6,3 +6,8 @@ Platform:
                 type: Repository
                 resolve: { }
                 description: "eZ Platform repository API"
+            node:
+                builder: Relay::Node
+                builderConfig:
+                    nodeInterfaceType: Node
+                    idFetcher: '@=resolver("node", [value])'

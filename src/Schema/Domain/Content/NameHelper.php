@@ -28,6 +28,11 @@ class NameHelper
         return ucfirst($this->toCamelCase($contentType->identifier)) . 'Content';
     }
 
+    public function domainContentConnection($contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentConnection';
+    }
+
     public function domainContentTypeName(ContentType $contentType)
     {
         return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentType';

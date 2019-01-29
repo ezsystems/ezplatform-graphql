@@ -23,6 +23,8 @@ ContentSearchQuery:
             Field:
                 type: "[FieldCriterionInput]"
                 description: "Field filter"
+            SortBy:
+                type: "SortByOptions"
 
 FieldCriterionInput:
      type: "input-object"

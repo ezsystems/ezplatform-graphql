@@ -1,12 +1,13 @@
 Content:
     type: object
     config:
+        interfaces: [Node]
         description: "An eZ Platform repository ContentInfo."
         fields:
             id:
-                type: "Int!"
+                type: "ID!"
+                builder: Relay::GlobalId
                 description: "The Content item's unique ID."
-                resolve:
             contentTypeId:
                 type: "Int!"
                 description: "The Content Type ID of the Content item."
@@ -97,6 +98,7 @@ Content:
                 type: "[ContentRelation]"
                 description: "Relations to this Content"
                 resolve: "@=resolver('ContentReverseRelations', [value])"
+
 ContentRelation:
     type: "object"
     config:

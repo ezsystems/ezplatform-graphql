@@ -36,6 +36,8 @@ AbstractDomainContent:
             id:
                 type: "ID!"
                 builder: Relay::GlobalId
+                builderConfig:
+                    typeName: DomainContent
                 description: "The Content item's unique ID."
             _type:
                 description: "The item's Content type"
@@ -95,3 +97,14 @@ BaseDomainContentType:
             _info:
                 type: ContentType
                 resolve: "@=value"
+
+DomainContentByIdentifierConnection:
+    type: relay-connection
+    config:
+        connectionFields:
+            sliceSize:
+                type: Int!
+            orderBy:
+                # @todo make an enum or object
+                # @todo generate
+                type: String

@@ -68,10 +68,10 @@ Repository:
                     groupIdentifier:
                         type: "String"
                 resolve: "@=resolver('ContentTypesFromGroup', [args])"
-
             searchContent:
                 type: "[Content]"
                 args:
                     query:
                         type: "ContentSearchQuery!"
                 resolve: "@=resolver('SearchContent', [args])"
+

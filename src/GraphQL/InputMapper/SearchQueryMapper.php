@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bdunogier
- * Date: 21/09/2018
- * Time: 16:50
- */
-
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -14,11 +7,18 @@ use InvalidArgumentException;
 class SearchQueryMapper
 {
     /**
+     * @param array $inputArray
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
     public function mapInputToQuery(array $inputArray)
     {
         $query = new Query();
+        if (isset($inputArray['offset'])) {
+            $query->offset = $inputArray['offset'];
+        }
+        if (isset($inputArray['limit'])) {
+            $query->limit = $inputArray['limit'];
+        }
         $criteria = [];
 
         if (isset($inputArray['ContentTypeIdentifier'])) {
