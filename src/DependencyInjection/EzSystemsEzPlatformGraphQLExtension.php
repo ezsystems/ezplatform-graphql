@@ -16,8 +16,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
 {
-    const SCHEMA_DIR = __DIR__ . '/../../../../../app/config/graphql/ezplatform';
+    const GRAPHQL_CONFIG_DIR = __DIR__ . '/../../../../../app/config/graphql';
+    const SCHEMA_DIR = self::GRAPHQL_CONFIG_DIR . '/ezplatform';
     const DOMAIN_SCHEMA_FILE = self::SCHEMA_DIR . '/Domain.types.yml';
+    const APP_QUERY_SCHEMA = self::GRAPHQL_CONFIG_DIR . '/Query.types.yml';
+    const APP_MUTATION_SCHEMA = self::GRAPHQL_CONFIG_DIR . '/Mutation.types.yml';
 
     /**
      * {@inheritdoc}
@@ -38,18 +41,21 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
      */
     public function prepend(ContainerBuilder $container)
     {
-        
         $container->prependExtensionConfig('overblog_graphql', $this->getGraphQLConfig());
     }
 
     private function getGraphQLConfig()
     {
-        $schemaFilePath = self::DOMAIN_SCHEMA_FILE;
-
-        if (!file_exists($schemaFilePath)) {
-            $schema['platform'] = ['query' => 'Platform'];
-        } else {
+        if (file_exists(self::APP_QUERY_SCHEMA)) {
+            $schema['platform'] = ['query' => 'Query'];
+        } else if (file_exists(self::DOMAIN_SCHEMA_FILE)) {
             $schema['platform'] = ['query' => 'Domain'];
+        } else {
+            $schema['platform'] = ['query' => 'Platform'];
+        }
+
+        if (file_exists(self::APP_MUTATION_SCHEMA)) {
+            $schema['platform']['mutation'] = 'Mutation';
         }
 
         // Deprecated, use the default schema with the '_repository field instead.
