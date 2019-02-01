@@ -16,7 +16,6 @@ class DateMetadata implements QueryInputVisitor
             'after' => Query\Criterion\Operator::GTE,
         ];
 
-        $criteria = [];
         foreach ($value as $operator => $dateString) {
             if (!isset($dateOperatorsMap[$operator])) {
                 echo "Not a valid operator\n";
