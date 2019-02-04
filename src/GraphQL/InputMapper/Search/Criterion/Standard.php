@@ -2,14 +2,20 @@
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;
 
-class ContentTypeId implements QueryInputVisitor
+class Standard implements QueryInputVisitor
 {
+    private $criterionClass;
+
+    public function __construct($criterionClass)
+    {
+        $this->criterionClass = $criterionClass;
+    }
+
     public function visit(QueryBuilder $queryBuilder, $value): void
     {
-        $queryBuilder->addCriterion(new Query\Criterion\ContentTypeId($value));
+        $queryBuilder->addCriterion(new {$this->criterionClass}($value));
     }
 }
