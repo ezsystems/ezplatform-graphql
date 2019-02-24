@@ -2,13 +2,11 @@
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search;
 
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
-
 class SortBy implements QueryInputVisitor
 {
     public function visit(QueryBuilder $queryBuilder, $value): void
     {
-        $queryBuilder->sortBy = array_map(
+        $queryBuilder->setSortBy(array_map(
             function ($sortClauseClass) {
 
                 static $lastSortClause;
@@ -33,6 +31,6 @@ class SortBy implements QueryInputVisitor
                 return $lastSortClause = new $sortClauseClass;
             },
             $value
-        );
+        ));
     }
 }
