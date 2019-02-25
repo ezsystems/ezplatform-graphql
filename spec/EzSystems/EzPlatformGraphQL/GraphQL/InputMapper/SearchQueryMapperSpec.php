@@ -49,5 +49,4 @@ class SearchQueryMapperSpec extends ObjectBehavior
             'visitor_3' => 'value3'
         ]);
     }
-
 }
