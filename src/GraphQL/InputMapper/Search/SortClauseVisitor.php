@@ -2,7 +2,7 @@
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search;
 
-class SortBy implements QueryInputVisitor
+class SortClauseVisitor implements QueryInputVisitor
 {
     public function visit(QueryBuilder $queryBuilder, $value): void
     {

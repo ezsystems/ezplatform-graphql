@@ -1,20 +1,20 @@
 services:
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\ContentTypeId:
-        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Standard
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\CriterionClass
         arguments:
             $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeId'
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ContentTypeId'}
 
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Text:
-        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Standard
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\CriterionClass
         arguments:
             $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Fulltext'
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Text'}
 
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\ParentLocationId:
-        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\Standard
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion\CriterionClass
         arguments:
             $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ParentLocationId'
         tags:
@@ -33,6 +33,6 @@ services:
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Field'}
 
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortBy:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauseVisitor:
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'SortBy'}

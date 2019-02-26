@@ -3,13 +3,14 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\Core\REST\Server\Input\Parser\Criterion;
 
 class QueryBuilder
 {
     /**
-     * @var array
+     * @var Criterion[]
      */
-    private $criterions = [];
+    private $criteria = [];
 
     /**
      * @var Query\SortClause
@@ -18,7 +19,7 @@ class QueryBuilder
 
     public function addCriterion(Query\Criterion $criterion): void
     {
-        $this->criterions[] = $criterion;
+        $this->criteria[] = $criterion;
     }
 
     public function setSortBy(Query\SortClause $sortClause): void
@@ -30,15 +31,13 @@ class QueryBuilder
     {
         $query = new Query();
 
-        if (count($this->criterions) === 0) {
+        if (count($this->criteria) === 0) {
             return $query;
         }
 
-        $query->filter = count($this->criterions) === 1 ? $this->criterions[0] : new Query\Criterion\LogicalAnd($this->criterions);
+        $query->filter = count($this->criteria) === 1 ? $this->criteria[0] : new Query\Criterion\LogicalAnd($this->criteria);
 
-        print 'bh';
         if ($this->sortBy) {
-            print 'ah';
             $query->sortClauses = $this->sortBy;
         }
 

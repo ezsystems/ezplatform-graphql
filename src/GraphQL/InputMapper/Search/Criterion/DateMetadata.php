@@ -6,9 +6,9 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;
 
-class DateMetadata implements QueryInputVisitor
+abstract class DateMetadata implements QueryInputVisitor
 {
-    public function visit(QueryBuilder $queryBuilder, $value): void
+    protected function visitCriterion(QueryBuilder $queryBuilder, $value, string $criterion): void
     {
         $dateOperatorsMap = [
             'on' => Query\Criterion\Operator::EQ,
@@ -23,7 +23,7 @@ class DateMetadata implements QueryInputVisitor
             }
 
             $queryBuilder->addCriterion(new Query\Criterion\DateMetadata(
-                static::TARGET,
+                $criterion,
                 $dateOperatorsMap[$operator],
                 strtotime($dateString)
             ));

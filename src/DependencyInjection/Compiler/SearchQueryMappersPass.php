@@ -9,15 +9,13 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class SearchQueryMappersPass implements CompilerPassInterface
 {
-    const ID = SearchQueryMapper::class;
-
     public function process(ContainerBuilder $container)
     {
         if (!$container->has(self::ID)) {
             return;
         }
 
-        $definition = $container->findDefinition(self::ID);
+        $definition = $container->findDefinition(SearchQueryMapper::class);
         $taggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_visitor');
 
         $queryInputVisitors = [];
