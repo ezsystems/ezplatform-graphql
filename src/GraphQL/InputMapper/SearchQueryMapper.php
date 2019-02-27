@@ -10,17 +10,33 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;
 use InvalidArgumentException;
 
 class SearchQueryMapper
 {
-    private $queryInputVisitors;
+    /**
+     * @var QueryInputVisitor[]
+     */
+    private $queryInputCriteriaVisitors;
 
+    /**
+     * @var QueryInputVisitor[]
+     */
+    private $queryInputSortClauseVisitors;
+
+    /**
+     * @var QueryBuilder
+     */
     private $queryBuilder;
 
-    public function __construct(array $queryInputVisitors, QueryBuilder $queryBuilder)
-    {
-        $this->queryInputVisitors = $queryInputVisitors;
+    public function __construct(
+        array $queryInputCriteriaVisitors,
+        array $queryInputSortClauseVisitors,
+        QueryBuilder $queryBuilder
+    ) {
+        $this->queryInputCriteriaVisitors = $queryInputCriteriaVisitors;
+        $this->queryInputSortClauseVisitors = $queryInputSortClauseVisitors;
         $this->queryBuilder = $queryBuilder;
     }
 
@@ -30,8 +46,12 @@ class SearchQueryMapper
     public function mapInputToQuery(array $inputArray) : Query
     {
         foreach ($inputArray as $inputField => $inputValue) {
-            if (isset($this->queryInputVisitors[$inputField])) {
-                $this->queryInputVisitors[$inputField]->visit($this->queryBuilder, $inputValue);
+            if (isset($this->queryInputCriteriaVisitors[$inputField])) {
+                $this->queryInputCriteriaVisitors[$inputField]->visit($this->queryBuilder, $inputValue);
+            }
+
+            if (isset($this->queryInputSortClauseVisitors[$inputField])) {
+                $this->queryInputSortClauseVisitors[$inputField]->visit($this->queryBuilder, $inputValue);
             }
         }
 

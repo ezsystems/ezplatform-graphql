@@ -1,6 +1,6 @@
 <?php
 
-namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criterion;
+namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryBuilder;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\QueryInputVisitor;

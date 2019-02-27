@@ -41,10 +41,10 @@ class QueryBuilderSpec extends ObjectBehavior
         $query->filter->shouldBeAnInstanceOf(Criterion\LogicalAnd::class);
     }
 
-    function it_builds_a_query_with_sort_criterias($sortBy)
+    function it_builds_a_query_with_sort_criterias($sortClause)
     {
-        $sortBy->beADoubleOf(Query\SortClause::class);
-        $this->setSortBy($sortBy);
+        $sortClause->beADoubleOf(Query\SortClause::class);
+        $this->addSortClause($sortClause);
 
         $query = $this->buildQuery();
         $query->sortClauses->shouldBeArray();

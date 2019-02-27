@@ -16,10 +16,10 @@ class SearchQueryMappersPass implements CompilerPassInterface
         }
 
         $definition = $container->findDefinition(SearchQueryMapper::class);
-        $taggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_visitor');
+        $criteriaTaggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_criterion_visitor');
 
         $queryInputVisitors = [];
-        foreach ($taggedServices as $id => $tags) {
+        foreach ($criteriaTaggedServices as $id => $tags) {
             foreach ($tags as $tag) {
                 if (isset($tag['inputKey'])) {
                     $queryInputVisitors[$tag['inputKey']] = new Reference($id);
