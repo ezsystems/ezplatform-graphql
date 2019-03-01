@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "overblog/graphiql-bundle": "^0.1",
-        "phpspec/phpspec": "^5.1"
+        "phpspec/phpspec": "^5.1",
+        "friendsofphp/php-cs-fixer": "~2.7.1"
     },
     "autoload": {
         "psr-4": {
