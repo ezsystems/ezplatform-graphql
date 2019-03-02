@@ -33,6 +33,6 @@ services:
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Field'}
 
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauseVisitor:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortBy:
         tags:
             - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'SortBy'}
