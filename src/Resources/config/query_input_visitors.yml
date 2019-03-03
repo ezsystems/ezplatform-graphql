@@ -1,0 +1,79 @@
+services:
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\ContentTypeId:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\CriterionClass
+        arguments:
+            $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeId'
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ContentTypeId'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\Text:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\CriterionClass
+        arguments:
+            $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Fulltext'
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Text'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\ParentLocationId:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\CriterionClass
+        arguments:
+            $criterionClass: 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ParentLocationId'
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'ParentLocationId'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\Created:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Created'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\Modified:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Modified'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\Criteria\Field:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'Field'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortBy:
+        tags:
+            - {name: 'ezplatform_graphql.query_input_visitor', inputKey: 'sortBy'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\ContentName:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentName'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'Name'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\ContentId:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'ContentId'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\DateModified:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\DateModified'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'DateModified'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\DatePublished:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\DatePublished'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'DatePublished'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SectionIdentifier:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionIdentifier'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'SectionIdentifier'}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SectionName:
+        class: EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\Search\SortClauses\SortClauseClass
+        arguments:
+            $sortClauseClass: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionName'
+        tags:
+            - {name: 'ezplatform_graphql.query_sortclause_visitor', inputKey: 'SectionName'}

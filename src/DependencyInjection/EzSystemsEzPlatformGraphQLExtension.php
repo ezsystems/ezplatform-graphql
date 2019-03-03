@@ -31,6 +31,7 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
         $loader->load('schema.yml');
         $loader->load('resolvers.yml');
         $loader->load('services.yml');
+        $loader->load('query_input_visitors.yml');
     }
 
     /**

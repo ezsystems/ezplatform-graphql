@@ -33,7 +33,7 @@ class AddDomainContentCollectionToDomainGroup extends BaseWorker implements Work
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeCollectionField($args), new Input\Arg(
-            'sortBy', '[SortByOptions]',
+            'sortBy', 'SortByOptions',
             ['description' => "A sort clause, or array of clauses. Add _desc after a clause to reverse it"]
         ));
     }

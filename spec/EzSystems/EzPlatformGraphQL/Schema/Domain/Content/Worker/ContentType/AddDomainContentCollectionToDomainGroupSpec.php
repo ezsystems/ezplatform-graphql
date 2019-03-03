@@ -89,7 +89,7 @@ class AddDomainContentCollectionToDomainGroupSpec extends ContentTypeWorkerBehav
                 self::COLLECTION_FIELD,
                 Argument::allOf(
                     FieldArgArgument::withName('sortBy'),
-                    FieldArgArgument::withType('[SortByOptions]')
+                    FieldArgArgument::withType('SortByOptions∫')
                 )
             )
             ->shouldBeCalled();
