@@ -19,6 +19,6 @@ class CriterionClass implements QueryInputVisitor
 
     public function visit(QueryBuilder $queryBuilder, $value): void
     {
-        $queryBuilder->addCriterion(new {$this->criterionClass}($value));
+        $queryBuilder->addCriterion(new $this->criterionClass($value));
     }
 }

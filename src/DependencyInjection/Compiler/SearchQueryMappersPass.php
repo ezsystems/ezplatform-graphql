@@ -11,12 +11,12 @@ class SearchQueryMappersPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has(self::ID)) {
+        if (!$container->has(SearchQueryMapper::class)) {
             return;
         }
 
         $definition = $container->findDefinition(SearchQueryMapper::class);
-        $criteriaTaggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_criterion_visitor');
+        $criteriaTaggedServices = $container->findTaggedServiceIds('ezplatform_graphql.query_input_visitor');
 
         $queryInputVisitors = [];
         foreach ($criteriaTaggedServices as $id => $tags) {
