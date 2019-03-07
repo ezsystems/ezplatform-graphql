@@ -2,12 +2,12 @@
 
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection;
 
+use EzSystems\EzPlatformGraphQL\DependencyInjection\GraphQL\SchemaProvider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -16,11 +16,15 @@ use Symfony\Component\Yaml\Yaml;
  */
 class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependExtensionInterface
 {
-    const GRAPHQL_CONFIG_DIR = __DIR__ . '/../../../../../app/config/graphql';
-    const SCHEMA_DIR = self::GRAPHQL_CONFIG_DIR . '/ezplatform';
-    const DOMAIN_SCHEMA_FILE = self::SCHEMA_DIR . '/Domain.types.yml';
-    const APP_QUERY_SCHEMA = self::GRAPHQL_CONFIG_DIR . '/Query.types.yml';
-    const APP_MUTATION_SCHEMA = self::GRAPHQL_CONFIG_DIR . '/Mutation.types.yml';
+    /**
+     * @var SchemaProvider
+     */
+    private $schemaProvider;
+
+    public function __construct(SchemaProvider $schemaProvider)
+    {
+        $this->schemaProvider = $schemaProvider;
+    }
 
     /**
      * {@inheritdoc}
@@ -46,16 +50,12 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
 
     private function getGraphQLConfig()
     {
-        if (file_exists(self::APP_QUERY_SCHEMA)) {
-            $schema['platform'] = ['query' => 'Query'];
-        } else if (file_exists(self::DOMAIN_SCHEMA_FILE)) {
-            $schema['platform'] = ['query' => 'Domain'];
-        } else {
-            $schema['platform'] = ['query' => 'Platform'];
+        if (($queryType = $this->schemaProvider->getQuerySchema()) !== null) {
+            $schema['platform']['query'] = $queryType;
         }
 
-        if (file_exists(self::APP_MUTATION_SCHEMA)) {
-            $schema['platform']['mutation'] = 'Mutation';
+        if (($mutationType = $this->schemaProvider->getMutationSchema()) !== null) {
+            $schema['platform']['mutation'] = $mutationType;
         }
 
         // Deprecated, use the default schema with the '_repository field instead.

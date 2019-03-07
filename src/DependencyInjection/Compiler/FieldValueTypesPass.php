@@ -13,7 +13,12 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FieldValueTypesPass implements CompilerPassInterface
 {
-    const TYPES_YAML = EzSystemsEzPlatformGraphQLExtension::SCHEMA_DIR . EzSystemsEzPlatformGraphQLExtension::SCHEMA_DIR . '/Field.types.yml';
+    private $fieldsYamlDefinitionFile;
+
+    public function __construct($fieldsYamlDefinitionFile)
+    {
+        $this->fieldsYamlDefinitionFile = $fieldsYamlDefinitionFile;
+    }
 
     public function process(ContainerBuilder $container)
     {
@@ -21,7 +26,7 @@ class FieldValueTypesPass implements CompilerPassInterface
             return;
         }
 
-        if (!file_exists(self::TYPES_YAML)) {
+        if (!file_exists($this->fieldsYamlDefinitionFile)) {
             return;
         }
 
@@ -43,7 +48,7 @@ class FieldValueTypesPass implements CompilerPassInterface
     private function getDefinedTypes()
     {
         // @todo make more dynamic
-        $types = Yaml::parseFile(self::TYPES_YAML);
+        $types = Yaml::parseFile($this->fieldsYamlDefinitionFile);
 
         return array_filter(
             array_keys($types),
