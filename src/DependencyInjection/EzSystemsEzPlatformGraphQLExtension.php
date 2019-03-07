@@ -58,11 +58,6 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
             $schema['platform']['mutation'] = $mutationType;
         }
 
-        // Deprecated, use the default schema with the '_repository field instead.
-        // Will be removed in a further release"
-        // @todo remove BC code
-        $schema['repository'] = ['query' => 'Repository'];
-
         return [
             'definitions' => [
                 'config_validation' => '%kernel.debug%',
