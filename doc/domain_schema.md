@@ -3,12 +3,22 @@
 The domain content is the main GraphQL schema of eZ Platform. It is created based on the content model: 
 your types and theirs fields.
 
-Its usage requires that the GraphQL model is generated for a given repository, as a set of configuration files in the project.
+Its usage requires that the GraphQL model is generated for a given repository,
+as a set of configuration files in the project's AppBundle.
 
-By default, the generated schema will list:
-- the content types groups
-- for each group the content types it contains
-- for each content type, its fields definitions, mapped to their Field Value Type
+The generated schema exposes:
+- content types groups, with their camel cased identifier: `content`, `media`...
+    - a `_types` field
+        - each content type is exposed using its camel cased identifier: `blogPost`, `landingPage`
+            - below each content type, one field per field definition of the type, using its
+              camel cased identifier: `title`, `relatedContent`.
+                - for each field definition, its properties:
+                    - common ones: `name`, `descriptions`, `isRequired`...
+                    - type specific ones: `constraints.minLength`, `settings.selectionLimit`...
+    - the content types from the group, as two fields:
+        a) plural (`articles`, `blogPosts`)
+        b) singular (`article`, `blogPost`)
+        - for each content type, one field per field definition, returning the field's value
 
 Queries look like this:
 
@@ -75,9 +85,8 @@ Builders have a `buildDefinition()` method. It receives the `FieldDefinition` ob
 
 `RelationFieldValueBuilder` or `SelectionFieldValueBuilder` can be used as examples.
 
-### Custom domain
-
-For custom domains that would require their own dynamic schema, custom domain iterators can be implemented. 
+### Custom entities/domain
+For custom domains that would require their own generated schema, custom domain iterators can be implemented. 
 
 Examples:
 
