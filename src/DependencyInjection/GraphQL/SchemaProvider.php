@@ -12,14 +12,8 @@ namespace EzSystems\EzPlatformGraphQL\DependencyInjection\GraphQL;
 interface SchemaProvider
 {
     /**
-     * Returns the GraphQL type of the eZ Platform Schema. Example: Query.
-     * @return string
+     * Returns the overblog graphql schema configuration.
+     * @return array Array with the keys from overlog graphql config: query, mutation, resolver_maps...
      */
-    public function getQuerySchema();
-
-    /**
-     * Returns the GraphQL mutation type of the eZ Platform Schema. Example: Mutation.
-     * @return string
-     */
-    public function getMutationSchema();
+    public function getSchemaConfiguration();
 }

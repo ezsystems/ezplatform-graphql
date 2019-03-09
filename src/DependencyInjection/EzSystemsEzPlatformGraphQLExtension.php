@@ -50,18 +50,10 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
 
     private function getGraphQLConfig()
     {
-        if (($queryType = $this->schemaProvider->getQuerySchema()) !== null) {
-            $schema['platform']['query'] = $queryType;
-        }
-
-        if (($mutationType = $this->schemaProvider->getMutationSchema()) !== null) {
-            $schema['platform']['mutation'] = $mutationType;
-        }
-
         return [
             'definitions' => [
                 'config_validation' => '%kernel.debug%',
-                'schema' => $schema
+                'schema' => $this->schemaProvider->getSchemaConfiguration(),
             ]
         ];
     }

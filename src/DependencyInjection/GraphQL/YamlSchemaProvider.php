@@ -28,7 +28,15 @@ class YamlSchemaProvider implements SchemaProvider
         $this->root = rtrim($graphQLConfigRoot, '/') . '/';
     }
 
-    public function getQuerySchema()
+    public function getSchemaConfiguration()
+    {
+        return [
+            'query' => $this->getQuerySchema(),
+            'mutation' => $this->getMutationSchema(),
+        ];
+    }
+
+    private function getQuerySchema()
     {
         if (file_exists($this->getAppQuerySchema())) {
             return 'Query';
@@ -39,7 +47,7 @@ class YamlSchemaProvider implements SchemaProvider
         }
     }
 
-    public function getMutationSchema()
+    private function getMutationSchema()
     {
         return file_exists(self::APP_MUTATION_SCHEMA_FILE)
             ? 'Mutation'
