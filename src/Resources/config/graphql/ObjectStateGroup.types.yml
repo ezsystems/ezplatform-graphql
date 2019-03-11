@@ -1,0 +1,21 @@
+ObjectStateGroup:
+    type: object
+    config:
+        description: "An eZ Platform content object state group."
+        fields:
+            id:
+                type: "Int!"
+                description: "The ObjectStateGroup's unique ID."
+            identifier:
+                type: "String"
+                description: "The ObjectStateGroup's system identifier."
+            defaultLanguageCode:
+                type: "String"
+                description: "The ObjectStateGroup's default language code."
+            languageCodes:
+                type: "[String]"
+                description: "The ObjectStateGroup's language codes."
+            states:
+                type: "[ObjectState]"
+                description: "List of ObjectStates under ObjectStateGroup."
+                resolve: "@=resolver('ObjectStatesByGroup', [value])"
