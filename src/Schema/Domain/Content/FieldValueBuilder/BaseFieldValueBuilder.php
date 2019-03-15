@@ -12,7 +12,7 @@ class BaseFieldValueBuilder implements FieldValueBuilder
         'ezbinaryfile' => 'BinaryFileFieldValue',
         'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
         'ezcountry' => 'String',
-        'ezdate' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
+        'ezdate' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).date'],
         'ezdatetime' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezemail' => 'String',
         'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
