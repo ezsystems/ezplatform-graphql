@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class EzSystemsEzPlatformGraphQLBundle extends Bundle
 {
     const CONFIG_DIR = __DIR__ . '/../../../../app/config/graphql';
-    const EZPLATFORM_CONFIG_DIR = self::CONFIG_DIR . 'ezplatform';
+    const EZPLATFORM_CONFIG_DIR = self::CONFIG_DIR . '/ezplatform';
     const FIELDS_DEFINITION_FILE = __DIR__ . '/Resources/config/graphql/Field.types.yml';
 
     public function build(ContainerBuilder $container)
