@@ -1,7 +1,11 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
-use EzSystems\EzPlatformGraphQL\DependencyInjection\EzSystemsEzPlatformGraphQLExtension;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
@@ -13,20 +17,18 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FieldValueTypesPass implements CompilerPassInterface
 {
-    private $fieldsYamlDefinitionFile;
-
-    public function __construct($fieldsYamlDefinitionFile)
-    {
-        $this->fieldsYamlDefinitionFile = $fieldsYamlDefinitionFile;
-    }
-
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('overblog_graphql.request_executor')) {
+        if (
+            !$container->has('overblog_graphql.request_executor')
+            || !$container->hasParameter('ezplatform.graphql.schema.fields_definition_file')
+        ) {
             return;
         }
 
-        if (!file_exists($this->fieldsYamlDefinitionFile)) {
+        $fieldsDefinitionFile = $container->getParameter('ezplatform.graphql.schema.fields_definition_file');
+
+        if (null === $fieldsDefinitionFile || !file_exists($fieldsDefinitionFile)) {
             return;
         }
 
@@ -35,20 +37,21 @@ class FieldValueTypesPass implements CompilerPassInterface
             if ($methodCall[0] === 'addSchema') {
                 $schemaDefinition = $container->getDefinition($methodCall[1][1]);
                 $types = $schemaDefinition->getArgument(4);
-                $fieldValuesTypes = $this->getDefinedTypes();
+                $fieldValuesTypes = $this->getDefinedTypesFromFile($fieldsDefinitionFile);
                 $schemaDefinition->setArgument(4, array_merge($types, $fieldValuesTypes));
-
             }
         }
     }
 
     /**
+     * @param string $filePath
+     *
      * @return string[]
      */
-    private function getDefinedTypes()
+    private function getDefinedTypesFromFile(string $filePath): array
     {
         // @todo make more dynamic
-        $types = Yaml::parseFile($this->fieldsYamlDefinitionFile);
+        $types = Yaml::parseFile($filePath);
 
         return array_filter(
             array_keys($types),
