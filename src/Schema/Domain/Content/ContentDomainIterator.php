@@ -29,16 +29,16 @@ class ContentDomainIterator implements Iterator
     public function iterate(): Generator
     {
         foreach ($this->contentTypeService->loadContentTypeGroups() as $contentTypeGroup) {
-            $args = ['ContentTypeGroup' => $contentTypeGroup];
-            yield $args;
+            yield ['ContentTypeGroup' => $contentTypeGroup];
 
             foreach ($this->contentTypeService->loadContentTypes($contentTypeGroup) as $contentType) {
-                $args['ContentType'] = $contentType;
-                yield $args;
+                yield ['ContentTypeGroup' => $contentTypeGroup]
+                    + ['ContentType' => $contentType];
 
                 foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
-                    $args['FieldDefinition'] = $fieldDefinition;
-                    yield $args;
+                    yield ['ContentTypeGroup' => $contentTypeGroup]
+                        + ['ContentType' => $contentType]
+                        + ['FieldDefinition' => $fieldDefinition];
                 }
             }
         }
