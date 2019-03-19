@@ -6,10 +6,12 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\ObjectStateService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\ObjectState\ObjectState;
 use eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup;
+use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
 
 class ObjectStateResolver
@@ -29,12 +31,14 @@ class ObjectStateResolver
      * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
     public function resolveObjectStateById(Argument $args): ObjectState
     {
-        return $this->objectStateService->loadObjectState($args['id']);
+        try {
+            return $this->objectStateService->loadObjectState($args['id']);
+        } catch (NotFoundException $e) {
+            throw new UserError("Object State with ID: {$args['id']} was not found.");
+        }
     }
 
     /**
@@ -51,12 +55,14 @@ class ObjectStateResolver
      * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState[]
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
     public function resolveObjectStatesByGroupId(Argument $args): array
     {
-        $group = $this->objectStateService->loadObjectStateGroup($args['groupId']);
+        try {
+            $group = $this->objectStateService->loadObjectStateGroup($args['groupId']);
+        } catch (NotFoundException $e) {
+            throw new UserError("Object State Group with ID: {$args['groupId']} was not found.");
+        }
 
         return $this->objectStateService->loadObjectStates($group);
     }
