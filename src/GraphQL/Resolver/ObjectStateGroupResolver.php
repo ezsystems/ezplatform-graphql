@@ -12,9 +12,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 
 class ObjectStateGroupResolver
 {
-    /**
-     * @var \eZ\Publish\API\Repository\ObjectStateService
-     */
+    /** @var \eZ\Publish\API\Repository\ObjectStateService */
     private $objectStateService;
 
     /**
@@ -26,7 +24,7 @@ class ObjectStateGroupResolver
     }
 
     /**
-     * @param array $args
+     * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup
      *

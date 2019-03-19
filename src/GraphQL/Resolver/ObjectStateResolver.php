@@ -14,9 +14,7 @@ use Overblog\GraphQLBundle\Definition\Argument;
 
 class ObjectStateResolver
 {
-    /**
-     * @var \eZ\Publish\API\Repository\ObjectStateService
-     */
+    /** @var \eZ\Publish\API\Repository\ObjectStateService */
     private $objectStateService;
 
     /**
