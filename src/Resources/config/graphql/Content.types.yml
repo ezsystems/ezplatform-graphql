@@ -99,13 +99,9 @@ Content:
                 description: "Relations to this Content"
                 resolve: "@=resolver('ContentReverseRelations', [value])"
             states:
-                type: "ObjectState"
-                description: "Object State in given Object State Group."
-                args:
-                    groupId:
-                        type: "Int!"
-                        description: "ID of the Object State Group"
-                resolve: "@=resolver('ObjectStateByContentInfo', [value, args])"
+                type: "[ObjectState]"
+                description: "Content States."
+                resolve: "@=resolver('ObjectStateByContentInfo', [value])"
 
 ContentRelation:
     type: "object"

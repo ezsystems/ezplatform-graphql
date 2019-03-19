@@ -64,17 +64,17 @@ class ObjectStateResolver
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $content
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
+     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState[]
      */
-    public function resolveObjectStateByContentInfo(ContentInfo $content, Argument $args): ObjectState
+    public function resolveObjectStateByContentInfo(ContentInfo $contentInfo): array
     {
-        $group = $this->objectStateService->loadObjectStateGroup($args['groupId']);
+        $objectStates = [];
+        foreach ($this->objectStateService->loadObjectStateGroups() as $group) {
+            $objectStates[] = $this->objectStateService->getContentState($contentInfo, $group);
+        }
 
-        return $this->objectStateService->getContentState($content, $group);
+        return $objectStates;
     }
 }
