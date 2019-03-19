@@ -310,7 +310,7 @@ MediaFieldValue:
             width:
                 type: Int
                 description: "Width of the media."
-                resolve: "@=value.widht"
+                resolve: "@=value.width"
     inherits: [BinaryBaseFieldValue, HTMLFieldValue]
 
 PriceFieldValue:
