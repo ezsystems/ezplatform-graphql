@@ -134,3 +134,23 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\Relay\SearchResolver:
         tags:
             - {name: overblog_graphql.resolver, alias: "SearchContentConnection", method: "searchContent"}
+
+    #
+    # Object States
+    #
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ObjectStateGroupResolver:
+        arguments:
+            $objectStateService: '@ezpublish.siteaccessaware.service.object_state'
+        tags:
+            - {name: overblog_graphql.resolver, alias: "ObjectStateGroupById", method: "resolveObjectStateGroupById"}
+            - {name: overblog_graphql.resolver, alias: "ObjectStateGroups", method: "resolveObjectStateGroups"}
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ObjectStateResolver:
+        arguments:
+            $objectStateService: '@ezpublish.siteaccessaware.service.object_state'
+        tags:
+            - {name: overblog_graphql.resolver, alias: "ObjectStateById", method: "resolveObjectStateById"}
+            - {name: overblog_graphql.resolver, alias: "ObjectStateByContentInfo", method: "resolveObjectStateByContentInfo"}
+            - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroup", method: "resolveObjectStatesByGroup"}
+            - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroupId", method: "resolveObjectStatesByGroupId"}

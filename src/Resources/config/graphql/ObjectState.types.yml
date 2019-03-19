@@ -1,0 +1,20 @@
+ObjectState:
+    type: object
+    config:
+        description: "An eZ Platform content object state."
+        fields:
+            id:
+                type: "Int!"
+                description: "The ObjectState's unique ID."
+            identifier:
+                type: "String"
+                description: "The ObjectState's system identifier."
+            priority:
+                type: "Int"
+                description: "The ObjectState's priority used for ordering."
+            languageCodes:
+                type: "[String]"
+                description: "The ObjectStateGroup's language codes."
+            group:
+                type: "ObjectStateGroup"
+                resolve: "@=value.getObjectStateGroup()"

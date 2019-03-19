@@ -98,6 +98,10 @@ Content:
                 type: "[ContentRelation]"
                 description: "Relations to this Content"
                 resolve: "@=resolver('ContentReverseRelations', [value])"
+            states:
+                type: "[ObjectState]"
+                description: "Content States."
+                resolve: "@=resolver('ObjectStateByContentInfo', [value])"
 
 ContentRelation:
     type: "object"
