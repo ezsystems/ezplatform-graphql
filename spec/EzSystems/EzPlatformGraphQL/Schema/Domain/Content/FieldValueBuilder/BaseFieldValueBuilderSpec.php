@@ -52,7 +52,7 @@ class BaseFieldValueBuilderSpec extends ObjectBehavior
         $fieldDefinition = $this->createFieldDefinition('ezdate');
 
         $this->buildDefinition($fieldDefinition)->shouldHaveGraphQLType('DateTime');
-        $this->buildDefinition($fieldDefinition)->shouldBeResolvedWithFieldValueProperty('value');
+        $this->buildDefinition($fieldDefinition)->shouldBeResolvedWithFieldValueProperty('date');
     }
 
     function it_builds_ezdatetime()
