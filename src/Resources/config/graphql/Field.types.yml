@@ -147,6 +147,12 @@ ImageVariation:
             lastModified:
                 type: DateTime
                 description: "When the variation was last modified"
+            width:
+                type: "Int"
+                description: "The width as number of pixels (example: 320)"
+            height:
+                type: "Int"
+                description: "The height as number of pixels (example: 200)"
 
 AuthorFieldValue:
     type: object
