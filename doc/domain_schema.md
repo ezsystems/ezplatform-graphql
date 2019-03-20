@@ -56,7 +56,7 @@ and add that session cookie to the request. With GraphiQL, logging in on another
 mutation CreateBlogPost {
   createBlogPost(
     parentLocationId: 2,
-    languageCode: "eng-GB"
+    language: eng_GB
     input: {
       title: "The blog post's title",
       author: [

@@ -149,9 +149,9 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
     private function buildLanguageFieldInput(): Builder\Input\Arg
     {
         return new Builder\Input\Arg(
-            'languageCode',
-            'String!',
-            ['description' => 'The language code the content should be created/updated in (ex. eng-GB).']
+            'language',
+            'RepositoryLanguage!',
+            ['description' => 'The language the content should be created/updated in.']
         );
     }
 }

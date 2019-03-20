@@ -7,14 +7,14 @@ class FieldDefinitionResolver
 {
     public function resolveFieldDefinitionName(FieldDefinition $fieldDefinition, $args)
     {
-        $languageCode = isset($args['languageCode']) ? $args['languageCode'] : null;
+        $languageCode = isset($args['language']) ? $args['language'] : null;
 
         return $fieldDefinition->getName($languageCode);
     }
 
     public function resolveFieldDefinitionDescription(FieldDefinition $fieldDefinition, $args)
     {
-        $languageCode = isset($args['languageCode']) ? $args['languageCode'] : null;
+        $languageCode = isset($args['language']) ? $args['language'] : null;
 
         return $fieldDefinition->getDescription($languageCode);
     }
