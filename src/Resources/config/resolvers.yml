@@ -17,25 +17,16 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "Content", method: "resolveContent" }
-            - { name: overblog_graphql.resolver, alias: "ContentFields", method: "resolveContentFields" }
             - { name: overblog_graphql.resolver, alias: "ContentById", method: "resolveContentById" }
             - { name: overblog_graphql.resolver, alias: "ContentByIdList", method: "resolveContentByIdList" }
             - { name: overblog_graphql.resolver, alias: "ContentVersions", method: "resolveContentVersions" }
-            - { name: overblog_graphql.resolver, alias: "ContentFieldsInVersion", method: "resolveContentFieldsInVersion" }
             - { name: overblog_graphql.resolver, alias: "ContentByType", method: "findContentByType" }
             - { name: overblog_graphql.resolver, alias: "ContentRelations", method: "findContentRelations" }
             - { name: overblog_graphql.resolver, alias: "ContentReverseRelations", method: "findContentReverseRelations" }
-            - { name: overblog_graphql.resolver, alias: "FieldValueType", method: "resolveFieldValueType" }
         arguments:
             $contentService: '@ezpublish.siteaccessaware.service.content'
             $searchService: '@ezpublish.siteaccessaware.service.search'
             $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
-
-    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\FieldValueHtmlResolver:
-        arguments:
-            - "@ezpublish.twig.extension.field_rendering"
-        tags:
-            - { name: overblog_graphql.resolver, alias: "FieldValueToHtml", method: "resolveFieldValueToHtml" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentResolver:
         tags:
@@ -59,7 +50,6 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "User", method: "resolveUser" }
             - { name: overblog_graphql.resolver, alias: "UserGroups", method: "resolveUserGroups" }
-            #- { name: overblog_graphql.resolver, alias: "UserFields", method: "resolveUserFields" }
             - { name: overblog_graphql.resolver, alias: "UserById", method: "resolveUserById" }
             - { name: overblog_graphql.resolver, alias: "UserGroupsByUserId", method: "resolveUserGroupsByUserId" }
             - { name: overblog_graphql.resolver, alias: "UserGroupById", method: "resolveUserGroupById" }
@@ -71,7 +61,6 @@ services:
             - { name: overblog_graphql.resolver, alias: "ContentTypeById", method: "resolveContentTypeById" }
             - { name: overblog_graphql.resolver, alias: "ContentType", method: "resolveContentType" }
             - { name: overblog_graphql.resolver, alias: "ContentTypesFromGroup", method: "resolveContentTypesFromGroup" }
-            - { name: overblog_graphql.resolver, alias: "ContentTypeGroupsFromContentType", method: "resolveGroupsFromContentType" }
             - { name: overblog_graphql.resolver, alias: "ContentTypeGroupByIdentifier", method: "resolveContentTypeGroupByIdentifier" }
         arguments:
             $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'

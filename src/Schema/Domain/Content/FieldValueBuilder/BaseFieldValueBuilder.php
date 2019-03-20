@@ -22,8 +22,6 @@ class BaseFieldValueBuilder implements FieldValueBuilder
         'ezinteger' => ['Int', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
         'ezkeyword' => ['[String]', '@=resolver("DomainFieldValue", [value, "%s"]).values'],
         'ezmedia' => 'MediaFieldValue',
-        'ezobjectrelation' => 'RelationFieldValue',
-        'ezobjectrelationlist' => 'RelationListFieldValue',
         'ezrichtext' => 'RichTextFieldValue',
         'ezstring' => 'String',
         'eztext' => 'String',

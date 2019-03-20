@@ -9,14 +9,9 @@ User:
             name:
                 type: "String"
                 resolve: "@=value.contentInfo.name"
-            fields:
-                type: "[Field]"
-                description: "The Content item's Fields."
-                args:
-                    identifier:
-                        description: "Filter by field def identifier"
-                        type: "[String]"
-                resolve: "@=resolver('ContentFields', [value.id, args])"
+            content:
+                type: "UserContent"
+                resolve: "@=value"
             version:
                 type: "Version"
                 description: "Current version metadata"
@@ -47,14 +42,10 @@ UserGroup:
             name:
                 type: "String"
                 resolve: "@=value.contentInfo.name"
-            fields:
-                type: "[Field]"
-                description: "The Content item's Fields."
-                args:
-                    identifier:
-                        description: "Filter by field def identifier"
-                        type: "[String]"
-                resolve: "@=resolver('ContentFields', [value.id, args])"
+            content:
+                description: "The User content item"
+                type: "UserGroupContent"
+                resolve: "@=value"
             version:
                 type: "Version"
                 description: "Current version"

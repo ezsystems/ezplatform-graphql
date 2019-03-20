@@ -16,23 +16,6 @@ Content:
             name:
                 type: "String"
                 description: "The computed name (via name schema) in the main language of the Content item."
-            fields:
-                type: "[Field]"
-                description: "The Content item's Fields."
-                args:
-                    languages:
-                        description: "Return fields in these languages."
-                        type: "[String]"
-                    version:
-                        description: "Return fields of a given content version."
-                        type: "Int"
-                    useAlwaysAvailable:
-                        type: "Boolean"
-                        description: "Use the always available language."
-                    identifier:
-                        description: "Filter by field def identifier"
-                        type: "[String]"
-                resolve: "@=resolver('ContentFields', [value.id, args])"
             section:
                 type: "Section"
                 description: "The section to which the Content object is assigned."

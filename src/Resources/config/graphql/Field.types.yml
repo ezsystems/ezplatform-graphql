@@ -1,62 +1,3 @@
-Field:
-    type: object
-    config:
-        description: "An eZ Platform Content Field."
-        fields:
-            id:
-                type: "Int"
-                description: "Internal id of the field."
-            fieldDefIdentifier:
-                type: "String"
-                description: "The field definition identifier."
-            value:
-                type: "FieldValue"
-                description: "The value of the field."
-            languageCode:
-                type: "String"
-                description: "The language code of the field."
-
-FieldValue:
-    type: interface
-    config:
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-            html:
-                type: "String"
-                description: "HTML representation of the value"
-                args:
-                    template:
-                        type: "String"
-                        description: "Custom field template to use for field rendering"
-                    attributes:
-                        type: "String"
-                        description: "hash of HTML attributes you want to add to the inner markup"
-                    lang:
-                        type: "String"
-                        description: "Override the current language. Must be a valid locale with xxx-YY format"
-        resolveType: "@=resolver('FieldValueType', [value])"
-
-HTMLFieldValue:
-    type: object
-    config:
-        fields:
-            html:
-                type: "String"
-                description: "HTML representation of the value"
-                resolve: "@=resolver('FieldValueToHtml', [value, args])"
-                args:
-                    template:
-                        type: "String"
-                        description: "Custom field template to use for field rendering"
-                    attributes:
-                        type: "String"
-                        description: "hash of HTML attributes you want to add to the inner markup"
-                    lang:
-                        type: "String"
-                        description: "Override the current language. Must be a valid locale with xxx-YY format"
-
 GenericFieldValue:
     type: object
     config:
@@ -65,8 +6,6 @@ GenericFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
-        interfaces: [FieldValue]
-    inherits: [HTMLFieldValue]
 
 ImageFieldValue:
     type: object
@@ -111,22 +50,6 @@ ImageFieldValue:
                         type: ImageVariationIdentifier!
                         description: "A variation identifier."
                 resolve: "@=resolver('ImageVariation', [value.value, args])"
-            html:
-                type: "String"
-                args:
-                    parameters:
-                        type: "ImageFieldValueHtmlParameters"
-        interfaces: [FieldValue]
-    inherits: [HTMLFieldValue]
-
-ImageFieldValueHtmlParameters:
-    type: "input-object"
-    config:
-        fields:
-            alias: {type: "String"}
-            width: {type: "String"}
-            height: {type: "String"}
-            class: {type: "String"}
 
 ImageVariation:
     type: object
@@ -185,27 +108,23 @@ BinaryBaseFieldValue:
 BinaryFileFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             downloadCount:
                 type: Int
-    inherits: [BinaryBaseFieldValue, HTMLFieldValue]
+    inherits: [BinaryBaseFieldValue]
 
 CountryFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
-    inherits: [HTMLFieldValue]
 
 DateFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
@@ -220,42 +139,33 @@ DateFieldValue:
                     format:
                         type: String
                         description: "A format string compatible with PHP's date() function"
-    inherits: [HTMLFieldValue]
 
 DateAndTimeFieldValue:
     type: object
     inherits: ["DateFieldValue"]
-    config:
-        interfaces: [FieldValue]
-    inherits: [HTMLFieldValue]
 
 EmailAddressFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value.email"
-    inherits: [HTMLFieldValue]
 
 KeywordFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 # @todo will fail, array to string conversion
                 resolve: "@=value"
-    inherits: [HTMLFieldValue]
 
 MapLocationFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
@@ -276,8 +186,6 @@ MapLocationFieldValue:
                     params:
                         type: "MapLocationHtmlParameters"
 
-    inherits: [HTMLFieldValue]
-
 MapLocationHtmlParameters:
     type: "input-object"
     config:
@@ -294,7 +202,6 @@ MapLocationHtmlParameters:
 MediaFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: String
@@ -320,64 +227,29 @@ MediaFieldValue:
                 type: Int
                 description: "Width of the media."
                 resolve: "@=value.width"
-    inherits: [BinaryBaseFieldValue, HTMLFieldValue]
+    inherits: [BinaryBaseFieldValue]
 
 PriceFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
-    inherits: [HTMLFieldValue]
 
 RatingFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
-    inherits: [HTMLFieldValue]
-
-RelationFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-            destinationContentItem:
-                type: "Content"
-                description: "The related Content item"
-                resolve: "@=resolver('ContentById', [value.destinationContentId])"
-    inherits: [HTMLFieldValue]
-
-RelationListFieldValue:
-    type: object
-    config:
-        interfaces: [FieldValue]
-        fields:
-            text:
-                type: "String"
-                description: "String representation of the value"
-                resolve: "@=value"
-            destinationContentItems:
-                type: "[Content]"
-                description: "The related content items"
-                resolve: "@=resolver('ContentByIdList', [value.destinationContentIds])"
-    inherits: [HTMLFieldValue]
 
 RichTextFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
@@ -399,15 +271,12 @@ RichTextFieldValue:
                 type: "String"
                 description: "Editable HTML5 representation."
                 resolve: "@=resolver('RichTextXmlToHtml5Edit', [value.xml])"
-    inherits: [HTMLFieldValue]
 
 SelectionFieldValue:
     type: object
     config:
-        interfaces: [FieldValue]
         fields:
             text:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
-    inherits: [HTMLFieldValue]
