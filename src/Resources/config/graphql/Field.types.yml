@@ -140,8 +140,6 @@ ImageVariation:
                 type: "String"
             fileName:
                 type: "String"
-            dirPath:
-                type: "String"
             lastModified:
                 type: DateTime
 
