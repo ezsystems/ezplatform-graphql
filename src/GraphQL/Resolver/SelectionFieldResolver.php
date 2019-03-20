@@ -1,6 +1,7 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
@@ -30,17 +31,16 @@ class SelectionFieldResolver
         $fieldValue = $this->domainContentResolver->resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier);
 
         if (!$fieldValue->value instanceof FieldType\Selection\Value) {
-            throw new UserError("$fieldDefinitionIdentifier is not an image asset field");
+            throw new UserError("$fieldDefinitionIdentifier is not a selection field");
         }
 
         $fieldDefinition = $this
             ->contentTypeService->loadContentType($contentInfo->contentTypeId)
             ->getFieldDefinition($fieldDefinitionIdentifier);
 
-        $isMultiple = $fieldDefinition->getFieldSettings()['isMultiple'];
-        $options = $fieldDefinition->getFieldSettings()['options'];
+        $options = $this->getOptions($fieldValue, $fieldDefinition);
 
-        if ($isMultiple) {
+        if ($fieldDefinition->getFieldSettings()['isMultiple']) {
             $return = [];
             foreach ($fieldValue->value->selection as $selectedItemId) {
                 $return[] = $options[$selectedItemId];
@@ -53,4 +53,30 @@ class SelectionFieldResolver
         return $return;
     }
 
+    /**
+     * Returns the options set based on the language.
+     *
+     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue $contentFieldValue
+     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     *
+     * @return array
+     */
+    private function getOptions(ContentFieldValue $contentFieldValue, FieldDefinition $fieldDefinition)
+    {
+        $fieldSettings = $fieldDefinition->getFieldSettings();
+
+        if (isset($fieldSettings['multilingualOptions'])) {
+            $multilingualOptions = $fieldSettings['multilingualOptions'];
+            $fieldLanguageCode = $contentFieldValue->content->getField($contentFieldValue->fieldDefIdentifier)->languageCode;
+            $mainLanguageCode = $contentFieldValue->content->contentInfo->mainLanguageCode;
+
+            if (isset($multilingualOptions[$fieldLanguageCode])) {
+                return $multilingualOptions[$fieldLanguageCode];
+            } elseif (isset($multilingualOptions[$mainLanguageCode])) {
+                return $multilingualOptions[$mainLanguageCode];
+            }
+        }
+
+        return $fieldSettings['options'];
+    }
 }
