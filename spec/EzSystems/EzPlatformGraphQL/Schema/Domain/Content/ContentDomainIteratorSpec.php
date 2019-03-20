@@ -101,4 +101,36 @@ class ContentDomainIteratorSpec extends ObjectBehavior
             ])
         );
     }
+
+    function it_only_yields_fields_definitions_from_the_current_content_type(ContentTypeService $contentTypeService)
+    {
+        $contentTypeService->loadContentTypeGroups()->willReturn([
+            $group = new ContentTypeGroup(),
+        ]);
+
+        $contentTypeService->loadContentTypes(Argument::any())->willReturn([
+            $type1 = new ContentType([
+                'identifier' => 'type1',
+                'fieldDefinitions' => [
+                    'type1_field1' => ($type1field1 = new FieldDefinition()),
+                ]
+            ]),
+            $type2 = new ContentType([
+                'identifier' => 'type2',
+                'fieldDefinitions' => [
+                    'type2_field1' => ($type2field1 = new FieldDefinition()),
+                ]
+            ]),
+        ]);
+
+        $this->iterate()->shouldYieldLike(
+            new \ArrayIterator([
+                ['ContentTypeGroup' => $group],
+                ['ContentTypeGroup' => $group, 'ContentType' => $type1],
+                ['ContentTypeGroup' => $group, 'ContentType' => $type1, 'FieldDefinition' => $type1field1],
+                ['ContentTypeGroup' => $group, 'ContentType' => $type2],
+                ['ContentTypeGroup' => $group, 'ContentType' => $type2, 'FieldDefinition' => $type2field1],
+            ])
+        );
+    }
 }
