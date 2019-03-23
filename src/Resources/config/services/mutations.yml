@@ -101,6 +101,26 @@ services:
     tags:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelationlist', inputType: '[Int]' }
 
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText:
+    argments:
+      $inputConverters:
+        html: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter'
+        markdown: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter'
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezrichtext', inputType: RichTextFieldInput }
+
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter:
+    arguments:
+      $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+    tags:
+      - { name: ezplatform_graphql.richtext_input_converter, format: html }
+
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter:
+    arguments:
+      $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+    tags:
+      - { name: ezplatform_graphql.richtext_input_converter, format: markdown }
+
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Selection:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:

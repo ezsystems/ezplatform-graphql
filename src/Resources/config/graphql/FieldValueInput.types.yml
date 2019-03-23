@@ -55,6 +55,13 @@ DateFieldInput:
             input:
                 type: String
 
+RichTextFieldInputFormat:
+    type: enum
+    config:
+        values:
+            markdown: {}
+            html: {}
+
 DateInputFormat:
     type: enum
     config:
