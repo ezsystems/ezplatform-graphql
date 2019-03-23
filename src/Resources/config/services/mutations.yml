@@ -17,6 +17,10 @@ services:
     tags:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezauthor', inputType: '[AuthorInput]' }
 
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\BinaryFile:
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezbinaryfile', inputType: BinaryFieldInput }
+
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Boolean:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
@@ -59,6 +63,10 @@ services:
     tags:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezemail', inputType: String }
 
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Image:
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezimage', inputType: ImageFieldInput }
+
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Integer:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
@@ -86,6 +94,10 @@ services:
       $fieldType: '@ezpublish.fieldType.ezgmaplocation'
     tags:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezgmaplocation', inputType: 'MapLocationFieldInput' }
+
+  EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Media:
+    tags:
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezmedia', inputType: MediaFieldInput }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Relation:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Relation'
