@@ -12,6 +12,27 @@ PlatformMutation:
                     contentId:
                         type: Int
                         description: "ID of the content item to delete"
+            uploadFiles:
+                type: UploadedFilesPayload
+                resolve: '@=mutation("UploadFiles", [args])'
+                args:
+                    locationId:
+                        type: Int!
+                        description: "The location ID of a container to upload the files to"
+                    files:
+                        type: "[FileUpload]!"
+                    languageCode:
+                        type: String!
+                        description: "The language the content items must be created in"
+
+UploadedFilesPayload:
+    type: object
+    config:
+        fields:
+            files:
+                type: "[DomainContent]"
+            warnings:
+                type: "[String]"
 
 DeleteContentPayload:
     type: object
@@ -23,3 +44,59 @@ DeleteContentPayload:
             id:
                 type: ID
                 description: "Global ID"
+
+ImageFieldInput:
+    type: input-object
+    config:
+        fields:
+            name:
+                type: String
+            alternativeText:
+                type: String
+            file:
+                type: FileUpload
+
+BinaryFieldInput:
+    type: input-object
+    config:
+        fields:
+            file:
+                type: FileUpload!
+                description: The media file
+            fileName:
+                type: String
+                description: The media's name. Will use the upload file's name if not provided.
+
+MediaFieldInput:
+    type: input-object
+    config:
+        fields:
+            file:
+                type: FileUpload!
+                description: The media file
+            fileName:
+                type: String
+                description: The media's name. Will use the upload file's name if not provided.
+            hasController:
+                type: Boolean
+                description: If the media has a controller when being displayed
+                defaultValue: false
+            autoplay:
+                type: Boolean
+                description: If the media should be automatically played
+                defaultValue: false
+            loop:
+                type: Boolean
+                description: If the media should be played in a loop
+                defaultValue: false
+            height:
+                type: Int
+                description: Height of the media
+            width:
+                type: Int
+                description: Width of the media
+
+FileUpload:
+    type: custom-scalar
+    config:
+        scalarType: '@=newObject("Overblog\\GraphQLBundle\\Upload\\Type\\GraphQLUploadType")'

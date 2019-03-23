@@ -1,0 +1,64 @@
+AuthorInput:
+    type: input-object
+    config:
+        fields:
+            id:
+                type: "Int"
+                description: "Author's Id in the collection that holds it. If not set or -1, an Id will be generated when added to the collection"
+            name:
+                description: "The author's name"
+                type: "String"
+            email:
+                description: "The author's email address"
+                type: "String"
+
+RichTextFieldInput:
+    type: input-object
+    config:
+        fields:
+            format:
+                type: RichTextFieldInputFormat
+            input:
+                type: String
+
+UrlFieldInput:
+    type: input-object
+    config:
+        fields:
+            link:
+                type: String!
+                description: "The link's URL"
+            text:
+                type: String
+                description: "The link's name or description"
+
+MapLocationFieldInput:
+    type: input-object
+    config:
+        fields:
+            address:
+                type: String
+                description: "Display address for the location."
+            latitude:
+                type: Float
+                description: "Latitude of the location"
+            longitude:
+                type: Float
+                description: "Longitude of the location"
+
+DateFieldInput:
+    type: input-object
+    config:
+        fields:
+            format:
+                type: DateInputFormat
+            input:
+                type: String
+
+DateInputFormat:
+    type: enum
+    config:
+        values:
+            timetring: {}
+            rfc850: {}
+            timestamp: {}

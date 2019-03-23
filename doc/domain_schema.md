@@ -33,12 +33,47 @@ Queries look like this:
         variations(alias: large) { uri }
       }
     }
-    folders {
+    folder(id: 1234) {
       name
     }
   }
 }
 ```
+
+## Mutations
+For each content type, two mutations will be exposed: `create{ContentType}` and `update{ContentType}`:
+`createArticle`, `updateBlogPost`, ... they can be used to respectively create and update content items
+of each type. In addition, an input type is created for each of those mutations: `{ContentType}ContentCreateInput`,
+`{Article}ContentUpdateInput`, used to provide input data to the mutations.
+
+### Authentication
+The current user needs to be authorized to perform the operation. You can log in using `/login` to get a session cookie,
+and add that session cookie to the request. With GraphiQL, logging in on another tab will work.
+
+### Example
+
+```
+mutation CreateBlogPost {
+  createBlogPost(
+    parentLocationId: 2,
+    languageCode: "eng-GB"
+    input: {
+      title: "The blog post's title",
+      author: [
+        {name: "John Doe", email: "johndoe@unknown.net"}
+      ],
+      body: {
+        format: html,
+        input: "<h1>Title</h1><p>paragraph</p>"
+    }
+  ) {
+    _info { id mainLocationId }
+    title
+    body { html5 }
+  }
+}
+```
+
 
 ## Setting it up
 

@@ -13,4 +13,5 @@ class Arg extends Input
     public $name;
     public $type;
     public $description;
+    public $defaultValue;
 }

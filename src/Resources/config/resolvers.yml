@@ -160,4 +160,6 @@ services:
     #
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentMutationResolver:
         tags:
+            - { name: overblog_graphql.mutation, alias: "CreateDomainContent", method: "createDomainContent" }
             - { name: overblog_graphql.mutation, alias: "DeleteDomainContent", method: "deleteDomainContent" }
+            - { name: overblog_graphql.mutation, alias: "UpdateDomainContent", method: "updateDomainContent" }
