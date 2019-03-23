@@ -2,3 +2,24 @@ PlatformMutation:
     type: object
     config:
         fields:
+            deleteContent:
+                type: DeleteContentPayload
+                resolve: '@=mutation("DeleteDomainContent", [args])'
+                args:
+                    id:
+                        type: ID
+                        description: "Global ID of the content item to delete"
+                    contentId:
+                        type: Int
+                        description: "ID of the content item to delete"
+
+DeleteContentPayload:
+    type: object
+    config:
+        fields:
+            contentId:
+                type: Int
+                description: "Numerical content id"
+            id:
+                type: ID
+                description: "Global ID"

@@ -154,3 +154,10 @@ services:
             - {name: overblog_graphql.resolver, alias: "ObjectStateByContentInfo", method: "resolveObjectStateByContentInfo"}
             - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroup", method: "resolveObjectStatesByGroup"}
             - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroupId", method: "resolveObjectStatesByGroupId"}
+
+    #
+    # Content mutations
+    #
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentMutationResolver:
+        tags:
+            - { name: overblog_graphql.mutation, alias: "DeleteDomainContent", method: "deleteDomainContent" }
