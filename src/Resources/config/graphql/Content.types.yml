@@ -108,33 +108,3 @@ ContentRelation:
                 resolve: "@=value.destinationContentInfo"
             type:
                 type: "String"
-
-ContentCreateStruct:
-    type: object
-    config:
-        description: "A new content item."
-        fields:
-            contentTypeId:
-                type: "Int"
-                description: "The Content item's Content Type ID."
-            sectionId:
-                type: "Int"
-                description: "The Section id the Content item must be assigned."
-            ownerId:
-                type: "Int"
-                description: "The owner of the content. If not given the current authenticated user is set as owner."
-            alwaysAvailable:
-                type: "Boolean"
-                description: "Indicates if the content object is shown in the mainlanguage if its not present in an other requested language."
-            remoteId:
-                type: "String"
-                description: "Remote identifier used as a custom identifier for the object."
-            mainLanguageCode:
-                type: "String"
-                description: "The main language code for the content."
-            modificationDate:
-                type: "DateTime"
-                description: "Modification date. If not given the current timestamp is used."
-            fields:
-                type: "[Field]"
-                description: "The Content fields"
