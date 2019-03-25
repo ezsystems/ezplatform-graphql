@@ -134,16 +134,25 @@ ImageVariation:
         fields:
             uri:
                 type: "String"
+                description: "The image's URI (example: 'https://example.com/var/site/storage/images/_aliases/small/9/8/1/0/189-1-eng-GB/image.png')"
             name:
                 type: "String"
+                description: "The name of the image alias (example: 'original')"
             mimeType:
                 type: "String"
+                description: "The MIME type (for example 'image/png')"
             fileName:
                 type: "String"
-            dirPath:
-                type: "String"
+                description: "The name of the file (for example 'my_image.png')"
             lastModified:
-                type: "String"
+                type: DateTime
+                description: "When the variation was last modified"
+            width:
+                type: "Int"
+                description: "The width as number of pixels (example: 320)"
+            height:
+                type: "Int"
+                description: "The height as number of pixels (example: 200)"
 
 AuthorFieldValue:
     type: object
