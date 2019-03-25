@@ -1,7 +1,6 @@
 Content:
     type: object
     config:
-        interfaces: [Node]
         description: "An eZ Platform repository ContentInfo."
         fields:
             id:
