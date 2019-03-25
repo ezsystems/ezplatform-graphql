@@ -14,8 +14,9 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  * Required to be able to identify a value's FieldType to map with a GraphQL type.
  *
  * @property-read int $contentTypeId
- * @property-read int $fieldDefIdentifier
- * @property-read int $value
+ * @property-read string $fieldDefIdentifier
+ * @property-read object $value
+ * @
  */
 class ContentFieldValue extends ValueObject
 {

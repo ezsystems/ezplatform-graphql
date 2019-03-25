@@ -13,10 +13,7 @@ class SelectionFieldValueBuilder implements FieldValueBuilder
 
         return [
             'type' => $settings['isMultiple'] ? '[String]' : 'String',
-            'resolve' => sprintf(
-                '@=resolver("SelectionFieldValue", [value, "%s"])',
-                $fieldDefinition->identifier
-            )
+            'resolve' => '@=resolver("SelectionFieldValue", [field, content])',
         ];
     }
 }

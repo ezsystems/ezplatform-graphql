@@ -5,22 +5,22 @@ use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
 class BaseFieldValueBuilder implements FieldValueBuilder
 {
-    const DEFAULT_RESOLVER = '@=resolver("DomainFieldValue", [value, "%s"])';
+    const DEFAULT_RESOLVER = '@=field';
 
     private $typesMap = [
-        'ezauthor' => ["[AuthorFieldValue]", '@=resolver("DomainFieldValue", [value, "%s"]).authors'],
+        'ezauthor' => ["[AuthorFieldValue]", '@=field.authors'],
         'ezbinaryfile' => 'BinaryFileFieldValue',
-        'ezboolean' => ['Boolean', '@=resolver("DomainFieldValue", [value, "%s"]).bool'],
+        'ezboolean' => ['Boolean', '@=field.bool'],
         'ezcountry' => 'String',
-        'ezdate' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).date'],
-        'ezdatetime' => ['DateTime', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
+        'ezdate' => ['DateTime', '@=field.date'],
+        'ezdatetime' => ['DateTime', '@=field.value'],
         'ezemail' => 'String',
-        'ezfloat' => ['Float', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
+        'ezfloat' => ['Float', '@=field.value'],
         'ezgmaplocation' => 'MapLocationFieldValue',
         'ezimage' => 'ImageFieldValue',
-        'ezimageasset' => ['ImageFieldValue', '@=resolver("DomainImageAssetFieldValue", [value, "%s"])'],
-        'ezinteger' => ['Int', '@=resolver("DomainFieldValue", [value, "%s"]).value'],
-        'ezkeyword' => ['[String]', '@=resolver("DomainFieldValue", [value, "%s"]).values'],
+        'ezimageasset' => ['ImageFieldValue', '@=resolver("DomainImageAssetFieldValue", [field, content])'],
+        'ezinteger' => ['Int', '@=field.value'],
+        'ezkeyword' => ['[String]', '@=field.values'],
         'ezmedia' => 'MediaFieldValue',
         'ezrichtext' => 'RichTextFieldValue',
         'ezstring' => 'String',

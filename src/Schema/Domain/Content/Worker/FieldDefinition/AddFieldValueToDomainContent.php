@@ -39,9 +39,23 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     private function getDefinition(FieldDefinition $fieldDefinition)
     {
-        return isset($this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier])
+        $definition = isset($this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier])
             ? $this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier]->buildDefinition($fieldDefinition)
             : $this->defaultFieldValueBuilder->buildDefinition($fieldDefinition);
+
+        $definition['resolve'] = str_replace(
+            [
+                'content',
+                'field'
+            ],
+            [
+                'value',
+                'resolver("DomainFieldValue", [value, "' . $fieldDefinition->identifier . '"])',
+            ],
+            $definition['resolve']
+        );
+
+        return $definition;
     }
 
     public function canWork(Builder $schema, array $args)

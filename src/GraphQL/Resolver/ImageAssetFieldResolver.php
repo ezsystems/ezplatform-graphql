@@ -5,6 +5,7 @@ use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
 use eZ\Publish\Core\FieldType\ImageAsset\Value as ImageAssetValue;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use Overblog\GraphQLBundle\Error\UserError;
 
 class ImageAssetFieldResolver
@@ -29,26 +30,22 @@ class ImageAssetFieldResolver
         $this->assetMapper = $assetMapper;
     }
 
-    public function resolveDomainImageAssetFieldValue($contentInfo, $fieldDefinitionIdentifier)
+    public function resolveDomainImageAssetFieldValue(Field $field)
     {
-        $contentFieldValue = $this->domainContentResolver->resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier);
-
-        if (!$contentFieldValue->value instanceof ImageAssetValue) {
-            throw new UserError("$fieldDefinitionIdentifier is not an image asset field");
-        }
-
         $assetValue = $this->assetMapper->getAssetValue(
-            $this->contentService->loadContent($contentFieldValue->value->destinationContentId)
+            $this->contentService->loadContent($field->value->destinationContentId)
         );
 
         if (empty($assetValue->alternativeText)) {
-            $assetValue->alternativeText = $contentFieldValue->value->alternativeText;
-        }
+            $assetValue->alternativeText = $field->value->alternativeText;
+        };
 
-        return new ContentFieldValue([
-            'contentTypeId' => $contentFieldValue->contentTypeId,
-            'fieldDefIdentifier' => $contentFieldValue->fieldDefIdentifier,
-            'content' => $contentFieldValue->content,
+        return new Field([
+            'languageCode' => $field->languageCode,
+            'contentTypeId' => $field->contentTypeId,
+            'fieldDefIdentifier' => $field->fieldDefIdentifier,
+            'fieldTypeIdentifier' => $field->fieldTypeIdentifier,
+            'content' => $field->content,
             'value' => $assetValue,
         ]);
     }

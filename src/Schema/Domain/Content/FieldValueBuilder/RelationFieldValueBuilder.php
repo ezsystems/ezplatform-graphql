@@ -41,12 +41,9 @@ class RelationFieldValueBuilder implements FieldValueBuilder
             $type = "[$type]";
         }
 
-        $resolver = sprintf(
-            '@=resolver("DomainRelationFieldValue", [value, "%s", %s])',
-            $fieldDefinition->identifier,
-            $isMultiple
-        );
-
-        return ['type' => $type, 'resolve' => $resolver];
+        return [
+            'type' => $type,
+            'resolve' => sprintf('@=resolver("DomainRelationFieldValue", [field, %s])', $isMultiple)
+        ];
     }
 }
