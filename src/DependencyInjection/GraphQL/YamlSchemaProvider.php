@@ -6,6 +6,8 @@
  */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\GraphQL;
 
+use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\Map\UploadMap;
+
 /**
  * Provides schema definitions.
  */
@@ -13,6 +15,7 @@ class YamlSchemaProvider implements SchemaProvider
 {
     const PLATFORM_SCHEMA_PATH = 'ezplatform/';
     const PLATFORM_SCHEMA_FILE = self::PLATFORM_SCHEMA_PATH . 'Domain.types.yml';
+    const PLATFORM_MUTATION_FILE = self::PLATFORM_SCHEMA_PATH . 'DomainContentMutation.types.yml';
     const APP_QUERY_SCHEMA_FILE = 'Query.types.yml';
     const APP_MUTATION_SCHEMA_FILE = 'Mutation.types.yml';
 
@@ -33,6 +36,7 @@ class YamlSchemaProvider implements SchemaProvider
         return [
             'query' => $this->getQuerySchema(),
             'mutation' => $this->getMutationSchema(),
+            'resolver_maps' => [UploadMap::class],
         ];
     }
 
@@ -49,9 +53,13 @@ class YamlSchemaProvider implements SchemaProvider
 
     private function getMutationSchema()
     {
-        return file_exists(self::APP_MUTATION_SCHEMA_FILE)
-            ? 'Mutation'
-            : null;
+        if (file_exists($this->getAppMutationSchemaFile())) {
+            return 'Mutation';
+        } else if (file_exists($this->getPlatformMutationSchema())) {
+            return 'DomainContentMutation';
+        } else {
+            return null;
+        }
     }
 
     private function getAppQuerySchema()
@@ -59,8 +67,18 @@ class YamlSchemaProvider implements SchemaProvider
         return $this->root . self::APP_QUERY_SCHEMA_FILE;
     }
 
+    private function getAppMutationSchemaFile()
+    {
+        return $this->root . self::APP_MUTATION_SCHEMA_FILE;
+    }
+
     private function getPlatformQuerySchema()
     {
         return $this->root . self::PLATFORM_SCHEMA_FILE;
+    }
+
+    private function getPlatformMutationSchema()
+    {
+        return $this->root . self::PLATFORM_MUTATION_FILE;
     }
 }

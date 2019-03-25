@@ -2,44 +2,46 @@ PlatformMutation:
     type: object
     config:
         fields:
-            createSection:
-                builder: Mutation
-                builderConfig:
-                    inputType: createSectionInput
-                    payloadType: sectionPayload
-                    mutateAndGetPayload: "@=mutation('CreateSection', [value])"
-            deleteSection:
-                builder: Mutation
-                builderConfig:
-                    inputType: deleteSectionInput
-                    payloadType: sectionPayload
-                    mutateAndGetPayload: "@=mutation('DeleteSection', [value])"
+            deleteContent:
+                type: DeleteContentPayload
+                resolve: '@=mutation("DeleteDomainContent", [args])'
+                args:
+                    id:
+                        type: ID
+                        description: "Global ID of the content item to delete"
+                    contentId:
+                        type: Int
+                        description: "ID of the content item to delete"
+            uploadFiles:
+                type: UploadedFilesPayload
+                resolve: '@=mutation("UploadFiles", [args])'
+                args:
+                    locationId:
+                        type: Int!
+                        description: "The location ID of a container to upload the files to"
+                    files:
+                        type: "[FileUpload]!"
+                    languageCode:
+                        type: String!
+                        description: "The language the content items must be created in"
 
-createSectionInput:
-    type: relay-mutation-input
+UploadedFilesPayload:
+    type: object
     config:
         fields:
-            identifier:
-                type: "String"
-            name:
-                type: "String"
+            files:
+                type: "[DomainContent]"
+            warnings:
+                type: "[String]"
 
-deleteSectionInput:
-    type: relay-mutation-input
+DeleteContentPayload:
+    type: object
     config:
         fields:
+            contentId:
+                type: Int
+                description: "Numerical content id"
             id:
-                type: "Int"
-            identifier:
-                type: "String"
+                type: ID
+                description: "Global ID"
 
-sectionPayload:
-    type: relay-mutation-payload
-    config:
-        fields:
-            id:
-                type: "Int"
-            identifier:
-                type: "String"
-            name:
-                type: "String"

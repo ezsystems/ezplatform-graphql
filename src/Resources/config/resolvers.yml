@@ -49,6 +49,12 @@ services:
         arguments:
             $repository: "@ezpublish.siteaccessaware.repository"
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
+        arguments:
+            $repository: '@ezpublish.siteaccessaware.repository'
+        tags:
+            - { name: overblog_graphql.mutation, alias: "UploadFiles", method: "uploadFiles" }
+
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\UserResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "User", method: "resolveUser" }
@@ -154,3 +160,14 @@ services:
             - {name: overblog_graphql.resolver, alias: "ObjectStateByContentInfo", method: "resolveObjectStateByContentInfo"}
             - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroup", method: "resolveObjectStatesByGroup"}
             - {name: overblog_graphql.resolver, alias: "ObjectStatesByGroupId", method: "resolveObjectStatesByGroupId"}
+
+    #
+    # Content mutations
+    #
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentMutationResolver:
+        tags:
+            - { name: overblog_graphql.mutation, alias: "CreateDomainContent", method: "createDomainContent" }
+            - { name: overblog_graphql.mutation, alias: "DeleteDomainContent", method: "deleteDomainContent" }
+            - { name: overblog_graphql.mutation, alias: "UpdateDomainContent", method: "updateDomainContent" }
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\Map\UploadMap: ~

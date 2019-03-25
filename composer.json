@@ -14,7 +14,9 @@
     },
     "require": {
         "ezsystems/ezpublish-kernel": "^6.0|^7.0",
-        "overblog/graphql-bundle": "^0.11"
+        "ezsystems/ezplatform-admin-ui": "^1.0",
+        "overblog/graphql-bundle": "^0.11",
+        "erusev/parsedown": "^1.0"
     },
     "require-dev": {
         "overblog/graphiql-bundle": "^0.1",

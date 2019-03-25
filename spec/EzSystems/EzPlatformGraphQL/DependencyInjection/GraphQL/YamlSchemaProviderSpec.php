@@ -17,6 +17,7 @@ class YamlSchemaProviderSpec extends ObjectBehavior
     function let()
     {
         $this->vfs = vfsStream::setUp('config');
+        $this->createFile('ezplatform/Platform.types.yml');
         $this->beConstructedWith($this->vfs->url());
     }
 
@@ -39,8 +40,24 @@ class YamlSchemaProviderSpec extends ObjectBehavior
 
     function it_returns_the_Platform_schema_if_no_app_and_domain_schema_exist()
     {
-        $this->createFile('ezplatform/Platform.types.yml');
         $this->getSchemaConfiguration()->shouldHaveQueryConfiguration('Platform');
+    }
+
+    function it_returns_the_app_mutation_schema_if_one_exists()
+    {
+        $this->createFile('Mutation.types.yml');
+        $this->getSchemaConfiguration()->shouldHaveMutationConfiguration('Mutation');
+    }
+
+    function it_returns_the_DomainMutation_schema_if_no_app_schema_exists_and_the_domain_mutation_schema_exists()
+    {
+        $this->createFile('ezplatform/DomainContentMutation.types.yml');
+        $this->getSchemaConfiguration()->shouldHaveMutationConfiguration('DomainContentMutation');
+    }
+
+    function it_returns_no_mutation_schema_if_no_app_and_domain_mutation_schema_exist()
+    {
+        $this->getSchemaConfiguration()->shouldHaveMutationConfiguration(null);
     }
 
     public function getMatchers(): array
@@ -49,8 +66,14 @@ class YamlSchemaProviderSpec extends ObjectBehavior
             'haveQueryConfiguration' => function($value, $expectedSchemaConfiguration) {
                 return
                     is_array($value) &&
-                    isset($value['query']) &&
+                    array_key_exists('query', $value) &&
                     $value['query'] === $expectedSchemaConfiguration;
+            },
+            'haveMutationConfiguration' => function($value, $expectedMutationSchemaConfiguration) {
+                return
+                    is_array($value) &&
+                    array_key_exists('mutation', $value) &&
+                    $value['mutation'] === $expectedMutationSchemaConfiguration;
             }
         ];
     }

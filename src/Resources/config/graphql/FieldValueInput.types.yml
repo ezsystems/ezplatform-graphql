@@ -1,0 +1,127 @@
+AuthorInput:
+    type: input-object
+    config:
+        fields:
+            id:
+                type: "Int"
+                description: "Author's Id in the collection that holds it. If not set or -1, an Id will be generated when added to the collection"
+            name:
+                description: "The author's name"
+                type: "String"
+            email:
+                description: "The author's email address"
+                type: "String"
+
+RichTextFieldInput:
+    type: input-object
+    config:
+        fields:
+            format:
+                type: RichTextFieldInputFormat
+            input:
+                type: String
+
+UrlFieldInput:
+    type: input-object
+    config:
+        fields:
+            link:
+                type: String!
+                description: "The link's URL"
+            text:
+                type: String
+                description: "The link's name or description"
+
+MapLocationFieldInput:
+    type: input-object
+    config:
+        fields:
+            address:
+                type: String
+                description: "Display address for the location."
+            latitude:
+                type: Float
+                description: "Latitude of the location"
+            longitude:
+                type: Float
+                description: "Longitude of the location"
+
+DateFieldInput:
+    type: input-object
+    config:
+        fields:
+            format:
+                type: DateInputFormat
+            input:
+                type: String
+
+RichTextFieldInputFormat:
+    type: enum
+    config:
+        values:
+            markdown: {}
+            html: {}
+
+DateInputFormat:
+    type: enum
+    config:
+        values:
+            timetring: {}
+            rfc850: {}
+            timestamp: {}
+
+MediaFieldInput:
+    type: input-object
+    config:
+        fields:
+            file:
+                type: FileUpload!
+                description: The media file
+            fileName:
+                type: String
+                description: The media's name. Will use the upload file's name if not provided.
+            hasController:
+                type: Boolean
+                description: If the media has a controller when being displayed
+                defaultValue: false
+            autoplay:
+                type: Boolean
+                description: If the media should be automatically played
+                defaultValue: false
+            loop:
+                type: Boolean
+                description: If the media should be played in a loop
+                defaultValue: false
+            height:
+                type: Int
+                description: Height of the media
+            width:
+                type: Int
+                description: Width of the media
+
+ImageFieldInput:
+    type: input-object
+    config:
+        fields:
+            name:
+                type: String
+            alternativeText:
+                type: String
+            file:
+                type: FileUpload
+
+BinaryFieldInput:
+    type: input-object
+    config:
+        fields:
+            file:
+                type: FileUpload!
+                description: The media file
+            fileName:
+                type: String
+                description: The media's name. Will use the upload file's name if not provided.
+
+FileUpload:
+    type: custom-scalar
+    config:
+        scalarType: '@=newObject("Overblog\\GraphQLBundle\\Upload\\Type\\GraphQLUploadType")'
