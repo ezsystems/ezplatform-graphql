@@ -5,8 +5,7 @@ Content:
         description: "An eZ Platform repository ContentInfo."
         fields:
             id:
-                type: "ID!"
-                builder: Relay::GlobalId
+                type: "Int"
                 description: "The Content item's unique ID."
             contentTypeId:
                 type: "Int!"
