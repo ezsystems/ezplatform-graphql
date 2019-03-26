@@ -45,7 +45,8 @@ class AddLanguageToEnum implements Worker, Initializer
             new Builder\Input\EnumValue(
                 $language->languageCode,
                 [
-                    'description' => $language->name
+                    'description' => $language->name,
+                    'value' => $language->languageCode
                 ]
             )
         );
