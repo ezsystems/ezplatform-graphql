@@ -389,8 +389,8 @@ RichTextFieldValue:
                 resolve: "@=value"
             plaintext:
                 type: "String"
-                description: "Plain text representation of the value, without tags."
-                resolve: "@=resolver('RichTextXmlToPlainText', [value.xml.plain_text])"
+                description: "Plain text representation of the value, without tags. Warning: the text representation may not be perfect."
+                resolve: "@=resolver('RichTextXmlToPlainText', [value.xml])"
             html5:
                 type: "String"
                 description: "HTML5 representation."

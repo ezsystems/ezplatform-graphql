@@ -109,6 +109,7 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "RichTextXmlToHtml5", method: "xmlToHtml5" }
             - { name: overblog_graphql.resolver, alias: "RichTextXmlToHtml5Edit", method: "xmlToHtml5Edit" }
+            - { name: overblog_graphql.resolver, alias: "RichTextXmlToPlainText", method: "xmlToplainText" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ImageFieldResolver:
         arguments:
