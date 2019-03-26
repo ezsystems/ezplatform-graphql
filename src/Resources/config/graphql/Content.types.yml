@@ -106,4 +106,14 @@ ContentRelation:
                 type: "DomainContent"
                 resolve: "@=value.destinationContentInfo"
             type:
-                type: "String"
+                type: RelationType
+
+RelationType:
+    type: enum
+    config:
+        values:
+            common: 1
+            embed: 2
+            link: 4
+            field: 8
+            asset: 16
