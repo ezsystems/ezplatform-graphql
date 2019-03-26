@@ -24,8 +24,9 @@ services:
         arguments:
             $defaultFieldValueBuilder: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\BaseFieldValueBuilder'
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\RelationListFieldValueBuilder:
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\RelationFieldValueBuilder:
         tags:
+            - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelation'}
             - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelationlist'}
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\SelectionFieldValueBuilder:

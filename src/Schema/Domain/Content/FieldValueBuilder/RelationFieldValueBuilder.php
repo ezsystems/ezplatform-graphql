@@ -5,7 +5,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
-class RelationListFieldValueBuilder implements FieldValueBuilder
+class RelationFieldValueBuilder implements FieldValueBuilder
 {
     /**
      * @var NameHelper
@@ -36,7 +36,7 @@ class RelationListFieldValueBuilder implements FieldValueBuilder
         }
 
         $isMultiple = 'false';
-        if ($constraints['RelationListValueValidator']['selectionLimit'] !== 1) {
+        if (isset($constraints['RelationListValueValidator']) && $constraints['RelationListValueValidator']['selectionLimit'] !== 1) {
             $isMultiple = 'true';
             $type = "[$type]";
         }

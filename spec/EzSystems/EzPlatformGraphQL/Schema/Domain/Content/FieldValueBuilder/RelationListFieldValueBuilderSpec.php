@@ -2,7 +2,7 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder;
 
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\RelationListFieldValueBuilder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\RelationFieldValueBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
@@ -31,7 +31,7 @@ class RelationListFieldValueBuilderSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(RelationListFieldValueBuilder::class);
+        $this->shouldHaveType(RelationFieldValueBuilder::class);
     }
 
     function it_maps_single_selection_without_type_limitations_to_a_single_generic_content()
