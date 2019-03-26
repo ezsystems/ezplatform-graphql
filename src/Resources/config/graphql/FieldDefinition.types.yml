@@ -176,6 +176,7 @@ CountryFieldDefinitionSettings:
 
 SelectionFieldDefinition:
     type: object
+    inherits: [FieldDefinition]
     config:
         fields:
             settings:

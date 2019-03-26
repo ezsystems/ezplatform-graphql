@@ -1,0 +1,63 @@
+parameters:
+  ezplatform_graphql.schema.content.mapping.field_definition_type:
+    ezauthor:
+      value_type: "[AuthorFieldValue]"
+      value_resolver: 'field.authors'
+    ezbinaryfile:
+      definition_type: BinaryFieldDefinition
+      value_type: BinaryFileFieldValue
+    ezboolean:
+      definition_type: CheckboxFieldDefinition
+      value_type: Boolean
+      value_resolver: 'field.bool'
+    ezcountry:
+      definition_type: CountryFieldDefinition
+      value_type: String
+    ezdate:
+      value_type: DateTime
+      value_resolver: 'field.date'
+    ezdatetime:
+      value_type: DateTime
+      value_resolver: 'field.value'
+    ezemail:
+      value_type: String
+    ezfloat:
+      definition_type: FloatFieldDefinition
+      value_type: Float
+      value_resolver: 'field.value'
+    ezgmaplocation:
+      value_type: MapLocationFieldValue
+    ezimage:
+      definition_type: BinaryFieldDefinition
+      value_type: ImageFieldValue
+    ezimageasset:
+      # todo definition_type: ImageAssetFieldDefinition
+      value_type: ImageFieldValue
+      value_resolver: 'resolver("DomainImageAssetFieldValue", [value])'
+    ezinteger:
+      definition_type: IntegerFieldDefinition
+      value_type: Int
+      value_resolver: 'field.value'
+    ezkeyword:
+      value_type: '[String]'
+      value_resolver: 'field.values'
+    ezmedia:
+      definition_type: MediaFieldDefinition
+      value_type: MediaFieldValue
+    ezobjectrelation:
+      definition_type: RelationFieldDefinition
+      value_type: RelationFieldValue
+    ezobjectrelationlist:
+      definition_type: RelationListFieldDefinition
+      value_type: RelationListFieldValue
+    ezrichtext:
+      # @todo definition_type: RichTextFieldDefinition
+      value_type: RichTextFieldValue
+    ezselection:
+      definition_type: SelectionFieldDefinition
+    ezstring:
+      definition_type: TextLineFieldDefinition
+      value_type: String
+    eztext:
+      definition_type: TextBlockFieldDefinition
+      value_type: String

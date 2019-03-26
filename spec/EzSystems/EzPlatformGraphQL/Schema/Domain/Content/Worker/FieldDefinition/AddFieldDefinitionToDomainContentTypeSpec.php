@@ -2,6 +2,7 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToDomainContentType;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -18,6 +19,7 @@ class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
     const FIELD_NAME = 'testField';
     const FIELD_DESCRIPTION = ['eng-GB' => 'Description'];
     const FIELD_TYPE = 'ezstring';
+    const FIELD_DEFINITION_TYPE = 'TestFieldDefinition';
 
     /**
      * @var ContentType\FieldDefinition
@@ -28,8 +30,11 @@ class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
     {
         $this->defaultFieldDefinition = $this->buildFieldDefinition(self::FIELD_TYPE);
     }
-    function let(NameHelper $nameHelper)
+
+    function let(FieldDefinitionMapper $mapper, NameHelper $nameHelper)
     {
+        $this->beConstructedWith($mapper);
+
         $nameHelper
             ->domainContentTypeName(
                 Argument::type(ContentType\ContentType::class)
@@ -70,16 +75,15 @@ class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
         )->shouldHaveBeenCalled();
     }
 
-    function it_uses_the_FieldDefinition_field_type_identifier_to_determine_the_type(Builder $schema)
+    function it_gets_the_FieldDefinition_type_from_the_FieldDefinitionMapper(Builder $schema, FieldDefinitionMapper $mapper)
     {
-        foreach (AddFieldDefinitionToDomainContentType::TYPES_MAP as $eZType => $graphQLType) {
-            $schema->addFieldToType(
-                self::TYPE_NAME,
-                FieldArgument::hasType($graphQLType)
-            )->shouldBeCalled();
-            $this->work($schema, $this->buildArguments($eZType));
-        }
+        $mapper->mapToFieldDefinitionType(Argument::any())->willReturn(self::FIELD_DEFINITION_TYPE);
+        $schema->addFieldToType(
+            self::TYPE_NAME,
+            FieldArgument::hasType(self::FIELD_DEFINITION_TYPE)
+        )->shouldBeCalled();
 
+        $this->work($schema, $this->buildArguments());
     }
 
     protected function buildArguments($fieldTypeIdentifier = null): array

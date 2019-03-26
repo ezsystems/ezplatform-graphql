@@ -1,7 +1,7 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\FieldValueBuilder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -13,19 +13,13 @@ use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 class AddFieldValueToDomainContent extends BaseWorker implements Worker
 {
     /**
-     * @var FieldValueBuilder[]
+     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
      */
-    private $fieldValueBuilders;
+    private $fieldDefinitionMapper;
 
-    /**
-     * @var FieldValueBuilder
-     */
-    private $defaultFieldValueBuilder;
-
-    public function __construct(FieldValueBuilder $defaultFieldValueBuilder, array $fieldValueBuilders = [])
+    public function __construct(FieldDefinitionMapper $fieldDefinitionMapper)
     {
-        $this->fieldValueBuilders = $fieldValueBuilders;
-        $this->defaultFieldValueBuilder = $defaultFieldValueBuilder;
+        $this->fieldDefinitionMapper = $fieldDefinitionMapper;
     }
 
     public function work(Builder $schema, array $args)
@@ -39,23 +33,10 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     private function getDefinition(FieldDefinition $fieldDefinition)
     {
-        $definition = isset($this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier])
-            ? $this->fieldValueBuilders[$fieldDefinition->fieldTypeIdentifier]->buildDefinition($fieldDefinition)
-            : $this->defaultFieldValueBuilder->buildDefinition($fieldDefinition);
-
-        $definition['resolve'] = str_replace(
-            [
-                'content',
-                'field'
-            ],
-            [
-                'value',
-                'resolver("DomainFieldValue", [value, "' . $fieldDefinition->identifier . '"])',
-            ],
-            $definition['resolve']
-        );
-
-        return $definition;
+        return [
+            'type' => $this->fieldDefinitionMapper->mapToFieldValueType($fieldDefinition),
+            'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition)
+        ];
     }
 
     public function canWork(Builder $schema, array $args)
