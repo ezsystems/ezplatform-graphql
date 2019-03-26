@@ -16,8 +16,8 @@ Version:
             name:
                 type: "String"
                 args:
-                    languageCode:
-                        type: "String"
+                    language:
+                        type: RepositoryLanguage
             modificationDate:
                 type: "DateTime"
             creationDate:
