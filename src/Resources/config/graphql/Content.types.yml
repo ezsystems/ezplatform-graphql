@@ -100,10 +100,10 @@ ContentRelation:
             sourceFieldDefinitionIdentifier:
                 type: "String"
             sourceContent:
-                type: "Content"
+                type: "DomainContent"
                 resolve: "@=value.sourceContentInfo"
             destinationContent:
-                type: "Content"
+                type: "DomainContent"
                 resolve: "@=value.destinationContentInfo"
             type:
                 type: "String"

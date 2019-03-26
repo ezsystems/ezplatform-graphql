@@ -49,9 +49,4 @@ class RelationListFieldValueBuilder implements FieldValueBuilder
 
         return ['type' => $type, 'resolve' => $resolver];
     }
-
-    private function mapFieldTypeIdentifierToGraphQLType($fieldTypeIdentifier)
-    {
-        return isset($this->typesMap[$fieldTypeIdentifier]) ? $this->typesMap[$fieldTypeIdentifier] : 'GenericFieldValue';
-    }
 }
