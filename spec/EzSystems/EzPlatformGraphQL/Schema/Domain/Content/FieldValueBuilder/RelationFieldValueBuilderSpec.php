@@ -10,7 +10,7 @@ use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class RelationListFieldValueBuilderSpec extends ObjectBehavior
+class RelationFieldValueBuilderSpec extends ObjectBehavior
 {
     const DEF_LIMIT_SINGLE = 1;
     const DEF_LIMIT_MULTI = 5;
