@@ -31,7 +31,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
                 $this->getNameHelper()->domainContentName($contentType) . '!',
                 [
                     'resolve' => sprintf(
-                        '@=mutation("CreateDomainContent", [args["input"], "%s", args["parentLocationId"], args["languageCode"]])',
+                        '@=mutation("CreateDomainContent", [args["input"], "%s", args["parentLocationId"], args["language"]])',
                         $contentType->identifier
                 )]
             )
@@ -63,7 +63,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
             new Builder\Input\Field(
                 $this->getUpdateField($contentType),
                 $this->getNameHelper()->domainContentName($contentType) . '!',
-                ['resolve' => '@=mutation("UpdateDomainContent", [args["input"], args, args["versionNo"], args["languageCode"]])']
+                ['resolve' => '@=mutation("UpdateDomainContent", [args["input"], args, args["versionNo"], args["language"]])']
             )
         );
 
@@ -149,9 +149,9 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
     private function buildLanguageFieldInput(): Builder\Input\Arg
     {
         return new Builder\Input\Arg(
-            'languageCode',
-            'String!',
-            ['description' => 'The language code the content should be created/updated in (ex. eng-GB).']
+            'language',
+            'RepositoryLanguage!',
+            ['description' => 'The language the content should be created/updated in.']
         );
     }
 }

@@ -16,8 +16,9 @@ Version:
             name:
                 type: "String"
                 args:
-                    languageCode:
-                        type: "String"
+                    language:
+                        type: RepositoryLanguage
+                resolve: "@=value.getName(args['language']) ?: ''"
             modificationDate:
                 type: "DateTime"
             creationDate:

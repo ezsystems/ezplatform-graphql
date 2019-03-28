@@ -40,7 +40,7 @@ class UploadFiles
             $mapping = $this->mapAgainstConfig($mimeType);
 
             try {
-                $createdContent[] = $this->createContent($mapping, $file, $args['locationId'], $args['languageCode']);
+                $createdContent[] = $this->createContent($mapping, $file, $args['locationId'], $args['language']);
             } catch (\Exception $e) {
                 $warnings[] = $e->getMessage();
             }

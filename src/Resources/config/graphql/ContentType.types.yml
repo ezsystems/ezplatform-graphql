@@ -10,10 +10,10 @@ ContentType:
                 type: "String"
                 description: "The content type's description"
                 args:
-                    languageCode:
-                        type: "String"
-                        defaultValue: ~
-                resolve: "@=value.getDescription(args['languageCode']) ?: ''"
+                    language:
+                      type: "RepositoryLanguage"
+                      defaultValue: ~
+                resolve: "@=value.getDescription(args['language']) ?: ''"
             fieldDefinitions:
                 type: "[FieldDefinition]"
                 description: "The ContentType's Field Definitions."
@@ -28,10 +28,10 @@ ContentType:
                 type: "String"
                 description: "The Content Type's name in the main language"
                 args:
-                    languageCode:
-                        type: "String"
+                    language:
+                        type: "RepositoryLanguage"
                         defaultValue: ~
-                resolve: "@=value.getName(args['languageCode']) ?: ''"
+                resolve: "@=value.getName(args['language']) ?: ''"
             names:
                 type: "[String]"
                 description: "The Content Type's names in all languages"
