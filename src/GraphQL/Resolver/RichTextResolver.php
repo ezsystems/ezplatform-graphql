@@ -34,4 +34,11 @@ class RichTextResolver
     {
         return $this->richTextEditConverter->convert($document)->saveHTML();
     }
+
+    public function xmlToPlainText(DOMDocument $document)
+    {
+        $html = $this->richTextConverter->convert($document)->saveHTML();
+
+        return strip_tags($html);
+    }
 }
