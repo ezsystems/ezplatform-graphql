@@ -124,23 +124,6 @@ class BaseFieldValueBuilderSpec extends ObjectBehavior
         $this->buildDefinition($fieldDefinition)->shouldHaveGraphQLType('MediaFieldValue');
     }
 
-    function it_builds_ezobjectrelation()
-    {
-        $fieldDefinition = $this->createFieldDefinition('ezobjectrelation');
-
-        $this->buildDefinition($fieldDefinition)->shouldHaveGraphQLType('RelationFieldValue');
-    }
-
-    /**
-     * @todo it isn't used, as there is a field value builder for it
-     */
-    function it_builds_ezobjectrelationlist()
-    {
-        $fieldDefinition = $this->createFieldDefinition('ezobjectrelationlist');
-
-        $this->buildDefinition($fieldDefinition)->shouldHaveGraphQLType('RelationListFieldValue');
-    }
-
     function it_builds_ezrichtext()
     {
         $fieldDefinition = $this->createFieldDefinition('ezrichtext');

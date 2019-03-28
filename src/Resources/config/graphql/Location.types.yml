@@ -9,10 +9,6 @@ Location:
             contentId:
                 type: "Int!"
                 description: "The ID of the Content item referenced by the Location."
-            content:
-                type: "Content"
-                description: "The referenced Content item's metadata."
-                resolve: "@=value.contentInfo"
             priority:
                 type: "Int"
                 description: "Position of the Location among its siblings when sorted using priority/"

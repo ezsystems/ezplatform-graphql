@@ -3,46 +3,6 @@ Repository:
     config:
         description: "eZ Platform repository"
         fields:
-            location:
-                type: "Location"
-                args:
-                    id:
-                        description: "Resolves using the unique location id."
-                        type: "Int"
-                resolve: "@=resolver('Location', [args])"
-            content:
-                type: "Content"
-                args:
-                    id:
-                        description: "Resolves using the unique Content id."
-                        type: "Int"
-                    remoteId:
-                        description: "Resolves using the unique Content remote id."
-                        type: "String"
-                resolve: "@=resolver('Content', [args])"
-            user:
-                type: "User"
-                args:
-                    id:
-                        description: "Load user by ID."
-                        type: "Int"
-                    email:
-                        description: "Load user by email address."
-                        type: "String"
-                    login:
-                        description: "Load user by login."
-                        type: "String"
-                resolve: "@=resolver('User', [args])"
-            userGroups:
-                type: "[UserGroup]"
-                description: "All user groups."
-                args:
-                    id:
-                        type: "Int"
-                        description: "User group id to load. If not given, the root one is loaded."
-                        defaultValue: 5
-                resolve: "@=resolver('UserGroups', [args])"
-
             contentType:
                 type: "ContentType"
                 args:
@@ -53,13 +13,6 @@ Repository:
                         description: "Resolves using the unique ContentType identifier."
                         type: "String"
                 resolve: "@=resolver('ContentType', [args])"
-            locationChildren:
-                type: "[Location]"
-                args:
-                    id:
-                        description: "ID of the Location to get children for"
-                        type: "Int"
-                resolve: "@=resolver('LocationChildren', [args])"
             contentTypes:
                 type: "[ContentType]"
                 args:
@@ -68,12 +21,6 @@ Repository:
                     groupIdentifier:
                         type: "String"
                 resolve: "@=resolver('ContentTypesFromGroup', [args])"
-            searchContent:
-                type: "[Content]"
-                args:
-                    query:
-                        type: "ContentSearchQuery!"
-                resolve: "@=resolver('SearchContent', [args])"
 
             #
             # Object States

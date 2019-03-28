@@ -8,9 +8,6 @@ Version:
             versionNumber:
                 type: "Int"
                 resolve: "@=value.versionNo"
-            content:
-                type: "Content"
-                resolve: "@=value.contentInfo"
             names:
                 type: "[String]"
             name:
@@ -25,26 +22,10 @@ Version:
                 type: "DateTime"
             creatorId:
                 type: "Int"
-            #creator:
-            #    type: "User"
             status:
                 type: "Int"
             initialLanguageCode:
                 type: "String"
             languageCodes:
                 type: "[String]"
-            fields:
-                type: "[Field]"
-                description: "The Content item's Fields."
-                args:
-                    languages:
-                        description: "Return fields in these languages."
-                        type: "[String]"
-                    useAlwaysAvailable:
-                        type: "Boolean"
-                        description: "Use the always available language."
-                    identifier:
-                        description: "Filter by field def identifier"
-                        type: "[String]"
-                resolve: "@=resolver('ContentFieldsInVersion', [value.contentInfo.id, value.versionNo, args])"
 
