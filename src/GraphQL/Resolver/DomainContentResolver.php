@@ -154,10 +154,10 @@ class DomainContentResolver
         }
     }
 
-    public function ResolveDomainContentType(Content $content)
+    public function resolveDomainContentType(Content $content)
     {
         return $this->makeDomainContentTypeName(
-            $this->contentTypeLoader->loadByIdentifier($content->contentInfo->contentTypeId)
+            $this->contentTypeLoader->load($content->contentInfo->contentTypeId)
         );
     }
 
