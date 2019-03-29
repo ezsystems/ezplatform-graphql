@@ -10,6 +10,9 @@ use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
+/**
+ * @internal
+ */
 class CachedContentLoader implements ContentLoader
 {
     /**

@@ -8,6 +8,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 
+/**
+ * @internal
+ */
 interface ContentTypeLoader
 {
     public function load($contentTypeId): ContentType;

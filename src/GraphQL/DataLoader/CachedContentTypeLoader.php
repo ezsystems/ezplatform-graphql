@@ -8,6 +8,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 
+/**
+ * @internal
+ */
 class CachedContentTypeLoader implements ContentTypeLoader
 {
     /**

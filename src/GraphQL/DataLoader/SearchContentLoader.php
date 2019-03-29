@@ -14,6 +14,9 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
+/**
+ * @internal
+ */
 class SearchContentLoader implements ContentLoader
 {
     /**

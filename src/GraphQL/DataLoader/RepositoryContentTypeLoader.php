@@ -9,6 +9,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 
+/**
+ * @internal
+ */
 class RepositoryContentTypeLoader implements ContentTypeLoader
 {
     /**
