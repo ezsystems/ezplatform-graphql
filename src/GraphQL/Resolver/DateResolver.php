@@ -4,6 +4,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use DateTime;
 use Overblog\GraphQLBundle\Definition\Argument;
 
+/**
+ * @internal
+ */
 class DateResolver
 {
     public function resolveDateToFormat($date, $args)

@@ -9,6 +9,9 @@ use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SectionService;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
+/**
+ * @internal
+ */
 class SectionResolver
 {
     /**

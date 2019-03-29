@@ -13,6 +13,9 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use Overblog\GraphQLBundle\Error\UserError;
 use eZ\Publish\Core\FieldType\Image\Value as ImageFieldValue;
 
+/**
+ * @internal
+ */
 class ImageFieldResolver
 {
     /**

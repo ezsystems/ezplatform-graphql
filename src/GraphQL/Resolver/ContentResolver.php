@@ -12,6 +12,9 @@ use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 
+/**
+ * @internal
+ */
 class ContentResolver
 {
     /**

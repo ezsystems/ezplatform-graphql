@@ -6,6 +6,9 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 
+/**
+ * @internal
+ */
 class ImageAssetFieldResolver
 {
     /**
