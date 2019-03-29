@@ -58,8 +58,6 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
     /**
      * Uses YamlConfigProvider to determinate what schema should be used.
      *
-     * @todo Make it extensible to possibly get rid of Yaml based dynamic schema.
-     *
      * @param string $configDir
      *
      * @return array

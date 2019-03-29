@@ -69,7 +69,6 @@ AbstractDomainContent:
                 type: String
                 resolve: "@=resolver('MainUrlAlias', [value])"
 
-# @todo interface ?
 DomainContentTypeGroup:
     type: object
     config:
@@ -105,6 +104,4 @@ DomainContentByIdentifierConnection:
             sliceSize:
                 type: Int!
             orderBy:
-                # @todo make an enum or object
-                # @todo generate
                 type: String

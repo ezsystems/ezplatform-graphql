@@ -154,11 +154,6 @@ services:
     tags:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezstring', inputType: 'String' }
 
-  # @todo
-  #EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Time:
-  #  tags:
-  #      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'eztime' }
-
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Url:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
