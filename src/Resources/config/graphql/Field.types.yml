@@ -180,24 +180,6 @@ MapLocationFieldValue:
             address:
                 type: "String"
                 resolve: "@=value.address"
-            html:
-                type: "String"
-                args:
-                    params:
-                        type: "MapLocationHtmlParameters"
-
-MapLocationHtmlParameters:
-    type: "input-object"
-    config:
-        fields:
-            draggable: { type: "Boolean" }
-            height: { type: "String", description: "The height of the rendered map with its unit (for example \"200px\" or \"20em\")." }
-            width: { type: "String", description: "The width of the rendered map with its unit (for example \"500px\" or \"50em\")." }
-            mapType: { type: "String", description: "One of the GMap types of map (https://developers.google.com/maps/documentation/javascript/maptypes#BasicMapTypes)" }
-            scrollWheel: { type: "Boolean", description: "Allows you to disable scroll wheel starting to zoom when mouse comes over the map as user scrolls down a page." }
-            showInfo: { type: "Boolean", description: "Whether to show a latitude, longitude and the address outside of the map" }
-            showMap: { type: "Boolean", description: "Whether to show a Map" }
-            zoom: { type: "Int", description: "The initial zoom level. Default: 13" }
 
 MediaFieldValue:
     type: object
