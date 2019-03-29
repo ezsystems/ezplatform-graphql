@@ -107,7 +107,6 @@ class UploadFiles
             ])
         );
 
-        // @todo error handling
         $draft = $contentService->createContent($struct, [$locationService->newLocationCreateStruct($locationId)]);
         $content = $contentService->publishVersion($draft->getVersionInfo());
 

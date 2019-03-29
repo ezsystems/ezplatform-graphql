@@ -133,7 +133,6 @@ DateFieldValue:
             formatted:
                 type: "String"
                 description: "Formatted date"
-                # @todo: refactor with a datetime resolver
                 resolve: "@=resolver('DateTimeFormat', [args['format'], value.value])"
                 args:
                     format:
@@ -160,7 +159,6 @@ KeywordFieldValue:
             text:
                 type: "String"
                 description: "String representation of the value"
-                # @todo will fail, array to string conversion
                 resolve: "@=value"
 
 MapLocationFieldValue:

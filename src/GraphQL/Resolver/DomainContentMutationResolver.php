@@ -195,8 +195,6 @@ class DomainContentMutationResolver
             );
         }
 
-        // @todo check type of domain object
-
         try {
             $this->getContentService()->deleteContent($contentInfo);
         } catch (API\Exceptions\UnauthorizedException $e) {

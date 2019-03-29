@@ -50,7 +50,6 @@ parameters:
       definition_type: RelationListFieldDefinition
       value_type: RelationListFieldValue
     ezrichtext:
-      # @todo definition_type: RichTextFieldDefinition
       value_type: RichTextFieldValue
     ezselection:
       definition_type: SelectionFieldDefinition
