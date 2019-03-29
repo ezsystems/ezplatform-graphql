@@ -5,9 +5,9 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
 class SearchResolver
@@ -22,22 +22,22 @@ class SearchResolver
      */
     private $queryMapper;
 
-    public function __construct(SearchService $searchService, SearchQueryMapper $queryMapper)
+    /**
+     * @var ContentLoader
+     */
+    private $contentLoader;
+
+    public function __construct(ContentLoader $contentLoader, SearchService $searchService, SearchQueryMapper $queryMapper)
     {
+        $this->contentLoader = $contentLoader;
         $this->searchService = $searchService;
         $this->queryMapper = $queryMapper;
     }
 
     public function searchContent($args)
     {
-        $query = $this->queryMapper->mapInputToQuery($args['query']);
-        $searchResult = $this->searchService->findContentInfo($query);
-
-        return array_map(
-            function (SearchHit $hit) {
-                return $hit->valueObject;
-            },
-            $searchResult->searchHits
+        return $this->contentLoader->find(
+            $this->queryMapper->mapInputToQuery($args['query'])
         );
     }
 
@@ -51,24 +51,13 @@ class SearchResolver
         $paginator = new Paginator(function ($offset, $limit) use ($query) {
             $query->offset = $offset;
             $query->limit = $limit ?? 10;
-            $searchResults = $this->searchService->findContentInfo($query);
-
-            return array_map(
-                function (SearchHit $searchHit) {
-                    return $searchHit->valueObject;
-                },
-                $searchResults->searchHits
-            );
+            return $this->contentLoader->find($query);
         });
 
         return $paginator->auto(
             $args,
             function() use ($query) {
-                $countQuery = clone $query;
-                $countQuery->limit = 0;
-                $countQuery->offset = 0;
-
-                return $this->searchService->findContentInfo($countQuery)->totalCount;
+                return $this->contentLoader->count($query);
             }
         );
     }
