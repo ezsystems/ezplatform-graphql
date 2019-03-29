@@ -8,6 +8,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use eZ\Publish\API\Repository\ContentTypeService;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
+/**
+ * @internal
+ */
 class ContentTypeResolver
 {
     /**

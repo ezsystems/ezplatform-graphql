@@ -13,6 +13,9 @@ use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
+/**
+ * @internal
+ */
 class UrlAliasResolver
 {
     /**

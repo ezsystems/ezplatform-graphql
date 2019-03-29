@@ -14,6 +14,9 @@ use eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
 
+/**
+ * @internal
+ */
 class ObjectStateResolver
 {
     /** @var \eZ\Publish\API\Repository\ObjectStateService */

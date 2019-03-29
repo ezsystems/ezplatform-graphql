@@ -5,12 +5,14 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
 
+/**
+ * @internal
+ */
 class UserResolver
 {
     /**

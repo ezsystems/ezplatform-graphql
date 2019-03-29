@@ -10,6 +10,9 @@ use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\SearchService;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
+/**
+ * @internal
+ */
 class SearchResolver
 {
     /**

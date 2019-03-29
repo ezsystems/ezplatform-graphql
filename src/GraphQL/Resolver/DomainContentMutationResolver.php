@@ -18,6 +18,9 @@ use Overblog\GraphQLBundle\Error\UserErrors;
 use Overblog\GraphQLBundle\Relay\Node\GlobalId;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
+/**
+ * @internal
+ */
 class DomainContentMutationResolver
 {
     /**

@@ -19,6 +19,9 @@ use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
+/**
+ * @internal
+ */
 class DomainContentResolver
 {
     /**
@@ -87,7 +90,6 @@ class DomainContentResolver
 
         $content = $this->contentLoader->findSingle($criterion);
 
-        // @todo consider optimizing using a map of contentTypeId
         $contentType = $this->contentTypeLoader->load($content->contentInfo->contentTypeId);
 
         if ($contentType->identifier !== $contentTypeIdentifier) {

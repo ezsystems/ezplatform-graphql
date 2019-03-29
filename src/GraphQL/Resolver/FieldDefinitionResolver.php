@@ -3,6 +3,9 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
+/**
+ * @internal
+ */
 class FieldDefinitionResolver
 {
     public function resolveFieldDefinitionName(FieldDefinition $fieldDefinition, $args)

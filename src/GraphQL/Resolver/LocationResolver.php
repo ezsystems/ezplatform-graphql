@@ -9,6 +9,9 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
 
+/**
+ * @internal
+ */
 class LocationResolver
 {
     /**

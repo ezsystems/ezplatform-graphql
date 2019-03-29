@@ -2,11 +2,13 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 
+/**
+ * @internal
+ */
 class SelectionFieldResolver
 {
     /**
