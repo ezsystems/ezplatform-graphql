@@ -122,7 +122,7 @@ class DomainContentMutationResolver
             throw new UserError('You are not authorized to publish this version');
         }
 
-        return $this->getContentService()->loadContent($contentDraft->id)->contentInfo;
+        return $this->getContentService()->loadContent($contentDraft->id);
     }
 
     public function createDomainContent($input, $contentTypeIdentifier, $parentLocationId, $language)
@@ -161,7 +161,7 @@ class DomainContentMutationResolver
             throw new UserError($e->getMessage(), 0, $e);
         }
 
-        return $content->contentInfo;
+        return $content;
     }
 
     public function deleteDomainContent(Argument $args)
