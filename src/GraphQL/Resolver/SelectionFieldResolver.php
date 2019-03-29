@@ -2,11 +2,9 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\FieldType;
-use Overblog\GraphQLBundle\Error\UserError;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 
 class SelectionFieldResolver
 {
@@ -26,28 +24,22 @@ class SelectionFieldResolver
         $this->domainContentResolver = $domainContentResolver;
     }
 
-    public function resolveSelectionFieldValue(ContentInfo $contentInfo, $fieldDefinitionIdentifier)
+    public function resolveSelectionFieldValue(Field $field, ContentInfo $contentInfo)
     {
-        $fieldValue = $this->domainContentResolver->resolveDomainFieldValue($contentInfo, $fieldDefinitionIdentifier);
-
-        if (!$fieldValue->value instanceof FieldType\Selection\Value) {
-            throw new UserError("$fieldDefinitionIdentifier is not a selection field");
-        }
-
         $fieldDefinition = $this
             ->contentTypeService->loadContentType($contentInfo->contentTypeId)
-            ->getFieldDefinition($fieldDefinitionIdentifier);
+            ->getFieldDefinition($field->fieldDefIdentifier);
 
-        $options = $this->getOptions($fieldValue, $fieldDefinition);
+        $options = $this->getOptions($field, $fieldDefinition, $contentInfo);
 
         if ($fieldDefinition->getFieldSettings()['isMultiple']) {
             $return = [];
-            foreach ($fieldValue->value->selection as $selectedItemId) {
+            foreach ($field->value->selection as $selectedItemId) {
                 $return[] = $options[$selectedItemId];
             }
         } else {
-            reset($fieldValue->value->selection);
-            $return = $options[current($fieldValue->value->selection)];
+            reset($field->value->selection);
+            $return = $options[current($field->value->selection)];
         }
 
         return $return;
@@ -56,19 +48,19 @@ class SelectionFieldResolver
     /**
      * Returns the options set based on the language.
      *
-     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue $contentFieldValue
+     * @param Field $field
      * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      *
      * @return array
      */
-    private function getOptions(ContentFieldValue $contentFieldValue, FieldDefinition $fieldDefinition)
+    private function getOptions(Field $field, FieldDefinition $fieldDefinition, ContentInfo $contentInfo)
     {
         $fieldSettings = $fieldDefinition->getFieldSettings();
 
         if (isset($fieldSettings['multilingualOptions'])) {
             $multilingualOptions = $fieldSettings['multilingualOptions'];
-            $fieldLanguageCode = $contentFieldValue->content->getField($contentFieldValue->fieldDefIdentifier)->languageCode;
-            $mainLanguageCode = $contentFieldValue->content->contentInfo->mainLanguageCode;
+            $fieldLanguageCode = $field->languageCode;
+            $mainLanguageCode = $contentInfo->mainLanguageCode;
 
             if (isset($multilingualOptions[$fieldLanguageCode])) {
                 return $multilingualOptions[$fieldLanguageCode];

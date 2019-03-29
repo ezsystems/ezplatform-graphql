@@ -20,15 +20,32 @@ services:
             tags:
                 - {name: 'ezplatform_graphql.schema_domain_iterator'}
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent:
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper:
+        alias: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables:
+        decorates: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        decoration_priority: -5
         arguments:
-            $defaultFieldValueBuilder: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\BaseFieldValueBuilder'
+            $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ResolverVariables.inner'
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\RelationFieldValueBuilder:
-        tags:
-            - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelation'}
-            - {name: ezplatform_graphql.field_value_builder, type: 'ezobjectrelationlist'}
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper:
+        decorates: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper.inner'
+            $typesMap: '%ezplatform_graphql.schema.content.mapping.field_definition_type%'
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\SelectionFieldValueBuilder:
-        tags:
-            - {name: ezplatform_graphql.field_value_builder, type: 'ezselection'}
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper:
+        decorates: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
+            $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\RelationFieldDefinitionMapper.inner'
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper:
+        decorates: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+        arguments:
+            $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper.inner'

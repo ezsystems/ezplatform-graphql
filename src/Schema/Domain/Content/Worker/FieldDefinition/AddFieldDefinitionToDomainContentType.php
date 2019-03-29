@@ -1,6 +1,7 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -11,21 +12,15 @@ use eZ\Publish\SPI\Repository\Values\MultiLanguageDescription;
 
 class AddFieldDefinitionToDomainContentType extends BaseWorker implements Worker
 {
-    const TYPES_MAP = [
-        'ezbinaryfile' => 'BinaryFieldDefinition',
-        'ezboolean' => 'CheckboxFieldDefinition',
-        'ezcountry' => 'CountryFieldDefinition',
-        'ezmediafile' => 'CheckboxFieldDefinition',
-        'ezfloat' => 'FloatFieldDefinition',
-        'ezimage' => 'BinaryFieldDefinition',
-        'ezinteger' => 'IntegerFieldDefinition',
-        'ezmedia' => 'MediaFieldDefinition',
-        'ezobjectrelation' => 'RelationFieldDefinition',
-        'ezobjectrelationlist' => 'RelationListFieldDefinition',
-        'ezstring' => 'TextLineFieldDefinition',
-        'ezselection' => 'SelectionFieldDefinition',
-        'eztext' => 'TextBlockFieldDefinition',
-    ];
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
+     */
+    private $fieldDefinitionMapper;
+
+    public function __construct(FieldDefinitionMapper $fieldDefinitionMapper)
+    {
+        $this->fieldDefinitionMapper = $fieldDefinitionMapper;
+    }
 
     public function work(Builder $schema, array $args)
     {
@@ -78,10 +73,6 @@ class AddFieldDefinitionToDomainContentType extends BaseWorker implements Worker
 
     private function fieldType($args)
     {
-        $fieldDefinition = $args['FieldDefinition'];
-
-        return isset(self::TYPES_MAP[$fieldDefinition->fieldTypeIdentifier])
-            ? self::TYPES_MAP[$fieldDefinition->fieldTypeIdentifier]
-            : 'FieldDefinition';
+        return $this->fieldDefinitionMapper->mapToFieldDefinitionType($args['FieldDefinition']);
     }
 }

@@ -3,6 +3,7 @@
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\FieldValueBuilder\FieldValueBuilder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -13,23 +14,19 @@ use Prophecy\Argument;
 
 class AddFieldValueToDomainContentSpec extends ObjectBehavior
 {
-    const FIELDTYPE_WITH_BUILDER = 'withbuilder';
-    const FIELDTYPE_WITHOUT_BUILDER = 'withoutbuilder';
+    const FIELDTYPE_IDENTIFIER = 'field';
     const FIELD_IDENTIFIER = 'test';
 
     function let(
         NameHelper $nameHelper,
-        FieldValueBuilder $defaultBuilder,
-        FieldValueBuilder $otherBuilder
+        FieldDefinitionMapper $mapper
     )
     {
-        $this->beConstructedWith($defaultBuilder, [self::FIELDTYPE_WITH_BUILDER => $otherBuilder]);
+        $this->beConstructedWith($mapper);
         $this->setNameHelper($nameHelper);
 
         $nameHelper->domainContentName(Argument::any())->willReturn('TestContent');
         $nameHelper->fieldDefinitionField(Argument::any())->willReturn('test');
-
-        $otherBuilder->buildDefinition(Argument::any())->shouldNotBeCalled();
     }
 
     function it_is_initializable()
@@ -37,50 +34,26 @@ class AddFieldValueToDomainContentSpec extends ObjectBehavior
         $this->shouldHaveType(AddFieldValueToDomainContent::class);
     }
     
-    function it_uses_the_default_field_value_builder_if_the_field_type_does_not_have_a_builder(
-        Builder $schema,
-        FieldValueBuilder $defaultBuilder,
-        FieldValueBUilder $otherBuilder
-    )
-    {
-        $defaultBuilder->buildDefinition(Argument::any())->willReturn(['name' => self::FIELD_IDENTIFIER, 'type' => 'String']);
-        $otherBuilder->buildDefinition(Argument::any())->shouldNotBeCalled();
-        $this->work($schema, $this->buildArguments(self::FIELDTYPE_WITHOUT_BUILDER));
-    }
-
-    function it_uses_another_field_value_builder_if_the_field_type_has_one(
-        Builder $schema,
-        FieldValueBuilder $defaultBuilder,
-        FieldValueBUilder $otherBuilder
-    )
-    {
-        $defaultBuilder->buildDefinition(Argument::any())->shouldNotBeCalled();
-        $otherBuilder->buildDefinition(Argument::any())->shouldBeCalled()->willReturn(['name' => self::FIELD_IDENTIFIER, 'type' => 'String']);
-        $this->work($schema, $this->buildArguments(self::FIELDTYPE_WITH_BUILDER));
-    }
-
     function it_adds_to_the_schema_what_was_returned_by_the_builder(
         Builder $schema,
-        FieldValueBuilder $defaultBuilder
+        FieldDefinitionMapper $mapper
     )
     {
-        $defaultBuilder->buildDefinition(Argument::any())->willReturn([
-            'name' => self::FIELD_IDENTIFIER,
-            'type' => 'SomeFieldValue',
-            'description' => 'The description',
-            'resolve' => 'someresolvestring',
-        ]);
+        $mapper->mapToFieldValueType(Argument::any())->willReturn('String');
+        $mapper->mapToFieldValueResolver(Argument::any())->willReturn('field');
 
         $schema->addFieldToType(
             Argument::any(),
             Argument::allOf(
-                FieldArgument::hasName(self::FIELD_IDENTIFIER)
+                FieldArgument::hasName(self::FIELD_IDENTIFIER),
+                FieldArgument::hasType('String'),
+                FieldArgument::withResolver('field')
             )
         );
         $this->work($schema, $this->buildArguments());
     }
 
-    private function buildArguments($fieldTypeIdentifier = self::FIELDTYPE_WITHOUT_BUILDER)
+    private function buildArguments($fieldTypeIdentifier = self::FIELDTYPE_IDENTIFIER)
     {
         return [
             'ContentTypeGroup' => new ContentType\ContentTypeGroup(),

@@ -6,18 +6,14 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
-use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
-use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\FieldType;
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
@@ -71,7 +67,10 @@ class DomainContentResolver
             $contentInfo = $this->getContentService()->loadContentInfoByRemoteId($args['remoteId']);
         } elseif (isset($args['locationId'])) {
             $contentInfo = $this->getLocationService()->loadLocation($args['locationId'])->contentInfo;
+        } else {
+            throw new UserError("Missing argument: id, remoteId or locationId");
         }
+
 
         // @todo consider optimizing using a map of contentTypeId
         $contentType = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
@@ -137,35 +136,28 @@ class DomainContentResolver
     {
         $content = $this->getContentService()->loadContent($contentInfo->id);
 
-        return new ContentFieldValue([
-            'contentTypeId' => $contentInfo->contentTypeId,
-            'fieldDefIdentifier' => $fieldDefinitionIdentifier,
-            'content' => $content,
-            'value' => $content->getFieldValue($fieldDefinitionIdentifier)
-        ]);
+        return Field::fromField(
+            $content->getField($fieldDefinitionIdentifier),
+            [
+                'content' => $content,
+                'contentTypeId' => $contentInfo->contentTypeId,
+            ]
+        );
     }
 
-    public function resolveDomainRelationFieldValue($contentInfo, $fieldDefinitionIdentifier, $multiple = false)
+    public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
     {
-        $content = $this->getContentService()->loadContent($contentInfo->id);
-        // @todo check content type
-        $fieldValue = $content->getFieldValue($fieldDefinitionIdentifier);
-
-        if (!$fieldValue instanceof FieldType\RelationList\Value) {
-            throw new UserError("$fieldDefinitionIdentifier is not a RelationList field value");
-        }
-
         if ($multiple) {
             return array_map(
                 function ($contentId) {
                     return $this->getContentService()->loadContentInfo($contentId);
                 },
-                $fieldValue->destinationContentIds
+                $field->value->destinationContentIds
             );
         } else {
             return
-                isset($fieldValue->destinationContentIds[0])
-                ? $this->getContentService()->loadContentInfo($fieldValue->destinationContentIds[0])
+                isset($field->value->destinationContentIds[0])
+                ? $this->getContentService()->loadContentInfo($field->value->destinationContentIds[0])
                 : null;
         }
     }
