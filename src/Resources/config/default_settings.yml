@@ -31,9 +31,8 @@ parameters:
       definition_type: BinaryFieldDefinition
       value_type: ImageFieldValue
     ezimageasset:
-      # todo definition_type: ImageAssetFieldDefinition
       value_type: ImageFieldValue
-      value_resolver: 'resolver("DomainImageAssetFieldValue", [value])'
+      value_resolver: 'resolver("DomainImageAssetFieldValue", [field])'
     ezinteger:
       definition_type: IntegerFieldDefinition
       value_type: Int

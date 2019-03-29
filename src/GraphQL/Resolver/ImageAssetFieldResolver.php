@@ -1,12 +1,9 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use EzSystems\EzPlatformGraphQL\GraphQL\Value\ContentFieldValue;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
-use eZ\Publish\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
-use Overblog\GraphQLBundle\Error\UserError;
 
 class ImageAssetFieldResolver
 {
@@ -32,21 +29,14 @@ class ImageAssetFieldResolver
 
     public function resolveDomainImageAssetFieldValue(Field $field)
     {
-        $assetValue = $this->assetMapper->getAssetValue(
+        $assetField = $this->assetMapper->getAssetField(
             $this->contentService->loadContent($field->value->destinationContentId)
         );
 
-        if (empty($assetValue->alternativeText)) {
-            $assetValue->alternativeText = $field->value->alternativeText;
+        if (empty($assetField->value->alternativeText)) {
+            $assetField->value->alternativeText = $field->value->alternativeText;
         };
 
-        return new Field([
-            'languageCode' => $field->languageCode,
-            'contentTypeId' => $field->contentTypeId,
-            'fieldDefIdentifier' => $field->fieldDefIdentifier,
-            'fieldTypeIdentifier' => $field->fieldTypeIdentifier,
-            'content' => $field->content,
-            'value' => $assetValue,
-        ]);
+        return Field::fromField($assetField);
     }
 }
