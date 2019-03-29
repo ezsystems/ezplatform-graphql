@@ -41,7 +41,7 @@ class DomainContentMutationResolver
         $this->nameHelper = $nameHelper;
     }
 
-    public function updateDomainContent($input, Argument $args, $versionNo, $language): RepositoryValues\Content\ContentInfo
+    public function updateDomainContent($input, Argument $args, $versionNo, $language): RepositoryValues\Content\Content
     {
         if (isset($args['id'])) {
             $idArray = GlobalId::fromGlobalId($args['id']);
@@ -125,7 +125,7 @@ class DomainContentMutationResolver
         return $this->getContentService()->loadContent($contentDraft->id);
     }
 
-    public function createDomainContent($input, $contentTypeIdentifier, $parentLocationId, $language)
+    public function createDomainContent($input, $contentTypeIdentifier, $parentLocationId, $language): RepositoryValues\Content\Content
     {
         try {
             $contentType = $this->getContentTypeService()->loadContentTypeByIdentifier($contentTypeIdentifier);
