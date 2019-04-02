@@ -136,23 +136,28 @@ class DomainContentResolver
 
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
     {
-        if (!$field->value instanceof FieldType\RelationList\Value) {
-            throw new UserError("$field->fieldTypeIdentifier is not a RelationList field value");
-        }
-
-        if ($multiple) {
-            if (count($field->value->destinationContentIds) > 0) {
-                return $this->contentLoader->find(new Query(
-                    ['filter' => new Query\Criterion\ContentId($field->value->destinationContentIds)]
-                ));
+        if ($field->value instanceof FieldType\RelationList\Value) {
+            if ($multiple) {
+                if (count($field->value->destinationContentIds) > 0) {
+                    return $this->contentLoader->find(new Query(
+                        ['filter' => new Query\Criterion\ContentId($field->value->destinationContentIds)]
+                    ));
+                } else {
+                    return [];
+                }
             } else {
-                return [];
+                return
+                    isset($field->value->destinationContentIds[0])
+                        ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentIds[0]))
+                        : null;
             }
-        } else {
+        } else if($field->value instanceof FieldType\Relation\Value) {
             return
-                isset($fieldValue->destinationContentIds[0])
-                    ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentIds[0]))
+                isset($field->value->destinationContentId)
+                    ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentId))
                     : null;
+        } else {
+            throw new UserError("$field->fieldTypeIdentifier is not a RelationList field value");
         }
     }
 
