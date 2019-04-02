@@ -137,28 +137,22 @@ class DomainContentResolver
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
     {
         if ($field->value instanceof FieldType\RelationList\Value) {
-            if ($multiple) {
-                if (count($field->value->destinationContentIds) > 0) {
-                    return $this->contentLoader->find(new Query(
-                        ['filter' => new Query\Criterion\ContentId($field->value->destinationContentIds)]
-                    ));
-                } else {
-                    return [];
-                }
-            } else {
-                return
-                    isset($field->value->destinationContentIds[0])
-                        ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentIds[0]))
-                        : null;
-            }
-        } else if($field->value instanceof FieldType\Relation\Value) {
-            return
-                isset($field->value->destinationContentId)
-                    ? $this->contentLoader->findSingle(new Query\Criterion\ContentId($field->value->destinationContentId))
-                    : null;
+            $destinationContentIds = $field->value->destinationContentIds;
+        } else if ($field->value instanceof FieldType\Relation\Value) {
+            $destinationContentIds = [$field->value->destinationContentId];
         } else {
-            throw new UserError("$field->fieldTypeIdentifier is not a RelationList field value");
+            throw new UserError('\$field does not contain a RelationList or Relation Field value');
         }
+
+        if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && is_null($destinationContentIds[0])) {
+            return $multiple ? [] : null;
+        }
+
+        $contentItems = $this->contentLoader->find(new Query(
+            ['filter' => new Query\Criterion\ContentId($destinationContentIds)]
+        ));
+
+        return $multiple ? $contentItems : $contentItems[0] ?? null;
     }
 
     public function resolveDomainContentType(Content $content)
