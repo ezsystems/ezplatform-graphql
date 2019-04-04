@@ -46,8 +46,12 @@ class SearchContentLoader implements ContentLoader
      */
     public function find(Query $query): array
     {
-        if ($results = $this->runIdSearch($query)) {
-            return (array)$results;
+        if ($results = $this->runIdSearch($query->filter)) {
+            if ($results instanceof Content) {
+                return [$results];
+            } else {
+                return $results;
+            }
         }
 
         return array_map(
@@ -117,9 +121,13 @@ class SearchContentLoader implements ContentLoader
         if ($filter instanceof Criterion\ContentId) {
             $idArgument = $filter->value;
             if (is_array($idArgument) && count($idArgument) > 1) {
-                return $this->contentService->loadContentListByContentInfo(
-                    $this->contentService->loadContentInfoList($idArgument)
-                );
+                if (method_exists($this->contentService, 'loadContentInfoList')) {
+                    return $this->contentService->loadContentListByContentInfo(
+                        $this->contentService->loadContentInfoList($idArgument)
+                    );
+                } else {
+                    return null;
+                }
             } else {
                 return $this->contentService->loadContent($this->getOneId($idArgument));
             }
