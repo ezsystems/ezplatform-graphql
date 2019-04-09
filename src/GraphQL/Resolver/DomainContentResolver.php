@@ -136,13 +136,7 @@ class DomainContentResolver
 
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
     {
-        if ($field->value instanceof FieldType\RelationList\Value) {
-            $destinationContentIds = $field->value->destinationContentIds;
-        } else if ($field->value instanceof FieldType\Relation\Value) {
-            $destinationContentIds = [$field->value->destinationContentId];
-        } else {
-            throw new UserError('\$field does not contain a RelationList or Relation Field value');
-        }
+        $destinationContentIds = $this->getContentIds($field);
 
         if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && is_null($destinationContentIds[0])) {
             return $multiple ? [] : null;
@@ -175,5 +169,21 @@ class DomainContentResolver
     private function getLocationService()
     {
         return $this->repository->getLocationService();
+    }
+
+    /**
+     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\Field $field
+     * @return array
+     * @throws UserError if the field isn't a Relation or RelationList value
+     */
+    private function getContentIds(Field $field)
+    {
+        if ($field->value instanceof FieldType\RelationList\Value) {
+            return $field->value->destinationContentIds;
+        } else if ($field->value instanceof FieldType\Relation\Value) {
+            return [$field->value->destinationContentId];
+        } else {
+            throw new UserError('\$field does not contain a RelationList or Relation Field value');
+        }
     }
 }
