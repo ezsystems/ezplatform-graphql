@@ -1,6 +1,7 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup;
 
+use eZ\Publish\API\Repository\ContentTypeService;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
@@ -9,6 +10,16 @@ use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 
 final class AddDomainGroupToDomain extends BaseWorker implements Worker
 {
+    /**
+     * @var ContentTypeService
+     */
+    private $contentTypeService;
+
+    public function __construct(ContentTypeService $contentTypeService)
+    {
+        $this->contentTypeService = $contentTypeService;
+    }
+
     public function work(Builder $schema, array $args)
     {
         $contentTypeGroup = $args['ContentTypeGroup'];
@@ -30,7 +41,8 @@ final class AddDomainGroupToDomain extends BaseWorker implements Worker
         return
             isset($args['ContentTypeGroup'])
             && $args['ContentTypeGroup'] instanceof ContentTypeGroup
-            && !$schema->hasTypeWithField('Domain', $this->fieldName($args));
+            && !$schema->hasTypeWithField('Domain', $this->fieldName($args))
+            && !empty($this->contentTypeService->loadContentTypes($args['ContentTypeGroup']));
     }
 
     private function fieldName($args): string
