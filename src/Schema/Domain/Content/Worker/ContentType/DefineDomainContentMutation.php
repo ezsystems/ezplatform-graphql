@@ -104,7 +104,8 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
     {
         return isset($args['ContentType'])
                && $args['ContentType'] instanceof ContentType
-               && !isset($args['FieldDefinition']);
+               && !isset($args['FieldDefinition'])
+               && !$schema->hasType($this->getCreateInputName($args['ContentType']));
     }
 
     /**
