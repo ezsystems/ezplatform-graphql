@@ -147,6 +147,6 @@ class NameHelper
      */
     protected function sanitizeContentTypeGroupIdentifier(ContentTypeGroup $contentTypeGroup): string
     {
-        return str_replace(' ', '_', $contentTypeGroup->identifier);
+        return preg_replace('/[^A-Za-z0-9_]/', '_', $contentTypeGroup->identifier);
     }
 }
