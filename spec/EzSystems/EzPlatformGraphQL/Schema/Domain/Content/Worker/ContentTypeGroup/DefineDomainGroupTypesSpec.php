@@ -2,6 +2,7 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup;
 
+use eZ\Publish\API\Repository\ContentTypeService;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup\DefineDomainGroupTypes;
@@ -13,8 +14,9 @@ class DefineDomainGroupTypesSpec extends ContentTypeGroupWorkerBehavior
 {
     const GROUP_TYPES_TYPE = 'DomainGroupTestTypes';
 
-    public function let(NameHelper $nameHelper)
+    public function let(NameHelper $nameHelper, ContentTypeService $contentTypeService)
     {
+        $this->beConstructedWith($contentTypeService);
         $this->setNameHelper($nameHelper);
 
         $nameHelper
@@ -39,6 +41,16 @@ class DefineDomainGroupTypesSpec extends ContentTypeGroupWorkerBehavior
     )
     {
         $schema->hasType(self::GROUP_TYPES_TYPE)->willReturn(true);
+        $this->canWork($schema, $this->args())->shouldBe(false);
+    }
+
+    function it_can_not_work_if_the_group_is_empty(
+        SchemaBuilder $schema,
+        ContentTypeService $contentTypeService
+    )
+    {
+        $schema->hasType(self::GROUP_TYPES_TYPE)->willReturn(false);
+        $contentTypeService->loadContentTypes(Argument::type(ContentTypeGroup::class))->willReturn([]);
         $this->canWork($schema, $this->args())->shouldBe(false);
     }
 
