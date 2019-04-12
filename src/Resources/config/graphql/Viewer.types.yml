@@ -1,0 +1,7 @@
+Viewer:
+    type: object
+    config:
+        fields:
+            user:
+                type: User
+                resolve: "@=resolver('CurrentUser')"

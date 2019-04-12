@@ -16,3 +16,6 @@ Platform:
                 type: Item
                 argsBuilder: "Item"
                 resolve: "@=resolver('Item', [args])"
+            viewer:
+                type: Viewer
+                resolve: { }
