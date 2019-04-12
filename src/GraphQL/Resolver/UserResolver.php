@@ -5,10 +5,12 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\PermissionResolver;
 use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\User\UserGroup;
+use eZ\Publish\API\Repository\Values;
+use Overblog\GraphQLBundle\Error\UserError;
 
 /**
  * @internal
@@ -19,15 +21,22 @@ class UserResolver
      * @var UserService
      */
     private $userService;
+
     /**
      * @var LocationService
      */
     private $locationService;
 
-    public function __construct(UserService $userService, LocationService $locationService)
+    /**
+     * @var PermissionResolver
+     */
+    private $permissionResolver;
+
+    public function __construct(UserService $userService, LocationService $locationService, PermissionResolver $permissionResolver)
     {
         $this->userService = $userService;
         $this->locationService = $locationService;
+        $this->permissionResolver = $permissionResolver;
     }
 
     public function resolveUser($args)
@@ -60,7 +69,7 @@ class UserResolver
         );
     }
 
-    public function resolveUsersOfGroup(UserGroup $userGroup)
+    public function resolveUsersOfGroup(Values\User\UserGroup $userGroup)
     {
         return $this->userService->loadUsersOfUserGroup(
             $userGroup
@@ -75,7 +84,7 @@ class UserResolver
         return $this->userService->loadUserGroup($userGroupId);
     }
 
-    public function resolveUserGroupSubGroups(UserGroup $userGroup)
+    public function resolveUserGroupSubGroups(Values\User\UserGroup $userGroup)
     {
         return $this->userService->loadSubUserGroups($userGroup);
     }
@@ -89,11 +98,22 @@ class UserResolver
         );
     }
 
-    public function resolveContentFields(Content $content, $args)
+    public function resolveContentFields(Values\Content\Content $content, $args)
     {
         if (isset($args['identifier'])) {
             return [$content->getField($args['identifier'])];
         }
         return $content->getFieldsByLanguage();
+    }
+
+    public function resolveCurrentUser(): Values\User\User
+    {
+        try {
+            return $this->userService->loadUser(
+                $this->permissionResolver->getCurrentUserReference()->getUserId()
+            );
+        } catch (NotFoundException $e) {
+            throw new UserError("User not found");
+        }
     }
 }

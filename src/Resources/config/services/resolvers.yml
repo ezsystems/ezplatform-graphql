@@ -54,6 +54,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "UserGroupById", method: "resolveUserGroupById" }
             - { name: overblog_graphql.resolver, alias: "UserGroupSubGroups", method: "resolveUserGroupSubGroups" }
             - { name: overblog_graphql.resolver, alias: "UsersOfGroup", method: "resolveUsersOfGroup" }
+            - { name: overblog_graphql.resolver, alias: "CurrentUser", method: "resolveCurrentUser" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentTypeResolver:
         tags:
