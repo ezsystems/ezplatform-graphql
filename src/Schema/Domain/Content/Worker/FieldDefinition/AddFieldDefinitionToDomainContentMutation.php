@@ -55,7 +55,8 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
             isset($args['ContentType'])
             && $args['ContentType'] instanceof ContentType
             && isset($args['FieldDefinition'])
-            && $args['FieldDefinition'] instanceof FieldDefinition;
+            && $args['FieldDefinition'] instanceof FieldDefinition
+            && !$schema->hasTypeWithField($this->getCreateInputName($args['ContentType']), $this->getFieldDefinitionField($args['FieldDefinition']));
     }
 
     /**
