@@ -5,3 +5,6 @@ Viewer:
             user:
                 type: User
                 resolve: "@=resolver('CurrentUser')"
+            notifications:
+                type: "[Notification]"
+                resolve: "@=resolver('CurrentUserNotifications')"

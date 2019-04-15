@@ -73,6 +73,7 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
     {
         $initialConfig = Yaml::parseFile(__DIR__ . '/../Resources/config/overblog_graphql.yaml');
         $initialConfig['definitions']['schema'] = (new YamlSchemaProvider($configDir))->getSchemaConfiguration();
+        $initialConfig['definitions']['types'] = ['NotificationData', 'ContentNotificationData'];
 
         return $initialConfig;
     }
