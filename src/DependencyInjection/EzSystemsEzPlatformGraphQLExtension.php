@@ -64,10 +64,13 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
      */
     private function getGraphQLConfig(string $configDir): array
     {
+        $schemaConfiguration = (new YamlSchemaProvider($configDir))->getSchemaConfiguration();
+        $schemaConfiguration['types'] = ['NotificationData', 'ContentNotificationData'];
+
         return [
             'definitions' => [
                 'config_validation' => '%kernel.debug%',
-                'schema' => (new YamlSchemaProvider($configDir))->getSchemaConfiguration(),
+                'schema' => $schemaConfiguration,
             ],
         ];
     }

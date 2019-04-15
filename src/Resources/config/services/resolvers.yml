@@ -34,6 +34,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "DomainFieldValue", method: "resolveDomainFieldValue" }
             - { name: overblog_graphql.resolver, alias: "DomainContentType", method: "resolveDomainContentType" }
             - { name: overblog_graphql.resolver, alias: "DomainContentItem", method: "resolveDomainContentItem" }
+            - { name: overblog_graphql.resolver, alias: "DomainContentItemById", method: "resolveDomainContentItemById" }
             - { name: overblog_graphql.resolver, alias: "DomainRelationFieldValue", method: "resolveDomainRelationFieldValue" }
             - { name: overblog_graphql.resolver, alias: "MainUrlAlias", method: "resolveMainUrlAlias" }
         arguments:
@@ -54,6 +55,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "UserGroupById", method: "resolveUserGroupById" }
             - { name: overblog_graphql.resolver, alias: "UserGroupSubGroups", method: "resolveUserGroupSubGroups" }
             - { name: overblog_graphql.resolver, alias: "UsersOfGroup", method: "resolveUsersOfGroup" }
+            - { name: overblog_graphql.resolver, alias: "CurrentUser", method: "resolveCurrentUser" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentTypeResolver:
         tags:
@@ -160,3 +162,8 @@ services:
             - { name: overblog_graphql.mutation, alias: "UpdateDomainContent", method: "updateDomainContent" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\Map\UploadMap: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\NotificationResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "CurrentUserNotifications", method: "currentUserNotifications" }
+            - { name: overblog_graphql.resolver, alias: "NotificationType", method: "notificationType" }

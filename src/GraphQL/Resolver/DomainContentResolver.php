@@ -99,6 +99,11 @@ class DomainContentResolver
         return $content;
     }
 
+    public function resolveDomainContentItemById($contentId)
+    {
+        return $this->contentLoader->findSingle(new Query\Criterion\ContentId($contentId));
+    }
+
     /**
      * @param string $contentTypeIdentifier
      *

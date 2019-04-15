@@ -1,0 +1,47 @@
+
+Notification:
+    type: object
+    config:
+        fields:
+            id:
+                type: Int
+            owner:
+                type: User
+            isPending:
+                type: Boolean
+            type:
+                type: String
+            created:
+                type: DateTime
+            data:
+                type: NotificationDataInterface
+
+NotificationDataInterface:
+    type: interface
+    config:
+        resolveType: "@=resolver('NotificationType', [value])"
+        fields:
+            title:
+                type: String
+            message:
+                type: String
+
+NotificationData:
+    type: object
+    config:
+        interfaces: [NotificationDataInterface]
+        fields:
+            title:
+                type: String
+            message:
+                type: String
+
+ContentNotificationData:
+    type: object
+    inherits: [NotificationData]
+    config:
+        interfaces: [NotificationDataInterface]
+        fields:
+            content:
+                type: DomainContent
+                resolve: "@=resolver('DomainContentItemById', [value['content_id']])"
