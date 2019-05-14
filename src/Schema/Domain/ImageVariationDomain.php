@@ -1,10 +1,10 @@
 <?php
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use EzSystems\EzPlatformGraphQL\Schema;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
 use Generator;
 
 /**
@@ -16,11 +16,11 @@ class ImageVariationDomain implements Domain\Iterator, Schema\Worker
     const ARG = 'ImageVariation';
 
     /**
-     * @var ConfigResolver
+     * @var ConfigResolverInterface
      */
     private $configResolver;
 
-    public function __construct(ConfigResolver $configResolver)
+    public function __construct(ConfigResolverInterface $configResolver)
     {
         $this->configResolver = $configResolver;
     }
