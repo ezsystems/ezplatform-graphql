@@ -3,9 +3,7 @@
 namespace spec\EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
-use DateTime;
 use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\REST\Server\Input\Parser\Criterion\Operator;
 use PhpSpec\ObjectBehavior;
 
 class SearchQueryMapperSpec extends ObjectBehavior
