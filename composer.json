@@ -17,6 +17,7 @@
     "require": {
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
+        "ezsystems/ezplatform-richtext": "^2.0@dev",
         "overblog/graphql-bundle": "^0.11",
         "erusev/parsedown": "^1.0"
     },
