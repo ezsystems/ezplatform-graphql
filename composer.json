@@ -13,8 +13,8 @@
         "bdunogier/ezplatform-graphql-bundle": "self.version"
     },
     "require": {
-        "ezsystems/ezpublish-kernel": "^6.0|^7.0|^8.0",
-        "ezsystems/ezplatform-admin-ui": "^1.0|^2.0",
+        "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "overblog/graphql-bundle": "^0.11",
         "erusev/parsedown": "^1.0"
     },
