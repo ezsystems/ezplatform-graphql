@@ -22,7 +22,7 @@
         "overblog/graphiql-bundle": "^0.1",
         "phpspec/phpspec": "^5.1",
         "friendsofphp/php-cs-fixer": "~2.7.1",
-        "mikey179/vfsStream": "^1.6"
+        "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
         "psr-4": {
