@@ -123,13 +123,13 @@ services:
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter:
     arguments:
-      $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+      $xhtml5Converter: '@ezrichtext.converter.input.xhtml5'
     tags:
       - { name: ezplatform_graphql.richtext_input_converter, format: html }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter:
     arguments:
-      $xhtml5Converter: '@ezpublish.fieldType.ezrichtext.converter.input.xhtml5'
+      $xhtml5Converter: '@ezrichtext.converter.input.xhtml5'
     tags:
       - { name: ezplatform_graphql.richtext_input_converter, format: markdown }
 

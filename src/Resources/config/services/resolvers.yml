@@ -92,8 +92,8 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\RichTextResolver:
         arguments:
-            - "@ezpublish.fieldType.ezrichtext.converter.output.xhtml5"
-            - "@ezpublish.fieldType.ezrichtext.converter.edit.xhtml5"
+            - "@ezrichtext.converter.output.xhtml5"
+            - "@ezrichtext.converter.edit.xhtml5"
         tags:
             - { name: overblog_graphql.resolver, alias: "RichTextXmlToHtml5", method: "xmlToHtml5" }
             - { name: overblog_graphql.resolver, alias: "RichTextXmlToHtml5Edit", method: "xmlToHtml5Edit" }
