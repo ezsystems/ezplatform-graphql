@@ -15,16 +15,25 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "php": "^7.3",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
         "overblog/graphql-bundle": "^0.11",
-        "erusev/parsedown": "^1.0"
+        "erusev/parsedown": "^1.7",
+        "symfony/dependency-injection": "^4.3",
+        "symfony/http-kernel": "^4.3",
+        "symfony/console": "^4.3",
+        "symfony/filesystem": "^4.3",
+        "symfony/yaml": "^4.3",
+        "symfony/config": "^4.3",
+        "symfony/http-foundation": "^4.3",
+        "symfony/serializer": "^4.3"
     },
     "require-dev": {
         "overblog/graphiql-bundle": "^0.1",
         "phpspec/phpspec": "^5.1",
-        "friendsofphp/php-cs-fixer": "~2.7.1",
+        "friendsofphp/php-cs-fixer": "^2.15",
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
