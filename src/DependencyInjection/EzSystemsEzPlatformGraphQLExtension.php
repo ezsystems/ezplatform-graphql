@@ -35,12 +35,12 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services/data_loaders.yml');
-        $loader->load('services/mutations.yml');
-        $loader->load('services/resolvers.yml');
-        $loader->load('services/schema.yml');
-        $loader->load('services/services.yml');
-        $loader->load('default_settings.yml');
+        $loader->load('services/data_loaders.yaml');
+        $loader->load('services/mutations.yaml');
+        $loader->load('services/resolvers.yaml');
+        $loader->load('services/schema.yaml');
+        $loader->load('services/services.yaml');
+        $loader->load('default_settings.yaml');
     }
 
     /**
