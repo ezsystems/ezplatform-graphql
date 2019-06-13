@@ -114,7 +114,7 @@ services:
       - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelationlist', inputType: '[Int]' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText:
-    argments:
+    arguments:
       $inputConverters:
         html: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter'
         markdown: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter'
