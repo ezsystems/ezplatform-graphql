@@ -6,6 +6,9 @@ Location:
             id:
                 type: "Int!"
                 description: "The unique ID of the location."
+            content:
+                type: "DomainContent"
+                description: "The Domain Content referenced by the Location."
             contentId:
                 type: "Int!"
                 description: "The ID of the Content item referenced by the Location."
