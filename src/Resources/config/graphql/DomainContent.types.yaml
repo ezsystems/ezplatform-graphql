@@ -101,6 +101,8 @@ DomainContentByIdentifierConnection:
     type: relay-connection
     config:
         connectionFields:
+            totalCount:
+                type: Int!
             sliceSize:
                 type: Int!
             orderBy:
