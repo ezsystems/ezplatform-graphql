@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
@@ -96,41 +101,40 @@ class NameHelper
     private function pluralize($name)
     {
         if (substr($name, -1) === 'f') {
-            return substr($name, 0, -1) . "ves";
+            return substr($name, 0, -1) . 'ves';
         }
 
         if (substr($name, -1) === 'fe') {
-            return substr($name, 0, -2) . "ves";
+            return substr($name, 0, -2) . 'ves';
         }
 
         if (substr($name, -1) === 'y') {
-
             if (in_array(substr($name, -2, 1), ['a', 'e', 'i', 'o', 'u'])) {
                 return $name . 's';
             } else {
-                return substr($name, 0, -1) . "ies";
+                return substr($name, 0, -1) . 'ies';
             }
         }
 
         if (substr($name, -2) === 'is') {
-            return substr($name, 0, -2) . "es";
+            return substr($name, 0, -2) . 'es';
         }
 
         if (substr($name, -2) === 'us') {
-            return substr($name, 0, -2) . "i";
+            return substr($name, 0, -2) . 'i';
         }
 
         if (in_array(substr($name, -2), ['on', 'um'])) {
-            return substr($name, 0, -2) . "a";
+            return substr($name, 0, -2) . 'a';
         }
 
         if (substr($name, -2) === 'is') {
-            return substr($name, 0, -2) . "es";
+            return substr($name, 0, -2) . 'es';
         }
 
         if (
             preg_match('/(s|sh|ch|x|z)$/', $name) ||
-            substr($name, -1) ===  'o'
+            substr($name, -1) === 'o'
         ) {
             return $name . 'es';
         }
@@ -140,9 +144,10 @@ class NameHelper
 
     /**
      * Removes potential spaces in content types groups names.
-     * (content types groups identifiers are actually their name)
+     * (content types groups identifiers are actually their name).
      *
      * @param ContentTypeGroup $contentTypeGroup
+     *
      * @return string
      */
     protected function sanitizeContentTypeGroupIdentifier(ContentTypeGroup $contentTypeGroup): string

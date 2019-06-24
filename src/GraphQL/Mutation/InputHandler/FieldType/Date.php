@@ -6,7 +6,6 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType;
 
-use eZ\Publish\Core\FieldType\FieldType;
 use eZ\Publish\SPI\FieldType\Value;
 use EzSystems\EzPlatformGraphQL\Exception\UnsupportedFieldInputFormatException;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldTypeInputHandler;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -40,9 +41,9 @@ class GeneratePlatformSchemaCommand extends Command
     {
         $this
             ->setName('ezplatform:graphql:generate-schema')
-            ->setDescription("Generates the GraphQL schema for the eZ Platform instance")
+            ->setDescription('Generates the GraphQL schema for the eZ Platform instance')
             ->addOption('dry-run', null, InputOption::VALUE_OPTIONAL, 'Do not write, output the schema only', false)
-            ->addOption('include', null, InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
+            ->addOption('include', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

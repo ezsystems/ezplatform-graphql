@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
@@ -23,11 +28,11 @@ class ImagesVariationsBuilder implements SchemaBuilder
         $schema['ImageVariationIdentifier'] = [
             'type' => 'enum',
             'config' => [
-                'values' => []
-            ]
+                'values' => [],
+            ],
         ];
 
-        $values =& $schema['ImageVariationIdentifier']['config']['values'];
+        $values = &$schema['ImageVariationIdentifier']['config']['values'];
 
         foreach (array_keys($this->configResolver->getParameter('image_variations')) as $variationIdentifier) {
             $values[$variationIdentifier] = [];

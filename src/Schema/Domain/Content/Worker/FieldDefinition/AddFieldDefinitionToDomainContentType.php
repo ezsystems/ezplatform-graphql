@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
@@ -49,6 +54,7 @@ class AddFieldDefinitionToDomainContentType extends BaseWorker implements Worker
 
     /**
      * @param array $args
+     *
      * @return string
      */
     protected function typeName(array $args): string

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
 use eZ\Publish\API\Repository\Repository;
@@ -46,7 +51,7 @@ class UploadFiles
             }
         }
 
-        return ['files' => $createdContent, 'warnings' =>$warnings];
+        return ['files' => $createdContent, 'warnings' => $warnings];
     }
 
     private function mapAgainstConfig($mimeType)
@@ -55,7 +60,7 @@ class UploadFiles
             if (in_array($mimeType, $mapping['mimeTypes'])) {
                 return array_filter(
                     $mapping,
-                    function($key) {
+                    function ($key) {
                         return in_array($key, ['contentTypeIdentifier', 'contentFieldIdentifier', 'nameFieldIdentifier']);
                     },
                     ARRAY_FILTER_USE_KEY
@@ -84,8 +89,7 @@ class UploadFiles
         $struct->setField($mapping['nameFieldIdentifier'], $file->getClientOriginalName());
 
         $fieldDefinition = $contentType->getFieldDefinition($mapping['contentFieldIdentifier']);
-        switch ($fieldDefinition->fieldTypeIdentifier)
-        {
+        switch ($fieldDefinition->fieldTypeIdentifier) {
             case 'ezimage':
                 $valueType = FieldType\Image\Value::class;
                 break;
@@ -96,7 +100,7 @@ class UploadFiles
                 $valueType = FieldType\Media\Value::class;
                 break;
             default:
-                throw new UserError("FieldType not supported for upload");
+                throw new UserError('FieldType not supported for upload');
         }
         $struct->setField(
             $mapping['contentFieldIdentifier'],

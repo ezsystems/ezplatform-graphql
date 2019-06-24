@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
@@ -15,7 +20,7 @@ class DefineDomainContent extends BaseWorker implements Worker
             $this->typeName($args), 'object',
             [
                 'inherits' => 'AbstractDomainContent',
-                'interfaces' => ['DomainContent', 'Node']
+                'interfaces' => ['DomainContent', 'Node'],
             ]
         ));
     }

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Builder;
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder as SchemaBuilderInterface;
@@ -26,7 +31,7 @@ class SchemaBuilder implements SchemaBuilderInterface
         }
         if (!empty($typeInput->interfaces)) {
             $type['config']['interfaces'] = is_array($typeInput->interfaces)
-                ? $typeInput->interfaces:
+                ? $typeInput->interfaces :
                 [$typeInput->interfaces];
         }
 
@@ -109,6 +114,7 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     /**
      * @param string $type
+     *
      * @return bool
      */
     public function hasType($type): bool
@@ -119,6 +125,7 @@ class SchemaBuilder implements SchemaBuilderInterface
     /**
      * @param string $type
      * @param string $field
+     *
      * @return bool
      */
     public function hasTypeWithField($type, $field): bool
@@ -132,6 +139,7 @@ class SchemaBuilder implements SchemaBuilderInterface
      * @param string $type
      * @param string $field
      * @param $arg
+     *
      * @return bool
      */
     public function hasTypeFieldWithArg($type, $field, $arg): bool
@@ -143,6 +151,7 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     /**
      * @param string $enum
+     *
      * @return bool
      */
     public function hasEnum($enum): bool

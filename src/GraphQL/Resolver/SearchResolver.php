@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -54,12 +55,13 @@ class SearchResolver
         $paginator = new Paginator(function ($offset, $limit) use ($query) {
             $query->offset = $offset;
             $query->limit = $limit ?? 10;
+
             return $this->contentLoader->find($query);
         });
 
         return $paginator->auto(
             $args,
-            function() use ($query) {
+            function () use ($query) {
                 return $this->contentLoader->count($query);
             }
         );

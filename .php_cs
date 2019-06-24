@@ -14,6 +14,7 @@ return PhpCsFixer\Config::create()
         'simplified_null_return' => false,
         'phpdoc_align' => false,
         'phpdoc_to_comment' => false,
+        'phpdoc_types_order' => false,
         'cast_spaces' => false,
         'blank_line_after_opening_tag' => false,
         'single_blank_line_before_namespace' => false,
@@ -27,6 +28,8 @@ return PhpCsFixer\Config::create()
         'yoda_style' => false,
         'no_break_comment' => false,
         'self_accessor' => false,
+        'native_function_invocation' => false,
+        'native_constant_invocation' => false,
     ])
     ->setRiskyAllowed(true)
     ->setFinder(

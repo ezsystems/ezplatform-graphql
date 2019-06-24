@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -46,8 +47,7 @@ class ImageFieldResolver
         ContentLoader $contentLoader,
         ContentService $contentService,
         array $variations
-    )
-    {
+    ) {
         $this->variationHandler = $variationHandler;
         $this->contentService = $contentService;
         $this->variations = $variations;
@@ -84,7 +84,9 @@ class ImageFieldResolver
 
     /**
      * @param ImageFieldValue $fieldValue
+     *
      * @return [Content, Field]
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
@@ -112,11 +114,12 @@ class ImageFieldResolver
             throw new UserError("Image file {$field->value->id} doesn't exist");
         }
 
-        return array($content, $field);
+        return [$content, $field];
     }
 
     /**
      * @param ImageFieldValue $fieldValue
+     *
      * @return array
      */
     protected function decomposeImageId(ImageFieldValue $fieldValue): array
@@ -125,6 +128,7 @@ class ImageFieldResolver
         if (count($idArray) != 3) {
             throw new UserError("Invalid image ID {$fieldValue->imageId}");
         }
+
         return $idArray;
     }
 }
