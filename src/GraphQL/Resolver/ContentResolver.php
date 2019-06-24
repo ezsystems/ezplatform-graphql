@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -43,12 +44,12 @@ class ContentResolver
     {
         $searchResults = $this->searchService->findContentInfo(
             new Query([
-                'filter' => new Query\Criterion\ContentTypeId($contentTypeId)
+                'filter' => new Query\Criterion\ContentTypeId($contentTypeId),
             ])
         );
 
         return array_map(
-            function(SearchHit $searchHit) {
+            function (SearchHit $searchHit) {
                 return $searchHit->valueObject;
             },
             $searchResults->searchHits
@@ -91,7 +92,7 @@ class ContentResolver
         try {
             $searchResults = $this->searchService->findContentInfo(
                 new Query([
-                    'filter' => new Query\Criterion\ContentId($contentIdList)
+                    'filter' => new Query\Criterion\ContentId($contentIdList),
                 ])
             );
         } catch (\Exception $e) {
@@ -99,7 +100,7 @@ class ContentResolver
         }
 
         return array_map(
-            function(SearchHit $searchHit) {
+            function (SearchHit $searchHit) {
                 return $searchHit->valueObject;
             },
             $searchResults->searchHits

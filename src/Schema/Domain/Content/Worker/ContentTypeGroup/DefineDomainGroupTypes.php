@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup;
 
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -9,7 +14,7 @@ use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 
 /**
  * Defines the type that indexes the types from a group by identifier.
- * Example: 'DomainGroupContentTypes'
+ * Example: 'DomainGroupContentTypes'.
  */
 class DefineDomainGroupTypes extends BaseWorker implements Worker
 {

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
@@ -9,7 +14,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 
 /**
- * Adds a content type to the content type identifiers list (ContentTypeIdentifier)
+ * Adds a content type to the content type identifiers list (ContentTypeIdentifier).
  */
 class AddContentTypeToContentTypeIdentifierList extends BaseWorker implements Worker, Initializer
 {

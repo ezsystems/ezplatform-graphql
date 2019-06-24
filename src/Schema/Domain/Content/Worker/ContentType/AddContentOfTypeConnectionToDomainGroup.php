@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
@@ -30,12 +35,12 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
 
         $schema->addArgToField($this->groupName($args), $this->connectionField($args), new Input\Arg(
             'query', 'ContentSearchQuery',
-            ['description' => "A Content query used to filter results"]
+            ['description' => 'A Content query used to filter results']
         ));
 
         $schema->addArgToField($this->groupName($args), $this->connectionField($args), new Input\Arg(
             'sortBy', '[SortByOptions]',
-            ['description' => "A sort clause, or array of clauses. Add _desc after a clause to reverse it"]
+            ['description' => 'A sort clause, or array of clauses. Add _desc after a clause to reverse it']
         ));
     }
 

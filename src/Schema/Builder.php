@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema;
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
@@ -12,7 +17,6 @@ interface Builder
     /**
      * @param string $type
      * @param Input\Field $field
-     * @return void
      */
     public function addFieldToType($type, Input\Field $field);
 
@@ -20,19 +24,18 @@ interface Builder
      * @param string $type
      * @param string $field
      * @param Input\Arg $argInput
-     * @return void
      */
     public function addArgToField($type, $field, Input\Arg $argInput);
 
     /**
      * @param string $enum
      * @param Input\EnumValue $value
-     * @return void
      */
     public function addValueToEnum($enum, Input\EnumValue $value);
 
     /**
      * @param string $type
+     *
      * @return bool
      */
     public function hasType($type): bool;
@@ -40,6 +43,7 @@ interface Builder
     /**
      * @param string $type
      * @param string $field
+     *
      * @return bool
      */
     public function hasTypeWithField($type, $field): bool;
@@ -48,12 +52,14 @@ interface Builder
      * @param string $type
      * @param string $field
      * @param $arg
+     *
      * @return bool
      */
     public function hasTypeFieldWithArg($type, $field, $arg): bool;
 
     /**
      * @param string $enum
+     *
      * @return bool
      */
     public function hasEnum($enum): bool;

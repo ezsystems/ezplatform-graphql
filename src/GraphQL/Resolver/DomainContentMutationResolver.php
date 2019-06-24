@@ -294,7 +294,7 @@ class DomainContentMutationResolver
 
     /**
      * Returns the GraphQL schema input field for a field definition.
-     * Example: text_line -> textLine
+     * Example: text_line -> textLine.
      *
      * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      *

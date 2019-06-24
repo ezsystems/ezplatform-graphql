@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
 use EzSystems\EzPlatformGraphQL\Schema\Generator;
@@ -15,7 +20,7 @@ class SchemaDomainIteratorsPass implements CompilerPassInterface
         }
 
         $generatorDefinition = $container->getDefinition(Generator::class);
-        
+
         $iterators = [];
         foreach ($container->findTaggedServiceIds('ezplatform_graphql.schema_domain_iterator') as $id => $tags) {
             $iterators[] = new Reference($id);

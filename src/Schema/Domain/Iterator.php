@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain;
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -11,7 +16,9 @@ interface Iterator
 {
     /**
      * Performs one-time initializations on the schema.
+     *
      * @param Builder $schema
+     *
      * @return
      */
     public function init(Builder $schema);

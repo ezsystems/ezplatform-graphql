@@ -1,8 +1,12 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
 use eZ\Publish\API\Repository\LanguageService;
-use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Iterator;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use Generator;
@@ -18,7 +22,7 @@ class LanguagesIterator implements Iterator
     {
         $this->languageService = $languageService;
     }
-    
+
     public function init(Builder $schema)
     {
     }

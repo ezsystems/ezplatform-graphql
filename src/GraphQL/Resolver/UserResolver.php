@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -94,6 +95,7 @@ class UserResolver
         if (isset($args['identifier'])) {
             return [$content->getField($args['identifier'])];
         }
+
         return $content->getFieldsByLanguage();
     }
 }

@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
 use eZ\Publish\API\Repository\Values\Content\Query;
@@ -8,6 +13,7 @@ class SearchQueryMapper
 {
     /**
      * @param array $inputArray
+     *
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
     public function mapInputToQuery(array $inputArray)
@@ -29,15 +35,14 @@ class SearchQueryMapper
             $criteria[] = new Query\Criterion\FullText($inputArray['Text']);
         }
 
-        if (isset($inputArray['Field']))
-        {
+        if (isset($inputArray['Field'])) {
             if (isset($inputArray['Field']['target'])) {
                 $criteria[] = $this->mapInputToFieldCriterion($inputArray['Field']);
             } else {
                 $criteria = array_merge(
                     $criteria,
                     array_map(
-                        function($input) {
+                        function ($input) {
                             return $this->mapInputToFieldCriterion($input);
                         },
                         $inputArray['Field']
@@ -65,6 +70,7 @@ class SearchQueryMapper
                         }
 
                         $lastSortClause->direction = $sortClauseClass;
+
                         return null;
                     }
 
@@ -76,7 +82,7 @@ class SearchQueryMapper
                         return null;
                     }
 
-                    return $lastSortClause = new $sortClauseClass;
+                    return $lastSortClause = new $sortClauseClass();
                 },
                 $inputArray['sortBy']
             );
@@ -98,6 +104,7 @@ class SearchQueryMapper
     /**
      * @param array $queryArg
      * @param $dateMetadata
+     *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\Criterion\DateMetadata[]
      */
     private function mapDateMetadata(array $queryArg = [], $dateMetadata)
@@ -148,8 +155,9 @@ class SearchQueryMapper
         }
 
         if (!isset($operator)) {
-            throw new InvalidArgumentException("Unspecified operator");
+            throw new InvalidArgumentException('Unspecified operator');
         }
 
-        return new Query\Criterion\Field($input['target'], $operator, $value);    }
+        return new Query\Criterion\Field($input['target'], $operator, $value);
+    }
 }

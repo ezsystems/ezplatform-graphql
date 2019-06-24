@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
 use EzSystems\EzPlatformGraphQL\Schema\Generator;
@@ -15,7 +20,7 @@ class SchemaWorkersPass implements CompilerPassInterface
         }
 
         $generatorDefinition = $container->getDefinition(Generator::class);
-        
+
         $workers = [];
         foreach ($container->findTaggedServiceIds('ezplatform_graphql.domain_schema_worker') as $id => $tags) {
             $workers[] = new Reference($id);

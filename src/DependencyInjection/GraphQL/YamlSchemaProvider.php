@@ -44,7 +44,7 @@ class YamlSchemaProvider implements SchemaProvider
     {
         if (file_exists($this->getAppQuerySchema())) {
             return 'Query';
-        } else if (file_exists($this->getPlatformQuerySchema())) {
+        } elseif (file_exists($this->getPlatformQuerySchema())) {
             return 'Domain';
         } else {
             return 'Platform';
@@ -55,7 +55,7 @@ class YamlSchemaProvider implements SchemaProvider
     {
         if (file_exists($this->getAppMutationSchemaFile())) {
             return 'Mutation';
-        } else if (file_exists($this->getPlatformMutationSchema())) {
+        } elseif (file_exists($this->getPlatformMutationSchema())) {
             return 'DomainContentMutation';
         } else {
             return null;

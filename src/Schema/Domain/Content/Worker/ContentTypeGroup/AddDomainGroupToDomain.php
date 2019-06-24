@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup;
 
 use eZ\Publish\API\Repository\ContentTypeService;
@@ -24,14 +29,14 @@ final class AddDomainGroupToDomain extends BaseWorker implements Worker
     {
         $contentTypeGroup = $args['ContentTypeGroup'];
         $schema->addFieldToType('Domain', new Input\Field(
-            $this->fieldName($args), 
+            $this->fieldName($args),
             $this->typeGroupName($args),
             [
                 'description' => $contentTypeGroup->getDescription('eng-GB'),
                 'resolve' => sprintf(
                     '@=resolver("ContentTypeGroupByIdentifier", ["%s"])',
                     $contentTypeGroup->identifier
-                )
+                ),
             ]
         ));
     }

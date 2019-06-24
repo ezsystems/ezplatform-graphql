@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
@@ -14,7 +19,8 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     /**
      * Mapping of fieldtypes identifiers to their GraphQL input type.
-     * @var String[]
+     *
+     * @var string[]
      */
     private $typesInputMap;
 
@@ -61,6 +67,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     /**
      * @param ContentType $contentType
+     *
      * @return string
      */
     protected function getCreateInputName(ContentType $contentType): string
@@ -70,6 +77,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     /**
      * @param ContentType $contentType
+     *
      * @return string
      */
     private function getUpdateInputName($contentType): string
@@ -79,6 +87,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     /**
      * @param FieldDefinition $fieldDefinition
+     *
      * @return string
      */
     protected function getFieldDefinitionField(FieldDefinition $fieldDefinition): string
@@ -88,7 +97,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     private function getFieldDefinitionToGraphQLType(FieldDefinition $fieldDefinition, $operation): string
     {
-        $requiredFlag = $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!': '';
+        $requiredFlag = $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!' : '';
 
         return isset($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier])
             ? ($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier] . $requiredFlag)

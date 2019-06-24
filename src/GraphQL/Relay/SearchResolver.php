@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Relay;
 
 use eZ\Publish\API\Repository\SearchService;
@@ -21,6 +26,7 @@ class SearchResolver
 
     /**
      * @param $args
+     *
      * @return Connection
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException

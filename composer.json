@@ -33,7 +33,7 @@
     "require-dev": {
         "overblog/graphiql-bundle": "^0.1",
         "phpspec/phpspec": "^5.1",
-        "friendsofphp/php-cs-fixer": "^2.15",
+        "friendsofphp/php-cs-fixer": "~2.15.1",
         "mikey179/vfsstream": "^1.6"
     },
     "autoload": {

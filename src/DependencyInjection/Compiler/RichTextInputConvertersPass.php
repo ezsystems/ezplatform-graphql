@@ -7,7 +7,6 @@
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText as RichTextInputHandler;
-use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentMutationResolver;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
