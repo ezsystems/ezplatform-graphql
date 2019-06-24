@@ -7,7 +7,6 @@
 namespace EzSystems\EzPlatformGraphQL\Command;
 
 use EzSystems\EzPlatformGraphQL\Schema\Generator;
-use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,21 +18,15 @@ use Symfony\Component\Yaml\Yaml;
 class GeneratePlatformSchemaCommand extends Command
 {
     /**
-     * @var \eZ\Publish\API\Repository\Repository
-     */
-    private $repository;
-
-    /**
      * @var \EzSystems\EzPlatformGraphQL\Schema\Generator
      */
     private $generator;
 
     const TYPES_DIRECTORY = 'app/config/graphql/ezplatform';
 
-    public function __construct(Repository $repository, Generator $generator)
+    public function __construct(Generator $generator)
     {
         parent::__construct();
-        $this->repository = $repository;
         $this->generator = $generator;
     }
 
