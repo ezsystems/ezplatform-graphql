@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
@@ -8,7 +13,6 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-
 
 class AddFieldValueToDomainContent extends BaseWorker implements Worker
 {
@@ -35,7 +39,7 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
     {
         return [
             'type' => $this->fieldDefinitionMapper->mapToFieldValueType($fieldDefinition),
-            'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition)
+            'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition),
         ];
     }
 

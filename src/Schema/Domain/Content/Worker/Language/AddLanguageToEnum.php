@@ -1,12 +1,10 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
-
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\Language;
-
 
 use eZ\Publish\API\Repository\Values\Content\Language;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
@@ -32,8 +30,6 @@ class AddLanguageToEnum implements Worker, Initializer
      *
      * @param Builder $schema
      * @param array $args
-     *
-     * @return void
      */
     public function work(Builder $schema, array $args)
     {
@@ -46,7 +42,7 @@ class AddLanguageToEnum implements Worker, Initializer
                 $language->languageCode,
                 [
                     'description' => $language->name,
-                    'value' => $language->languageCode
+                    'value' => $language->languageCode,
                 ]
             )
         );
@@ -64,4 +60,5 @@ class AddLanguageToEnum implements Worker, Initializer
     public function canWork(Builder $schema, array $args)
     {
         return isset($args['Language']) && $args['Language'] instanceof Language;
-}}
+    }
+}

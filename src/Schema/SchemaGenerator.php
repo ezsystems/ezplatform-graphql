@@ -1,15 +1,10 @@
 <?php
-namespace EzSystems\EzPlatformGraphQL\Schema;
 
-use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentTypeGroup\ContentTypeGroupSchemaWorker;
-use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\ContentType\ContentTypeSchemaWorker;
-use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\FieldDefinition\FieldDefinitionSchemaWorker;
-use EzSystems\EzPlatformGraphQL\DomainContent\SchemaWorker\SchemaWorker;
-use EzSystems\EzPlatformGraphQL\Schema\SchemaBuilder;
-use eZ\Publish\API\Repository\Repository;
-use GraphQL\Type\Schema;
-use InvalidArgumentException;
-use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+namespace EzSystems\EzPlatformGraphQL\Schema;
 
 class SchemaGenerator
 {
@@ -32,8 +27,7 @@ class SchemaGenerator
         foreach ($this->schemaBuilders as $builder) {
             $builder->build($schema);
         }
-        
+
         return $schema;
     }
-
 }

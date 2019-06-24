@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema;
 
 interface Worker
@@ -8,7 +13,6 @@ interface Worker
      *
      * @param Builder $schema
      * @param array $args
-     * @return void
      */
     public function work(Builder $schema, array $args);
 
@@ -18,6 +22,7 @@ interface Worker
      *
      * @param Builder $schema
      * @param array $args
+     *
      * @return bool
      */
     public function canWork(Builder $schema, array $args);

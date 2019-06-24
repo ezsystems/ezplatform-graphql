@@ -1,14 +1,12 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
@@ -44,8 +42,7 @@ class UrlAliasResolver
 
     public function resolveUrlAliasType(URLAlias $urlAlias)
     {
-        switch ($urlAlias->type)
-        {
+        switch ($urlAlias->type) {
             case URLAlias::LOCATION:
                 return $this->typeResolver->resolve('LocationUrlAlias');
             case URLAlias::RESOURCE:

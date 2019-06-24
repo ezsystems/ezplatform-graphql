@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -85,7 +86,7 @@ class DomainContentResolver
         } elseif (isset($args['locationId'])) {
             $criterion = new Query\Criterion\LocationId($args['locationId']);
         } else {
-            throw new UserError("Missing required argument id, remoteId or locationId");
+            throw new UserError('Missing required argument id, remoteId or locationId');
         }
 
         $content = $this->contentLoader->findSingle($criterion);
@@ -101,7 +102,6 @@ class DomainContentResolver
 
     /**
      * @param string $contentTypeIdentifier
-     *
      * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
@@ -138,7 +138,7 @@ class DomainContentResolver
     {
         $destinationContentIds = $this->getContentIds($field);
 
-        if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && is_null($destinationContentIds[0])) {
+        if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && null === $destinationContentIds[0]) {
             return $multiple ? [] : null;
         }
 
@@ -173,14 +173,16 @@ class DomainContentResolver
 
     /**
      * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\Field $field
+     *
      * @return array
+     *
      * @throws UserError if the field isn't a Relation or RelationList value
      */
     private function getContentIds(Field $field)
     {
         if ($field->value instanceof FieldType\RelationList\Value) {
             return $field->value->destinationContentIds;
-        } else if ($field->value instanceof FieldType\Relation\Value) {
+        } elseif ($field->value instanceof FieldType\Relation\Value) {
             return [$field->value->destinationContentId];
         } else {
             throw new UserError('\$field does not contain a RelationList or Relation Field value');

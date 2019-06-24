@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -13,9 +14,9 @@ use eZ\Publish\API\Repository\Values\ValueObject;
  *
  * Required to be able to identify a value's FieldType to map with a GraphQL type.
  *
- * @property-read int $contentTypeId
- * @property-read string $fieldDefIdentifier
- * @property-read object $value
+ * @property int $contentTypeId
+ * @property string $fieldDefIdentifier
+ * @property object $value
  * @
  */
 class ContentFieldValue extends ValueObject
@@ -49,7 +50,7 @@ class ContentFieldValue extends ValueObject
         return parent::__get($property);
     }
 
-    function __toString()
+    public function __toString()
     {
         return (string)$this->value;
     }

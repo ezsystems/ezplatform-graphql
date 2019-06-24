@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType;
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
@@ -33,7 +38,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
                     'resolve' => sprintf(
                         '@=mutation("CreateDomainContent", [args["input"], "%s", args["parentLocationId"], args["language"]])',
                         $contentType->identifier
-                )]
+                ), ]
             )
         );
 
@@ -110,6 +115,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
+     *
      * @return string
      */
     protected function getCreateInputName($contentType): string
@@ -119,6 +125,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
+     *
      * @return string
      */
     protected function getUpdateInputName($contentType): string
@@ -128,6 +135,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
+     *
      * @return string
      */
     protected function getCreateField($contentType): string
@@ -137,6 +145,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
+     *
      * @return string
      */
     protected function getUpdateField($contentType): string

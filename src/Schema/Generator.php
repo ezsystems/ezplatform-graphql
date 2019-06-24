@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace EzSystems\EzPlatformGraphQL\Schema;
 
 class Generator
@@ -9,7 +14,8 @@ class Generator
     private $schema;
 
     /**
-     * Grouping of schema types for writing to disk (group => [types])
+     * Grouping of schema types for writing to disk (group => [types]).
+     *
      * @var array
      */
     private $groups;
@@ -53,7 +59,7 @@ class Generator
                 }
             }
         }
-        
+
         return $this->schema->getSchema();
     }
 }
