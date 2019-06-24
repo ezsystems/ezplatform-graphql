@@ -8,6 +8,10 @@ branches:
     - master
     - dev
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 env:
   matrix:
     - TARGET="phpspec"
