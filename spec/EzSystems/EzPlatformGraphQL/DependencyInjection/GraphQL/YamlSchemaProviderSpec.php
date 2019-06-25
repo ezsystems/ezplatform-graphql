@@ -17,7 +17,7 @@ class YamlSchemaProviderSpec extends ObjectBehavior
     function let()
     {
         $this->vfs = vfsStream::setUp('config');
-        $this->createFile('ezplatform/Platform.types.yml');
+        $this->createFile('ezplatform/Platform.types.yaml');
         $this->beConstructedWith($this->vfs->url());
     }
 
@@ -28,13 +28,13 @@ class YamlSchemaProviderSpec extends ObjectBehavior
 
     function it_returns_the_app_schema_if_one_exists()
     {
-        $this->createFile('Query.types.yml');
+        $this->createFile('Query.types.yaml');
         $this->getSchemaConfiguration()->shouldHaveQueryConfiguration('Query');
     }
 
     function it_returns_the_Domain_schema_if_no_app_schema_exists_and_the_domain_schema_exists()
     {
-        $this->createFile('ezplatform/Domain.types.yml');
+        $this->createFile('ezplatform/Domain.types.yaml');
         $this->getSchemaConfiguration()->shouldHaveQueryConfiguration('Domain');
     }
 
@@ -45,13 +45,13 @@ class YamlSchemaProviderSpec extends ObjectBehavior
 
     function it_returns_the_app_mutation_schema_if_one_exists()
     {
-        $this->createFile('Mutation.types.yml');
+        $this->createFile('Mutation.types.yaml');
         $this->getSchemaConfiguration()->shouldHaveMutationConfiguration('Mutation');
     }
 
     function it_returns_the_DomainMutation_schema_if_no_app_schema_exists_and_the_domain_mutation_schema_exists()
     {
-        $this->createFile('ezplatform/DomainContentMutation.types.yml');
+        $this->createFile('ezplatform/DomainContentMutation.types.yaml');
         $this->getSchemaConfiguration()->shouldHaveMutationConfiguration('DomainContentMutation');
     }
 

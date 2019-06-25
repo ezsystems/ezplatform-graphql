@@ -14,10 +14,10 @@ use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\Map\UploadMap;
 class YamlSchemaProvider implements SchemaProvider
 {
     const PLATFORM_SCHEMA_PATH = 'ezplatform/';
-    const PLATFORM_SCHEMA_FILE = self::PLATFORM_SCHEMA_PATH . 'Domain.types.yml';
-    const PLATFORM_MUTATION_FILE = self::PLATFORM_SCHEMA_PATH . 'DomainContentMutation.types.yml';
-    const APP_QUERY_SCHEMA_FILE = 'Query.types.yml';
-    const APP_MUTATION_SCHEMA_FILE = 'Mutation.types.yml';
+    const PLATFORM_SCHEMA_FILE = self::PLATFORM_SCHEMA_PATH . 'Domain.types.yaml';
+    const PLATFORM_MUTATION_FILE = self::PLATFORM_SCHEMA_PATH . 'DomainContentMutation.types.yaml';
+    const APP_QUERY_SCHEMA_FILE = 'Query.types.yaml';
+    const APP_MUTATION_SCHEMA_FILE = 'Mutation.types.yaml';
 
     /**
      * The path to the graphql configuration root.
