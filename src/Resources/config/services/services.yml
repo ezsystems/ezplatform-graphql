@@ -4,8 +4,9 @@ services:
         autowire: true
         public: false
 
-    EzSystems\EzPlatformGraphQL\Command\:
-        resource: '../../Command/*'
+    EzSystems\EzPlatformGraphQL\Command\GeneratePlatformSchemaCommand:
+        arguments:
+            $schemaRootDir: '%ezplatform.graphql.schema.root_dir%'
         tags:
             -  { name: console.command }
 

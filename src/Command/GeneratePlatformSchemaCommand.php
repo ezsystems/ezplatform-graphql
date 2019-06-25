@@ -22,12 +22,27 @@ class GeneratePlatformSchemaCommand extends Command
      */
     private $generator;
 
+    /**
+     * @var string
+     */
+    private $schemaRootDir;
+
+    /**
+     * @deprecated since v1.1, will be removed in v2.0. Inject the path instead.
+     */
     const TYPES_DIRECTORY = 'app/config/graphql/ezplatform';
 
-    public function __construct(Generator $generator)
+    public function __construct(Generator $generator, $schemaRootDir = null)
     {
         parent::__construct();
         $this->generator = $generator;
+
+        if (isset($schemaRootDir)) {
+            $this->schemaRootDir = $schemaRootDir;
+        } else {
+            $this->schemaRootDir = self::TYPES_DIRECTORY;
+            @trigger_error('Not specifying $schemaRootDir in ' . __METHOD__ . ' is deprecated since v1.1');
+        }
     }
 
     protected function configure()
@@ -51,7 +66,7 @@ class GeneratePlatformSchemaCommand extends Command
             if (count($include) && !in_array($type, $include)) {
                 continue;
             }
-            $typeFilePath = self::TYPES_DIRECTORY . "/$type.types.yml";
+            $typeFilePath = $this->schemaRootDir . "/$type.types.yaml";
 
             $yaml = Yaml::dump([$type => $definition], 6);
             if ($doWrite) {
