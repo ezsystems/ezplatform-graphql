@@ -27,25 +27,11 @@ class GeneratePlatformSchemaCommand extends Command
      */
     private $schemaRootDir;
 
-    /**
-     * @deprecated since v1.1, will be removed in v2.0. Inject the path instead.
-     */
-    const TYPES_DIRECTORY = 'app/config/graphql/ezplatform';
-
-    public function __construct(Generator $generator, ?string $schemaRootDir = null)
+    public function __construct(Generator $generator, string $schemaRootDir)
     {
         parent::__construct();
         $this->generator = $generator;
-
-        if (null !== $schemaRootDir) {
-            $this->schemaRootDir = $schemaRootDir;
-        } else {
-            $this->schemaRootDir = self::TYPES_DIRECTORY;
-            @trigger_error(
-                'Not specifying $schemaRootDir in ' . __METHOD__ . ' is deprecated since v1.1',
-                E_USER_DEPRECATED
-            );
-        }
+        $this->schemaRootDir = $schemaRootDir;
     }
 
     protected function configure()
