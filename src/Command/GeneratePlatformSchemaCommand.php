@@ -69,7 +69,7 @@ class GeneratePlatformSchemaCommand extends Command
             if (count($include) && !in_array($type, $include)) {
                 continue;
             }
-            $typeFilePath = $this->schemaRootDir . "/$type.types.yaml";
+            $typeFilePath = $this->schemaRootDir . "/$type.types.yml";
 
             $yaml = Yaml::dump([$type => $definition], 6);
             if ($doWrite) {
