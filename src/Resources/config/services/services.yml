@@ -6,7 +6,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\Command\GeneratePlatformSchemaCommand:
         arguments:
-            $schemaRootDir: '%ezplatform.graphql.schema.root_dir%'
+            $schemaRootDir: '%ezplatform.graphql.schema.ezplatform_dir%'
         tags:
             -  { name: console.command }
 
