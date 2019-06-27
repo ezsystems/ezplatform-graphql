@@ -48,9 +48,6 @@ FieldCriterionInput:
              gt:
                  description: "Greater than the value"
                  type: "String"
-             contains:
-                 description: "Contains than the value"
-                 type: "String"
              gte:
                  description: "Greater than or equal to the value"
                  type: 'String'
