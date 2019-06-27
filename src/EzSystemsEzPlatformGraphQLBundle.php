@@ -16,7 +16,6 @@ class EzSystemsEzPlatformGraphQLBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new Compiler\RegisterSchemaDirectoryParametersPass());
         $container->addCompilerPass(new Compiler\FieldInputHandlersPass());
         $container->addCompilerPass(new Compiler\RichTextInputConvertersPass());
         $container->addCompilerPass(new Compiler\SchemaWorkersPass());
