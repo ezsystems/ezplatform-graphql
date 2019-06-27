@@ -7,7 +7,6 @@
 namespace EzSystems\EzPlatformGraphQL\Command;
 
 use EzSystems\EzPlatformGraphQL\Schema\Generator;
-use eZ\Publish\API\Repository\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,22 +18,34 @@ use Symfony\Component\Yaml\Yaml;
 class GeneratePlatformSchemaCommand extends Command
 {
     /**
-     * @var \eZ\Publish\API\Repository\Repository
-     */
-    private $repository;
-
-    /**
      * @var \EzSystems\EzPlatformGraphQL\Schema\Generator
      */
     private $generator;
 
+    /**
+     * @var string
+     */
+    private $schemaRootDir;
+
+    /**
+     * @deprecated since v1.1, will be removed in v2.0. Inject the path instead.
+     */
     const TYPES_DIRECTORY = 'app/config/graphql/ezplatform';
 
-    public function __construct(Repository $repository, Generator $generator)
+    public function __construct(Generator $generator, ?string $schemaRootDir = null)
     {
         parent::__construct();
-        $this->repository = $repository;
         $this->generator = $generator;
+
+        if (null !== $schemaRootDir) {
+            $this->schemaRootDir = $schemaRootDir;
+        } else {
+            $this->schemaRootDir = self::TYPES_DIRECTORY;
+            @trigger_error(
+                'Not specifying $schemaRootDir in ' . __METHOD__ . ' is deprecated since v1.1',
+                E_USER_DEPRECATED
+            );
+        }
     }
 
     protected function configure()
@@ -58,7 +69,7 @@ class GeneratePlatformSchemaCommand extends Command
             if (count($include) && !in_array($type, $include)) {
                 continue;
             }
-            $typeFilePath = self::TYPES_DIRECTORY . "/$type.types.yml";
+            $typeFilePath = $this->schemaRootDir . "/$type.types.yaml";
 
             $yaml = Yaml::dump([$type => $definition], 6);
             if ($doWrite) {
