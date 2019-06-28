@@ -14,16 +14,35 @@ cache:
     - $HOME/.composer/cache/files
 
 env:
-  matrix:
-    - TARGET="phpspec"
-    - TARGET="codestyle"
+  global:
+    - EZPLATFORM_REPO="https://github.com/ezsystems/ezplatform.git"
+    - SYMFONY_ENV=behat
+    - SYMFONY_DEBUG=1
+
+matrix:
+  include:
+    - name: "Unit tests with PhpSpec"
+      env:
+        - TARGET="phpspec"
+    - name: "Code style"
+      env:
+        - TARGET="codestyle"
+    - name: "Behat"
+      env:
+        - TARGET="behat"
+        - COMPOSE_FILE="doc/docker/base-dev.yml"
+        - BEHAT_OPTS="--mode=behat --profile=graphql --suite=graphql"
+
+install:
+  - if [ $TARGET == "behat" ]; then ./.travis/prepare_ezplatform.sh ${INSTALL_EZ_INSTALL_TYPE}; fi
 
 before_script:
-  - COMPOSER_MEMORY_LIMIT=-1 composer install
+  - if [ "$TARGET" != "behat" ]; then COMPOSER_MEMORY_LIMIT=-1 composer install; fi
 
 script:
   - if [ "$TARGET" == "phpspec" ] ; then ./vendor/bin/phpspec run --format=pretty; fi
   - if [ "$TARGET" == "codestyle" ] ; then ./vendor/bin/php-cs-fixer fix --dry-run -v --show-progress=estimating; fi
+  - if [ "$TARGET" == "behat" ]; then cd "$HOME/build/ezplatform"; docker-compose exec --user www-data app sh -c "bin/ezbehat ${BEHAT_OPTS}" ; fi
 
 notification:
   email: false
