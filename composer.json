@@ -16,9 +16,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.3",
-        "ezsystems/ezpublish-kernel": "^8.0@dev",
-        "ezsystems/ezplatform-admin-ui": "^2.0@dev",
-        "ezsystems/ezplatform-richtext": "^2.0@dev",
+        "ezsystems/ezpublish-kernel": "^8.0@beta",
+        "ezsystems/ezplatform-admin-ui": "^2.0@beta",
+        "ezsystems/ezplatform-richtext": "^2.0@beta",
         "overblog/graphql-bundle": "^0.11",
         "erusev/parsedown": "^1.7",
         "symfony/dependency-injection": "^4.3",
