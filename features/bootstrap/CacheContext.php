@@ -1,20 +1,17 @@
 <?php
 
+use Behat\Symfony2Extension\Context\KernelAwareContext;
 use PHPUnit\Framework\Assert;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-class CacheContext implements \Behat\Symfony2Extension\Context\KernelAwareContext
+class CacheContext implements KernelAwareContext
 {
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface

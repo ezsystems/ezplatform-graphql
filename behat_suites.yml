@@ -11,7 +11,10 @@ graphql:
                 - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/bootstrap/'
             paths:
                 - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/Generator.feature'
+                - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/Schema.feature'
             contexts:
                 - GeneratorContext
                 - ConfigurationContext
                 - CacheContext
+                - SchemaContext
+                - EzSystems\BehatBundle\Context\Object\ContentTypeGroup
