@@ -29,3 +29,8 @@ services:
             - '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\RepositoryContentTypeLoader'
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentTypeLoader'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchLocationLoader:
+        arguments:
+            $searchService: '@ezpublish.siteaccessaware.service.search'
+            $locationService: '@ezpublish.siteaccessaware.service.location'
