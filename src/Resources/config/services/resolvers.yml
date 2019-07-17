@@ -23,6 +23,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "ContentByType", method: "findContentByType" }
             - { name: overblog_graphql.resolver, alias: "ContentRelations", method: "findContentRelations" }
             - { name: overblog_graphql.resolver, alias: "ContentReverseRelations", method: "findContentReverseRelations" }
+            - { name: overblog_graphql.resolver, alias: "CurrentVersion", method: "resolveCurrentVersion" }
         arguments:
             $contentService: '@ezpublish.siteaccessaware.service.content'
             $searchService: '@ezpublish.siteaccessaware.service.search'

@@ -49,8 +49,9 @@ Location:
                     custom:
                         type: "Boolean"
                 resolve: "@=resolver('LocationUrlAliases', [value, args])"
-            contentInfo:
+            content:
                 type: Content
+                resolve: "@=value.getContentInfo()"
 
 LocationSortByOptions:
     type: enum
