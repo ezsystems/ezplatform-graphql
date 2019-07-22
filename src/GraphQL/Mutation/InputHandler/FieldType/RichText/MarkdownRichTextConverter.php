@@ -7,25 +7,19 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText;
 
 use DOMDocument;
-use eZ\Publish\Core\FieldType\RichText as RichTextFieldType;
+use EzSystems\EzPlatformRichText\eZ\RichText\Converter as RichTextConverter;
 use Parsedown;
 
 class MarkdownRichTextConverter implements RichTextInputConverter
 {
     /**
-     * @var RichTextFieldType\Converter
-     */
-    private $markdownConverter;
-
-    /**
-     * @var RichTextFieldType\Converter
+     * @var EzSystems\EzPlatformRichText\eZ\RichText\Converter
      */
     private $xhtml5Converter;
 
-    public function __construct(RichTextFieldType\Converter $xhtml5Converter)
+    public function __construct(RichTextConverter $xhtml5Converter)
     {
         $this->xhtml5Converter = $xhtml5Converter;
-        $this->markdownConverter = new Parsedown();
     }
 
     public function convertToXml($text): DOMDocument

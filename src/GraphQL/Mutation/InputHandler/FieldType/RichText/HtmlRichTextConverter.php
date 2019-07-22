@@ -7,16 +7,16 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText;
 
 use DOMDocument;
-use eZ\Publish\Core\FieldType\RichText as RichTextFieldType;
+use EzSystems\EzPlatformRichText\eZ\RichText\Converter as RichTextFieldTypeConverter;
 
 class HtmlRichTextConverter implements RichTextInputConverter
 {
     /**
-     * @var RichTextFieldType\Converter
+     * @var \EzSystems\EzPlatformRichText\eZ\RichText\Converter
      */
     private $xhtml5Converter;
 
-    public function __construct(RichTextFieldType\Converter $xhtml5Converter)
+    public function __construct(RichTextFieldTypeConverter $xhtml5Converter)
     {
         $this->xhtml5Converter = $xhtml5Converter;
     }
