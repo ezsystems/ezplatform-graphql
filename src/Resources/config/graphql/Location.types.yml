@@ -80,3 +80,5 @@ LocationConnection:
                 type: Int!
             orderBy:
                 type: String
+            totalCount:
+                type: Int
