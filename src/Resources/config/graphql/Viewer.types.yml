@@ -1,0 +1,10 @@
+Viewer:
+    type: object
+    config:
+        fields:
+            user:
+                type: User
+                resolve: "@=resolver('CurrentUser')"
+            notifications:
+                type: "[Notification]"
+                resolve: "@=resolver('CurrentUserNotifications')"
