@@ -82,3 +82,14 @@ LocationConnection:
                 type: String
             totalCount:
                 type: Int
+            pages:
+                type: "[ConnectionPage]"
+
+ConnectionPage:
+    type: object
+    config:
+        fields:
+            number:
+                type: Int
+            cursor:
+                type: String

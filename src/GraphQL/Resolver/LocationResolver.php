@@ -14,6 +14,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQuerySortByMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\Relay\PageAwareConnection;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
@@ -86,7 +87,7 @@ class LocationResolver
      *
      * @return Connection
      */
-    public function resolveLocationChildren($locationId, Argument $args): Connection
+    public function resolveLocationChildren($locationId, Argument $args): PageAwareConnection
     {
         $args['locationId'] = $locationId;
         $sortClauses = isset($args['sortBy']) ? $this->sortMapper->mapInputToSortClauses($args['sortBy']) : [];
@@ -103,11 +104,14 @@ class LocationResolver
             return $this->locationLoader->find($query);
         });
 
-        return $paginator->auto(
-            $args,
-            function () use ($query) {
-                return $this->locationLoader->count($query);
-            }
+        return PageAwareConnection::fromConnection(
+            $paginator->auto(
+                $args,
+                function () use ($query) {
+                    return $this->locationLoader->count($query);
+                }
+            ),
+            $args
         );
     }
 
