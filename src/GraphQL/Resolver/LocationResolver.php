@@ -10,6 +10,7 @@ use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQuerySortByMapper;
@@ -22,6 +23,8 @@ use Overblog\GraphQLBundle\Relay\Connection\Paginator;
  */
 class LocationResolver
 {
+    const DEFAULT_LIMIT = 10;
+
     /**
      * @var \eZ\Publish\API\Repository\LocationService
      */
@@ -78,6 +81,7 @@ class LocationResolver
     }
 
     /**
+     * @param int $locationId
      * @param Argument $args
      *
      * @return Connection
@@ -88,12 +92,13 @@ class LocationResolver
         $sortClauses = isset($args['sortBy']) ? $this->sortMapper->mapInputToSortClauses($args['sortBy']) : [];
 
         $query = new LocationQuery([
-            'filter' => new Query\Criterion\ParentLocationId($args['locationId']),
+            'filter' => $this->buildFilter($args),
             'sortClauses' => $sortClauses,
         ]);
+
         $paginator = new Paginator(function ($offset, $limit) use ($query) {
             $query->offset = $offset;
-            $query->limit = $limit ?? 10;
+            $query->limit = $limit ?? self::DEFAULT_LIMIT;
 
             return $this->locationLoader->find($query);
         });
@@ -104,5 +109,10 @@ class LocationResolver
                 return $this->locationLoader->count($query);
             }
         );
+    }
+
+    private function buildFilter(Argument $args): Criterion
+    {
+        return new Query\Criterion\ParentLocationId($args['locationId']);
     }
 }
