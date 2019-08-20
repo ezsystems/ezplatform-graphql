@@ -17,6 +17,7 @@
         "ezsystems/doctrine-dbal-schema": "^1.0@dev", 
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
+        "ezsystems/ezplatform-admin-ui-modules": "^2.0@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
         "ezsystems/repository-forms": "^3.0@dev",
         "overblog/graphql-bundle": "^0.11",
