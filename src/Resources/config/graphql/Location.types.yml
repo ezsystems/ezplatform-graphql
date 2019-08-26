@@ -54,7 +54,7 @@ Location:
                 resolve: "@=value.getContentInfo()"
             content:
                 type: DomainContent
-                resolve: "@=resolver('DomainContentItem', [{id: value.id}, null])"
+                resolve: "@=resolver('DomainContentItem', [{id: value.contentId}, null])"
 
 LocationSortByOptions:
     type: enum
