@@ -114,7 +114,8 @@ class ContentResolver
         );
     }
 
-    public function resolveCurrentVersion(ContentInfo $contentInfo) {
+    public function resolveCurrentVersion(ContentInfo $contentInfo)
+    {
         return $this->contentService->loadVersionInfo($contentInfo);
     }
 }

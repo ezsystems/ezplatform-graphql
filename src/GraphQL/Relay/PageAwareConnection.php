@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Relay;
 
 use Overblog\GraphQLBundle\Definition\Argument;
@@ -41,7 +41,7 @@ final class PageAwareConnection
 
         $perPage = $args['first'] ?? $args['last'] ?? 10;
         $totalPages = ceil($return->totalCount / $perPage);
-        for ($pageNumber = 2; $pageNumber <= $totalPages; $pageNumber++) {
+        for ($pageNumber = 2; $pageNumber <= $totalPages; ++$pageNumber) {
             $offset = ($pageNumber - 1) * $perPage - 1;
             $return->pages[] = new Page($pageNumber, ConnectionBuilder::offsetToCursor($offset));
         }
