@@ -27,6 +27,8 @@ DomainContent:
             _url:
                 description: "The content item's url alias, based on the main location."
                 type: String
+            _thumbnail:
+                type: String
         resolveType: "@=resolver('DomainContentType', [value])"
 
 AbstractDomainContent:
@@ -68,6 +70,9 @@ AbstractDomainContent:
                 description: "The content item's url alias, based on the main location."
                 type: String
                 resolve: "@=resolver('MainUrlAlias', [value])"
+            _thumbnail:
+                type: String
+                resolve: "@=resolver('ContentThumbnail', [value])"
 
 DomainContentTypeGroup:
     type: object
