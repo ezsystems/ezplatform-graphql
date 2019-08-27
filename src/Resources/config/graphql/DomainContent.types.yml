@@ -27,6 +27,8 @@ DomainContent:
             _url:
                 description: "The content item's url alias, based on the main location."
                 type: String
+            _thumbnail:
+                type: Thumbnail
         resolveType: "@=resolver('DomainContentType', [value])"
 
 AbstractDomainContent:
@@ -68,6 +70,9 @@ AbstractDomainContent:
                 description: "The content item's url alias, based on the main location."
                 type: String
                 resolve: "@=resolver('MainUrlAlias', [value])"
+            _thumbnail:
+                type: Thumbnail
+                resolve: "@=resolver('ContentThumbnail', [value])"
 
 DomainContentTypeGroup:
     type: object
@@ -104,4 +109,20 @@ DomainContentByIdentifierConnection:
             sliceSize:
                 type: Int!
             orderBy:
+                type: String
+
+Thumbnail:
+    type: object
+    config:
+        fields:
+            uri:
+                type: String
+                description: "The image's URI (example: 'https://example.com/var/site/storage/images/_aliases/small/9/8/1/0/189-1-eng-GB/image.png')"
+            width:
+                type: Int
+                description: "The width as number of pixels (example: 320)"
+            height:
+                type: Int
+                description: "The height as number of pixels (example: 200)"
+            alternativeText:
                 type: String
