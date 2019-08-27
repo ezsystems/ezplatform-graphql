@@ -61,7 +61,12 @@ final class ContentThumbnailResolver
 
         $thumbnailVariation = $this->variationHandler->getVariation($imageField, $content->versionInfo, self::THUMBNAIL_VARIATION_IDENTIFIER);
 
-        return $thumbnailVariation->uri;
+        return [
+            'uri' => $thumbnailVariation->uri,
+            'width' => $thumbnailVariation->width,
+            'height' => $thumbnailVariation->height,
+            'alternativeText' => $imageField->value->alternativeText,
+        ];
     }
 
     /**
