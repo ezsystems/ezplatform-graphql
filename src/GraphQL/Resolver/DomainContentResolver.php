@@ -72,12 +72,15 @@ class DomainContentResolver
     /**
      * Resolves a domain content item by id, and checks that it is of the requested type.
      *
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
-     * @param $contentTypeIdentifier
+     * @param \Overblog\GraphQLBundle\Definition\Argument|array $args
+     * @param string|null $contentTypeIdentifier
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content
+     *
+     * @throws \GraphQL\Error\UserError if $contentTypeIdentifier was specified, and the loaded item's type didn't match it
+     * @throws \GraphQL\Error\UserError if no argument was provided
      */
-    public function resolveDomainContentItem(Argument $args, $contentTypeIdentifier)
+    public function resolveDomainContentItem($args, $contentTypeIdentifier)
     {
         if (isset($args['id'])) {
             $criterion = new Query\Criterion\ContentId($args['id']);
@@ -93,7 +96,7 @@ class DomainContentResolver
 
         $contentType = $this->contentTypeLoader->load($content->contentInfo->contentTypeId);
 
-        if ($contentType->identifier !== $contentTypeIdentifier) {
+        if (null !== $contentTypeIdentifier && $contentType->identifier !== $contentTypeIdentifier) {
             throw new UserError("Content {$content->contentInfo->id} is not of type '$contentTypeIdentifier'");
         }
 
