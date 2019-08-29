@@ -57,6 +57,10 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
             'type' => 'yaml',
             'dir' => $container->getParameter('ezplatform.graphql.package.root_dir') . self::PACKAGE_SCHEMA_DIR_PATH,
         ];
+        $graphQLConfig['definitions']['mappings']['types'][] = [
+            'type' => 'yaml',
+            'dir' => $container->getParameter('kernel.project_dir') . self::SCHEMA_DIR_PATH,
+        ];
         $container->prependExtensionConfig('overblog_graphql', $graphQLConfig);
     }
 
