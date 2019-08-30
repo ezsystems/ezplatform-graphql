@@ -9,7 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use InvalidArgumentException;
 
-class SearchQueryMapper
+class SearchQueryMapper implements QueryMapper
 {
     /**
      * @param array $inputArray
@@ -36,19 +36,19 @@ class SearchQueryMapper
         }
 
         if (isset($inputArray['Field'])) {
-            if (isset($inputArray['Field']['target'])) {
-                $criteria[] = $this->mapInputToFieldCriterion($inputArray['Field']);
-            } else {
-                $criteria = array_merge(
-                    $criteria,
-                    array_map(
-                        function ($input) {
-                            return $this->mapInputToFieldCriterion($input);
-                        },
-                        $inputArray['Field']
-                    )
-                );
-            }
+            $inputArray['Fields'] = [$inputArray['Field']];
+        }
+
+        if (isset($inputArray['Fields'])) {
+            $criteria = array_merge(
+                $criteria,
+                array_map(
+                    function ($input) {
+                        return $this->mapInputToFieldCriterion($input);
+                    },
+                    $inputArray['Fields']
+                )
+            );
         }
 
         if (isset($inputArray['ParentLocationId'])) {

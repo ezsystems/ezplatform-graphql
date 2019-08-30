@@ -93,6 +93,11 @@ class NameHelper
         return lcfirst($this->toCamelCase($fieldDefinition->identifier));
     }
 
+    public function filterType(ContentType $contentType)
+    {
+        return $this->domainContentName($contentType) . 'Filter';
+    }
+
     private function toCamelCase($string)
     {
         return $this->caseConverter->denormalize($string);
