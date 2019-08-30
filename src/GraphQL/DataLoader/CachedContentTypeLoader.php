@@ -23,6 +23,16 @@ class CachedContentTypeLoader implements ContentTypeLoader
      */
     private $loadedItems = [];
 
+    /**
+     * @var array
+     */
+    private $identifierToIdMap = [];
+
+    /**
+     * @var ContentType[]
+     */
+    private $loadedItemsByIdentifier = [];
+
     public function __construct(ContentTypeLoader $innerLoader)
     {
         $this->innerLoader = $innerLoader;
@@ -31,7 +41,9 @@ class CachedContentTypeLoader implements ContentTypeLoader
     public function load($contentTypeId): ContentType
     {
         if (!isset($this->loadedItems[$contentTypeId])) {
-            $this->loadedItems[$contentTypeId] = $this->innerLoader->load($contentTypeId);
+            $contentType = $this->innerLoader->load($contentTypeId);
+            $this->loadedItems[$contentTypeId] = $contentType;
+            $this->identifierToIdMap[$contentType->identifier] = $contentTypeId;
         }
 
         return $this->loadedItems[$contentTypeId];
@@ -39,12 +51,13 @@ class CachedContentTypeLoader implements ContentTypeLoader
 
     public function loadByIdentifier($identifier): ContentType
     {
-        $contentType = $this->innerLoader->loadByIdentifier($identifier);
-
-        if (!isset($this->innerLoader[$contentType->id])) {
-            $this->innerLoader[$contentType->id] = $contentType;
+        if (!isset($this->identifierToIdMap[$identifier])) {
+            $contentType = $this->innerLoader->loadByIdentifier($identifier);
+            $this->loadedItems[$contentType->id] = $contentType;
+            $this->identifierToIdMap[$identifier] = $contentType->id;
         }
 
-        return $contentType;
+
+        return $this->loadedItems[$this->identifierToIdMap[$identifier]];
     }
 }
