@@ -8,7 +8,7 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\Values\Content\Content;
@@ -31,7 +31,7 @@ class DomainContentResolver
     private $typeResolver;
 
     /**
-     * @var SearchQueryMapper
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper
      */
     private $queryMapper;
 
@@ -53,7 +53,7 @@ class DomainContentResolver
     public function __construct(
         Repository $repository,
         TypeResolver $typeResolver,
-        SearchQueryMapper $queryMapper,
+        QueryMapper $queryMapper,
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader)
     {

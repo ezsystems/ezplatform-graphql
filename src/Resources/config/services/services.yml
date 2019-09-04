@@ -11,5 +11,3 @@ services:
             -  { name: console.command }
 
     EzSystems\EzPlatformGraphQL\GraphQL\TypeDefinition\ContentTypeMapper: ~
-
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper: ~

@@ -7,7 +7,7 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper;
 use eZ\Publish\API\Repository\SearchService;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
@@ -22,7 +22,7 @@ class SearchResolver
     private $searchService;
 
     /**
-     * @var SearchQueryMapper
+     * @var QueryMapper
      */
     private $queryMapper;
 
@@ -31,7 +31,7 @@ class SearchResolver
      */
     private $contentLoader;
 
-    public function __construct(ContentLoader $contentLoader, SearchService $searchService, SearchQueryMapper $queryMapper)
+    public function __construct(ContentLoader $contentLoader, SearchService $searchService, QueryMapper $queryMapper)
     {
         $this->contentLoader = $contentLoader;
         $this->searchService = $searchService;
@@ -48,6 +48,7 @@ class SearchResolver
     public function searchContentOfTypeAsConnection($contentTypeIdentifier, $args)
     {
         $query = $args['query'] ?: [];
+        $query['fieldsFilters'] = $args['filter'] ?: [];
         $query['ContentTypeIdentifier'] = $contentTypeIdentifier;
         $query['sortBy'] = $args['sortBy'];
         $query = $this->queryMapper->mapInputToQuery($query);
