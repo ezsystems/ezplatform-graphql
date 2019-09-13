@@ -38,11 +38,61 @@ Location:
                 type: "Int"
                 description: "Depth location has in the location tree"
             children:
-                type: "[Location]"
-                resolve: "@=resolver('LocationChildren', [{'id': value.id}])"
+                type: "LocationConnection"
+                resolve: "@=resolver('LocationChildren', [{locationId: value.id}, args])"
+                argsBuilder: 'Relay::Connection'
+                args:
+                    sortBy: { type: '[LocationSortByOptions]', description: 'A sort clause, or array of clauses. Add _desc after a clause to reverse it' }
             urlAliases:
                 type: "[LocationUrlAlias]"
                 args:
                     custom:
                         type: "Boolean"
                 resolve: "@=resolver('LocationUrlAliases', [value, args])"
+            contentInfo:
+                type: Content
+                resolve: "@=value.getContentInfo()"
+            content:
+                type: DomainContent
+                resolve: "@=resolver('DomainContentItem', [{id: value.contentId}, null])"
+
+LocationSortByOptions:
+    type: enum
+    inherits: ["SortByOptions"]
+    config:
+        values:
+            _depth:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Depth'
+            _locationId:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Id'
+            _isMainLocation:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\IsMainLocation'
+            _path:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Path'
+            _priority:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Priority'
+            _visibility:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Visibility'
+
+LocationConnection:
+    type: relay-connection
+    config:
+        nodeType: Location
+        connectionFields:
+            sliceSize:
+                type: Int!
+            orderBy:
+                type: String
+            totalCount:
+                type: Int
+            pages:
+                type: "[ConnectionPage]"
+
+ConnectionPage:
+    type: object
+    config:
+        fields:
+            number:
+                type: Int
+            cursor:
+                type: String

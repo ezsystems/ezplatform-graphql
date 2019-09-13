@@ -3,6 +3,16 @@ Repository:
     config:
         description: "eZ Platform repository"
         fields:
+            location:
+                type: "Location"
+                args:
+                    locationId:
+                        description: "A location id"
+                        type: "Int"
+                    remoteId:
+                        description: "A location remote id"
+                        type: "Int"
+                resolve: "@=resolver('Location', [args])"
             contentType:
                 type: "ContentType"
                 args:
