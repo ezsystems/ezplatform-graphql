@@ -23,6 +23,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "ContentByType", method: "findContentByType" }
             - { name: overblog_graphql.resolver, alias: "ContentRelations", method: "findContentRelations" }
             - { name: overblog_graphql.resolver, alias: "ContentReverseRelations", method: "findContentReverseRelations" }
+            - { name: overblog_graphql.resolver, alias: "CurrentVersion", method: "resolveCurrentVersion" }
         arguments:
             $contentService: '@ezpublish.siteaccessaware.service.content'
             $searchService: '@ezpublish.siteaccessaware.service.search'
@@ -38,6 +39,13 @@ services:
             - { name: overblog_graphql.resolver, alias: "MainUrlAlias", method: "resolveMainUrlAlias" }
         arguments:
             $repository: "@ezpublish.siteaccessaware.repository"
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentThumbnailResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "ContentThumbnail", method: "resolveContentThumbnail" }
+        arguments:
+            $imageFieldType: "@ezpublish.fieldType.ezimage"
+            $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
 
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
         arguments:

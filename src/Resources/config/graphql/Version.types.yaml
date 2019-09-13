@@ -22,6 +22,9 @@ Version:
                 type: "DateTime"
             creatorId:
                 type: "Int"
+            creator:
+                type: "User"
+                resolve: "@=resolver('UserById', [value.creatorId])"
             status:
                 type: "Int"
             initialLanguageCode:

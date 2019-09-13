@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
+use eZ\Publish\API\Repository\Values\Content\VersionInfo;
 
 /**
  * @internal
@@ -112,5 +113,10 @@ class ContentResolver
         return $this->contentService->loadVersions(
             $this->contentService->loadContentInfo($contentId)
         );
+    }
+
+    public function resolveCurrentVersion(ContentInfo $contentInfo): VersionInfo
+    {
+        return $this->contentService->loadVersionInfo($contentInfo);
     }
 }

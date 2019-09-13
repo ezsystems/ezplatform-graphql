@@ -10,6 +10,5 @@ services:
         tags:
             -  { name: console.command }
 
-    EzSystems\EzPlatformGraphQL\GraphQL\TypeDefinition\ContentTypeMapper: ~
-
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\:
+        resource: '../../GraphQL/InputMapper'

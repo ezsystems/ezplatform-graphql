@@ -6,61 +6,60 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
+use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use eZ\Publish\API\Repository\Exceptions as ApiException;
 use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
 /**
  * @internal
  */
-class SearchContentLoader implements ContentLoader
+class SearchLocationLoader implements LocationLoader
 {
     /**
      * @var SearchService
      */
     private $searchService;
 
-    public function __construct(SearchService $searchService)
+    /**
+     * @var LocationService
+     */
+    private $locationService;
+
+    public function __construct(SearchService $searchService, LocationService $locationService)
     {
         $this->searchService = $searchService;
+        $this->locationService = $locationService;
     }
 
-    /**
-     * Loads a list of content items given a Query Criterion.
-     *
-     * @param Query $query A Query Criterion. To use multiple criteria, group them with a LogicalAnd.
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     */
-    public function find(Query $query): array
+    public function find(LocationQuery $query): array
     {
         return array_map(
             function (SearchHit $searchHit) {
                 return $searchHit->valueObject;
             },
-            $this->searchService->findContent($query)->searchHits
+            $this->searchService->findLocations($query)->searchHits
         );
     }
 
-    /**
-     * Loads a single content item given a Query Criterion.
-     *
-     * @param Criterion $filter A Query Criterion. Use Criterion\ContentId, Criterion\RemoteId or Criterion\LocationId for basic loading.
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
-     *
-     * @throws ArgumentsException
-     */
-    public function findSingle(Criterion $filter): Content
+    public function findById($id): Location
     {
         try {
-            return $this->searchService->findSingle($filter);
+            return $this->locationService->loadLocation($id);
+        } catch (ApiException\InvalidArgumentException $e) {
+        } catch (ApiException\NotFoundException $e) {
+            throw new ArgumentsException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    public function findByRemoteId($id): Location
+    {
+        try {
+            return $this->locationService->loadLocationByRemoteId($id);
         } catch (ApiException\InvalidArgumentException $e) {
         } catch (ApiException\NotFoundException $e) {
             throw new ArgumentsException($e->getMessage(), $e->getCode(), $e);
@@ -76,14 +75,14 @@ class SearchContentLoader implements ContentLoader
      *
      * @throws ArgumentsException
      */
-    public function count(Query $query)
+    public function count(LocationQuery $query)
     {
         $countQuery = clone $query;
         $countQuery->limit = 0;
         $countQuery->offset = 0;
 
         try {
-            return $this->searchService->findContent($countQuery)->totalCount;
+            return $this->searchService->findLocations($countQuery)->totalCount;
         } catch (ApiException\InvalidArgumentException $e) {
             throw new ArgumentsException($e->getMessage(), $e->getCode(), $e);
         }
