@@ -43,6 +43,13 @@ interface LocationLoader
     public function findByRemoteId($remoteId): Location;
 
     /**
+     * @param string $remoteId A location remote id
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     */
+    public function findByUrlAlias(string $urlAlias): Location;
+
+    /**
      * Counts the results of a query.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
