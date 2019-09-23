@@ -154,9 +154,13 @@ class DomainContentResolver
 
     public function resolveDomainContentType(Content $content)
     {
-        return $this->makeDomainContentTypeName(
+        $typeName = $this->makeDomainContentTypeName(
             $this->contentTypeLoader->load($content->contentInfo->contentTypeId)
         );
+
+        return  ($this->typeResolver->hasSolution($typeName))
+            ? $typeName
+            : 'UntypedContent';
     }
 
     private function makeDomainContentTypeName(ContentType $contentType)

@@ -74,6 +74,19 @@ AbstractDomainContent:
                 type: Thumbnail
                 resolve: "@=resolver('ContentThumbnail', [value])"
 
+UntypedContent:
+    type: object
+    inherits:
+        - AbstractDomainContent
+    config:
+        interfaces:
+            - DomainContent
+            - Node
+        fields:
+            reason:
+                type: String
+                resolve: "This content type isn't part of the schema."
+
 DomainContentTypeGroup:
     type: object
     config:
