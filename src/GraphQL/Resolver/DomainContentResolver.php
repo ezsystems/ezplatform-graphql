@@ -149,7 +149,16 @@ class DomainContentResolver
             ['filter' => new Query\Criterion\ContentId($destinationContentIds)]
         ));
 
-        return $multiple ? $contentItems : $contentItems[0] ?? null;
+        if ($multiple) {
+            return array_map(
+                function ($contentId) use ($contentItems) {
+                    return $contentItems[array_search($contentId, array_column($contentItems, 'id'))];
+                },
+                $destinationContentIds
+            );
+        }
+
+        return $contentItems[0] ?? null;
     }
 
     public function resolveDomainContentType(Content $content)
