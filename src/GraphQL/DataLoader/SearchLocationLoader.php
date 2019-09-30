@@ -7,7 +7,9 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
 use eZ\Publish\API\Repository\LocationService;
+use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
+use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use eZ\Publish\API\Repository\Exceptions as ApiException;
 use eZ\Publish\API\Repository\SearchService;
@@ -30,10 +32,16 @@ class SearchLocationLoader implements LocationLoader
      */
     private $locationService;
 
-    public function __construct(SearchService $searchService, LocationService $locationService)
+    /**
+     * @var \eZ\Publish\API\Repository\URLAliasService
+     */
+    private $urlAliasService;
+
+    public function __construct(SearchService $searchService, LocationService $locationService, URLAliasService $urlAliasService)
     {
         $this->searchService = $searchService;
         $this->locationService = $locationService;
+        $this->urlAliasService = $urlAliasService;
     }
 
     public function find(LocationQuery $query): array
@@ -64,6 +72,15 @@ class SearchLocationLoader implements LocationLoader
         } catch (ApiException\NotFoundException $e) {
             throw new ArgumentsException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    public function findByUrlAlias(string $urlAlias): Location
+    {
+        $alias = $this->urlAliasService->lookup($urlAlias);
+
+        return ($alias->type == URLAlias::LOCATION)
+            ? $this->locationService->loadLocation($alias->destination)
+            : null;
     }
 
     /**

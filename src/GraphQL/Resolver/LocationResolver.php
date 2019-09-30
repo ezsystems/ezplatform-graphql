@@ -64,6 +64,8 @@ class LocationResolver
             return $this->locationLoader->findById($args['locationId']);
         } elseif (isset($args['remoteId'])) {
             return $this->locationLoader->findByRemoteId($args['remoteId']);
+        } elseif (isset($args['urlAlias'])) {
+            return $this->locationLoader->findByUrlAlias($args['urlAlias']);
         }
 
         throw new ArgumentsException('Requires one and only one of remoteId or locationId');

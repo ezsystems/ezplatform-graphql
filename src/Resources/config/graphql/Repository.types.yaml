@@ -12,6 +12,9 @@ Repository:
                     remoteId:
                         description: "A location remote id"
                         type: "Int"
+                    urlAlias:
+                        description: "A location url alias: 'path/to/content-item'"
+                        type: "String"
                 resolve: "@=resolver('Location', [args])"
             contentType:
                 type: "ContentType"
