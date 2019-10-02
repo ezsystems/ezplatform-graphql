@@ -43,7 +43,7 @@ interface LocationLoader
     public function findByRemoteId($remoteId): Location;
 
     /**
-     * @param string $remoteId A location remote id
+     * @param string $urlAlias A location URL alias
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Location
      */
