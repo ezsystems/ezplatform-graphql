@@ -6,6 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
 class SelectionFieldDefinitionMapper extends DecoratingFieldDefinitionMapper implements FieldDefinitionMapper

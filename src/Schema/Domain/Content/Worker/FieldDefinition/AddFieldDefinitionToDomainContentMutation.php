@@ -9,6 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefiniti
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionInputMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
@@ -20,13 +21,13 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
     /**
      * Mapping of fieldtypes identifiers to their GraphQL input type.
      *
-     * @var string[]
+     * @var FieldDefinitionInputMapper
      */
-    private $typesInputMap;
+    private $mapper;
 
-    public function __construct($typesInputMap = [])
+    public function __construct(FieldDefinitionInputMapper $mapper)
     {
-        $this->typesInputMap = $typesInputMap;
+        $this->mapper = $mapper;
     }
 
     public function work(Builder $schema, array $args)
@@ -40,7 +41,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
             $this->getCreateInputName($contentType),
             new Builder\Input\Field(
                 $fieldDefinitionField,
-                $this->getFieldDefinitionToGraphQLType($args['FieldDefinition'], self::OPERATION_CREATE),
+                $this->fieldType($args, self::OPERATION_CREATE),
                 ['description' => $fieldDefinition->getDescriptions()['eng-GB'] ?? '']
             )
         );
@@ -49,7 +50,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
             $this->getUpdateInputName($contentType),
             new Builder\Input\Field(
                 $fieldDefinitionField,
-                $this->getFieldDefinitionToGraphQLType($args['FieldDefinition'], self::OPERATION_UPDATE),
+                $this->fieldType($args, self::OPERATION_UPDATE),
                 ['description' => $fieldDefinition->getDescriptions()['eng-GB'] ?? '']
             )
         );
@@ -95,12 +96,24 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
         return $this->getNameHelper()->fieldDefinitionField($fieldDefinition);
     }
 
-    private function getFieldDefinitionToGraphQLType(FieldDefinition $fieldDefinition, $operation): string
+    private function fieldType(array $args, $operation): string
     {
-        $requiredFlag = $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!' : '';
+        if (!isset($args['FieldDefinition']) || !$args['FieldDefinition'] instanceof FieldDefinition) {
+            throw new \InvalidArgumentException("Missing FieldDefinition argument");
+        } else {
+            $fieldDefinition = $args['FieldDefinition'];
+        }
 
-        return isset($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier])
-            ? ($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier] . $requiredFlag)
-            : ('String' . $requiredFlag);
+        if (!isset($args['ContentType']) || !$args['ContentType'] instanceof ContentType) {
+            throw new \InvalidArgumentException("Missing ContentType argument");
+        } else {
+            $contentType = $args['ContentType'];
+        }
+
+        return sprintf(
+            '%s%s',
+            $this->mapper->mapToFieldValueInputType($contentType, $fieldDefinition),
+            $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!' : ''
+        );
     }
 }
