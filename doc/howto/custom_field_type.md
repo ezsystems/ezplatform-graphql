@@ -160,6 +160,29 @@ class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper impl
 }
 ```
 
+#### Field Definition Input Mappers
+As of v1.0.4, an extra interface is available for mutation input type handling, `FieldDefinitionInputMapper`.
+It is used if the input for this field depends on the field definition. For instance, `ezmatrix`
+generates its own input types depending on the configured columns.  It defines an extra method, `mapToFieldValueInputType`, 
+that returns a GraphQL type for a Field Definition.
+
+Example:
+```
+class MyFieldDefinitionMapper extends DecoratingFieldDefinitionMapper implements FieldDefinitionMapper, FieldDefinitionInputMapper
+{
+    public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string
+    {
+        if (!$this->canMap($fieldDefinition)) {
+            return parent::mapToFieldValueInputType($fieldDefinition);
+        }
+
+        return $this->nameMyFieldType($fieldDefinition);
+    }
+}
+```
+
+In 2.0, `FieldDefinitionInputMapper` and `FieldDefinitionMapper` will be merged, and the service tag will be deprecated.
+
 ## Resolver expressions
 Two variables are available in the resolver's expression:
 

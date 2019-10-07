@@ -24,33 +24,40 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
      */
     private $typesInputMap;
 
-    public function __construct($typesInputMap = [])
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionInputMapper[]
+     */
+    private $mappers;
+
+    /**
+     * @param string[] $typesInputMap
+     * @param \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionInputMapper[] $mappers
+     */
+    public function __construct(array $typesInputMap = [], array $mappers = [])
     {
         $this->typesInputMap = $typesInputMap;
+        $this->mappers = $mappers;
     }
 
     public function work(Builder $schema, array $args)
     {
-        $fieldDefinition = $args['FieldDefinition'];
-        $contentType = $args['ContentType'];
-
-        $fieldDefinitionField = $this->getFieldDefinitionField($fieldDefinition);
+        $properties = ['description' => $this->mapDescription($args)];
 
         $schema->addFieldToType(
-            $this->getCreateInputName($contentType),
+            $this->nameCreateInputType($args),
             new Builder\Input\Field(
-                $fieldDefinitionField,
-                $this->getFieldDefinitionToGraphQLType($args['FieldDefinition'], self::OPERATION_CREATE),
-                ['description' => $fieldDefinition->getDescriptions()['eng-GB'] ?? '']
+                $this->nameFieldDefinitionField($args),
+                $this->nameFieldType($args, self::OPERATION_CREATE),
+                $properties
             )
         );
 
         $schema->addFieldToType(
-            $this->getUpdateInputName($contentType),
+            $this->nameUpdateInputType($args),
             new Builder\Input\Field(
-                $fieldDefinitionField,
-                $this->getFieldDefinitionToGraphQLType($args['FieldDefinition'], self::OPERATION_UPDATE),
-                ['description' => $fieldDefinition->getDescriptions()['eng-GB'] ?? '']
+                $this->nameFieldDefinitionField($args),
+                $this->nameFieldType($args, self::OPERATION_UPDATE),
+                $properties
             )
         );
     }
@@ -62,45 +69,66 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
             && $args['ContentType'] instanceof ContentType
             && isset($args['FieldDefinition'])
             && $args['FieldDefinition'] instanceof FieldDefinition
-            && !$schema->hasTypeWithField($this->getCreateInputName($args['ContentType']), $this->getFieldDefinitionField($args['FieldDefinition']));
+            && !$schema->hasTypeWithField($this->nameCreateInputType($args), $this->nameFieldDefinitionField($args));
     }
 
     /**
-     * @param ContentType $contentType
+     * @param array $args
      *
      * @return string
      */
-    protected function getCreateInputName(ContentType $contentType): string
+    protected function nameCreateInputType(array $args): string
     {
-        return $this->getNameHelper()->domainContentCreateInputName($contentType);
+        return $this->getNameHelper()->domainContentCreateInputName($args['ContentType']);
     }
 
     /**
-     * @param ContentType $contentType
+     * @param array $args
      *
      * @return string
      */
-    private function getUpdateInputName($contentType): string
+    private function nameUpdateInputType(array $args): string
     {
-        return $this->getNameHelper()->domainContentUpdateInputName($contentType);
+        return $this->getNameHelper()->domainContentUpdateInputName($args['ContentType']);
     }
 
     /**
-     * @param FieldDefinition $fieldDefinition
+     * @param array $args
      *
      * @return string
      */
-    protected function getFieldDefinitionField(FieldDefinition $fieldDefinition): string
+    protected function nameFieldDefinitionField(array $args): string
     {
-        return $this->getNameHelper()->fieldDefinitionField($fieldDefinition);
+        return $this->getNameHelper()->fieldDefinitionField($args['FieldDefinition']);
     }
 
-    private function getFieldDefinitionToGraphQLType(FieldDefinition $fieldDefinition, $operation): string
+    private function nameFieldType(array $args, $operation): string
     {
+        $fieldDefinition = $args['FieldDefinition'];
+        $contentType = $args['ContentType'];
+
+        if (isset($this->mappers[$fieldDefinition->fieldTypeIdentifier])) {
+            $type = $this->mappers[$fieldDefinition->fieldTypeIdentifier]->mapToFieldValueInputType($contentType, $fieldDefinition);
+        } elseif (isset($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier])) {
+            $type = $this->typesInputMap[$fieldDefinition->fieldTypeIdentifier];
+        } else {
+            $type = 'String';
+        }
+
         $requiredFlag = $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!' : '';
 
-        return isset($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier])
-            ? ($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier] . $requiredFlag)
-            : ('String' . $requiredFlag);
+        return $type . $requiredFlag;
+    }
+
+    /**
+     * Extracts the description of a field definition.
+     *
+     * @param array $args
+     *
+     * @return string|null
+     */
+    private function mapDescription($args): ?string
+    {
+        return $args['FieldDefinition']->getDescription($args['ContentType']->mainLanguageCode);
     }
 }
