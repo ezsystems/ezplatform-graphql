@@ -6,7 +6,9 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use EzSystems\EzPlatformGraphQL\Exception\LogicException;
 
 abstract class DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
 {
@@ -33,6 +35,16 @@ abstract class DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
     public function mapToFieldValueResolver(FieldDefinition $fieldDefinition): ?string
     {
         return $this->innerMapper->mapToFieldValueResolver($fieldDefinition);
+    }
+
+    public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string
+    {
+        /** @deprecated this test will be removed in ezplatform-graphql 2.x */
+        if ($this->innerMapper instanceof FieldDefinitionInputMapper) {
+            return $this->innerMapper->mapToFieldValueInputType($contentType, $fieldDefinition);
+        }
+
+        throw new LogicException('The inner mapper is not a FieldDefinitionInputMapper. This method should not have been called in a 1.x version of ezplatform-graphql.');
     }
 
     abstract protected function getFieldTypeIdentifier(): string;
