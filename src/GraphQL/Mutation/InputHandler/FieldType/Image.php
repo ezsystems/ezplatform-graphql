@@ -22,8 +22,8 @@ class Image implements FieldTypeInputHandler
         $file = $input['file'];
 
         return new ImageFieldType\Value([
-            'alternativeText' => $fieldInput['alternativeText'] ?? '',
-            'fileName' => $file->getClientOriginalName(),
+            'alternativeText' => $input['alternativeText'] ?? '',
+            'fileName' => (!empty($input['name'])) ? $input['name'] : $file->getClientOriginalName(),
             'inputUri' => $file->getPathname(),
             'fileSize' => $file->getSize(),
         ]);
