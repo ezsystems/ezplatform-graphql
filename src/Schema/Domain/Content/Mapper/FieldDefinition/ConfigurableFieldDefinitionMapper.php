@@ -40,11 +40,7 @@ class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper, FieldD
             return $this->typesMap[$fieldDefinition->fieldTypeIdentifier]['input_type'];
         }
 
-        if ($this->innerMapper instanceof FieldDefinitionInputMapper) {
-            return $this->innerMapper->mapToFieldValueType($fieldDefinition);
-        }
-
-        return null;
+        return $this->innerMapper->mapToFieldValueInputType($contentType, $fieldDefinition);
     }
 
     public function mapToFieldDefinitionType(FieldDefinition $fieldDefinition): ?string
