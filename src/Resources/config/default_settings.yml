@@ -3,33 +3,42 @@ parameters:
     ezauthor:
       value_type: "[AuthorFieldValue]"
       value_resolver: 'field.authors'
+      input_type: '[AuthorInput]'
     ezbinaryfile:
       definition_type: BinaryFieldDefinition
       value_type: BinaryFileFieldValue
+      input_type: BinaryFieldInput
     ezboolean:
       definition_type: CheckboxFieldDefinition
       value_type: Boolean
       value_resolver: 'field.bool'
+      input_type: Boolean
     ezcountry:
       definition_type: CountryFieldDefinition
       value_type: String
+      input_type: '[String]'
     ezdate:
       value_type: DateTime
       value_resolver: 'field.date'
+      input_type: DateFieldInput
     ezdatetime:
       value_type: DateTime
       value_resolver: 'field.value'
+      input_type: DateFieldInput
     ezemail:
       value_type: String
     ezfloat:
       definition_type: FloatFieldDefinition
       value_type: Float
       value_resolver: 'field.value'
+      input_type: Float
     ezgmaplocation:
       value_type: MapLocationFieldValue
+      input_type: 'MapLocationFieldInput'
     ezimage:
       definition_type: BinaryFieldDefinition
       value_type: ImageFieldValue
+      input_type: ImageFieldInput
     ezimageasset:
       value_type: ImageFieldValue
       value_resolver: 'resolver("DomainImageAssetFieldValue", [field])'
@@ -37,25 +46,34 @@ parameters:
       definition_type: IntegerFieldDefinition
       value_type: Int
       value_resolver: 'field.value'
+      input_type: Int
     ezkeyword:
       value_type: '[String]'
       value_resolver: 'field.values'
+      input_type: '[String]'
     ezmedia:
       definition_type: MediaFieldDefinition
       value_type: MediaFieldValue
+      input_type: MediaFieldInput
     ezobjectrelation:
       definition_type: RelationFieldDefinition
       value_type: RelationFieldValue
+      input_type: Int
     ezobjectrelationlist:
       definition_type: RelationListFieldDefinition
       value_type: RelationListFieldValue
+      input_type: '[Int]'
     ezrichtext:
       value_type: RichTextFieldValue
+      input_type: RichTextFieldInput
     ezselection:
       definition_type: SelectionFieldDefinition
+      input_type: '[Int]'
     ezstring:
       definition_type: TextLineFieldDefinition
       value_type: String
     eztext:
       definition_type: TextBlockFieldDefinition
       value_type: String
+    ezurl:
+      input_type: UrlFieldInput
