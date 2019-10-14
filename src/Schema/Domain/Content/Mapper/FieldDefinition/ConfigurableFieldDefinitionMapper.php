@@ -6,9 +6,10 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
-class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper
+class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper, FieldDefinitionInputMapper
 {
     /**
      * @var array
@@ -31,6 +32,19 @@ class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper
     {
         return $this->typesMap[$fieldDefinition->fieldTypeIdentifier]['value_type']
             ?? $this->innerMapper->mapToFieldValueType($fieldDefinition);
+    }
+
+    public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string
+    {
+        if (isset($this->typesMap[$fieldDefinition->fieldTypeIdentifier]['input_type'])) {
+            return $this->typesMap[$fieldDefinition->fieldTypeIdentifier]['input_type'];
+        }
+
+        if ($this->innerMapper instanceof FieldDefinitionInputMapper) {
+            return $this->innerMapper->mapToFieldValueType($fieldDefinition);
+        }
+
+        return null;
     }
 
     public function mapToFieldDefinitionType(FieldDefinition $fieldDefinition): ?string

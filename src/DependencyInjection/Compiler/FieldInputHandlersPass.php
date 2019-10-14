@@ -27,7 +27,6 @@ class FieldInputHandlersPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('ezplatform_graphql.fieldtype_input_handler');
 
         $handlers = [];
-        $typesMapping = [];
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['fieldtype'])) {
@@ -36,18 +35,10 @@ class FieldInputHandlersPass implements CompilerPassInterface
                     );
                 }
 
-                if (!isset($tag['inputType'])) {
-                    throw new \InvalidArgumentException(
-                        "The ezplatform_graphql.fieldtype_input_handler tag requires an 'inputType' property set to the GraphQL input type it uses"
-                    );
-                }
-
                 $handlers[$tag['fieldtype']] = new Reference($id);
-                $typesMapping[$tag['fieldtype']] = $tag['inputType'];
             }
         }
 
         $container->findDefinition(DomainContentMutationResolver::class)->setArgument('$fieldInputHandlers', $handlers);
-        $container->findDefinition(AddFieldDefinitionToDomainContentMutation::class)->setArgument('$typesInputMap', $typesMapping);
     }
 }

@@ -15,103 +15,103 @@ services:
     arguments:
       $fieldType: '@ezpublish.fieldType.ezauthor'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezauthor', inputType: '[AuthorInput]' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezauthor' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\BinaryFile:
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezbinaryfile', inputType: BinaryFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezbinaryfile' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Boolean:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezboolean'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezboolean', inputType: Boolean }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezboolean' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Country:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezcountry'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezcountry', inputType: '[String]' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezcountry' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Date:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Date'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezdate'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdate', inputType: DateFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdate' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\DateAndTime:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Date'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezdatetime'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdatetime', inputType: DateFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezdatetime' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Float:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezfloat'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezfloat', inputType: Float }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezfloat' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Email:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezemail'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezemail', inputType: String }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezemail' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Image:
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezimage', inputType: ImageFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezimage' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Integer:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezinteger'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezinteger', inputType: Int }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezinteger' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\ISBN:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezisbn'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezisbn', inputType: String }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezisbn' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Keyword:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezkeyword'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezkeyword', inputType: '[String]' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezkeyword' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\MapLocation:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezgmaplocation'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezgmaplocation', inputType: 'MapLocationFieldInput' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezgmaplocation' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Media:
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezmedia', inputType: MediaFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezmedia' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Relation:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Relation'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezobjectrelation'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelation', inputType: Int }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelation' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RelationList:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RelationList'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezobjectrelationlist'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelationlist', inputType: '[Int]' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezobjectrelationlist' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText:
     arguments:
@@ -119,7 +119,7 @@ services:
         html: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter'
         markdown: '@EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\MarkdownRichTextConverter'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezrichtext', inputType: RichTextFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezrichtext' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\HtmlRichTextConverter:
     arguments:
@@ -138,25 +138,25 @@ services:
     arguments:
       $fieldType: '@ezpublish.fieldType.ezselection'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezselection', inputType: '[Int]' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezselection' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\TextBlock:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.eztext'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'eztext', inputType: 'String' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'eztext' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\TextLine:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezstring'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezstring', inputType: 'String' }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezstring' }
 
   EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\Url:
     class: 'EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\FromHash'
     arguments:
       $fieldType: '@ezpublish.fieldType.ezurl'
     tags:
-      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezurl', inputType: UrlFieldInput }
+      - { name: ezplatform_graphql.fieldtype_input_handler, fieldtype: 'ezurl' }
