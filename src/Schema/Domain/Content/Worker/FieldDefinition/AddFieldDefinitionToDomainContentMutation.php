@@ -9,6 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefiniti
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
@@ -18,25 +19,16 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
     const OPERATION_UPDATE = 'update';
 
     /**
-     * Mapping of fieldtypes identifiers to their GraphQL input type.
-     *
-     * @var string[]
+     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
      */
-    private $typesInputMap;
+    private $mapper;
 
     /**
-     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionInputMapper[]
+     * @param \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper $mapper
      */
-    private $mappers;
-
-    /**
-     * @param string[] $typesInputMap
-     * @param \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionInputMapper[] $mappers
-     */
-    public function __construct(array $typesInputMap = [], array $mappers = [])
+    public function __construct(FieldDefinitionMapper $mapper)
     {
-        $this->typesInputMap = $typesInputMap;
-        $this->mappers = $mappers;
+        $this->mapper = $mapper;
     }
 
     public function work(Builder $schema, array $args)
@@ -107,14 +99,7 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
         $fieldDefinition = $args['FieldDefinition'];
         $contentType = $args['ContentType'];
 
-        if (isset($this->mappers[$fieldDefinition->fieldTypeIdentifier])) {
-            $type = $this->mappers[$fieldDefinition->fieldTypeIdentifier]->mapToFieldValueInputType($contentType, $fieldDefinition);
-        } elseif (isset($this->typesInputMap[$fieldDefinition->fieldTypeIdentifier])) {
-            $type = $this->typesInputMap[$fieldDefinition->fieldTypeIdentifier];
-        } else {
-            $type = 'String';
-        }
-
+        $type = $this->mapper->mapToFieldValueInputType($contentType, $fieldDefinition);
         $requiredFlag = $operation == self::OPERATION_CREATE && $fieldDefinition->isRequired ? '!' : '';
 
         return $type . $requiredFlag;

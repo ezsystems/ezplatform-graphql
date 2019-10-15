@@ -6,11 +6,17 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
 class DefaultFieldDefinitionMapper implements FieldDefinitionMapper
 {
     public function mapToFieldValueType(FieldDefinition $fieldDefinition): ?string
+    {
+        return 'String';
+    }
+
+    public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string
     {
         return 'String';
     }

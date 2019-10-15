@@ -6,6 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
 /**
@@ -48,5 +49,10 @@ class ResolverVariables implements FieldDefinitionMapper
             ],
             $resolver
         );
+    }
+
+    public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string
+    {
+        return $this->innerMapper->mapToFieldValueInputType($contentType, $fieldDefinition);
     }
 }
