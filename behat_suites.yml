@@ -1,0 +1,20 @@
+# This file is meant to be imported from ezplatform's behat.yml.dist.
+# All path are relative to the root ezplatform directory.
+default:
+    autoload:
+        - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/bootstrap/'
+
+graphql:
+    suites:
+        graphql:
+            autoload:
+                - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/bootstrap/'
+            paths:
+                - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/Generator.feature'
+                - '%paths.base%/vendor/ezsystems/ezplatform-graphql/features/Schema.feature'
+            contexts:
+                - GeneratorContext
+                - ConfigurationContext
+                - CacheContext
+                - SchemaContext
+                - EzSystems\BehatBundle\Context\Object\ContentTypeGroup

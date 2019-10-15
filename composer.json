@@ -22,7 +22,8 @@
         "overblog/graphiql-bundle": "^0.1",
         "phpspec/phpspec": "^5.1",
         "friendsofphp/php-cs-fixer": "~2.15.1",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "behat/behat": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,8 +38,10 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
+            "dev-master": "1.0.x-dev",
+            "dev-tmp_ci_branch": "1.0.x-dev"
+        },
+        "_ezplatform_branch_for_behat_tests": "behat_graphql"
     },
     "scripts": {
         "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
