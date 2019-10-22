@@ -138,6 +138,12 @@ services:
         tags:
             - {name: overblog_graphql.resolver, alias: "SearchContentConnection", method: "searchContent"}
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\XmlTextResolver:
+        arguments:
+            - "@ezpublish.fieldType.ezxmltext.converter.html5"
+        tags:
+            - { name: overblog_graphql.resolver, alias: "XmlTextToHtml5", method: "xmlTextToHtml5" }
+
     #
     # Object States
     #

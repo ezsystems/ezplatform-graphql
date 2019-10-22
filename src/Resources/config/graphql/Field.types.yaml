@@ -260,3 +260,24 @@ SelectionFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+
+XmlTextFieldValue:
+    type: object
+    config:
+        fields:
+            text:
+                type: "String"
+                description: "String representation of the value"
+                resolve: "@=value"
+            xml:
+                type: "String"
+                description: "The raw ezxmltext xml"
+                resolve: "@=value"
+            plaintext:
+                type: "String"
+                description: "Plain text representation of the value, without tags. Warning: the text representation may not be perfect."
+                resolve: "@=value.xml.textContent"
+            html5:
+                type: "String"
+                description: "HTML5 representation."
+                resolve: "@=resolver('XmlTextToHtml5', [value.xml])"
