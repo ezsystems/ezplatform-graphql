@@ -15,11 +15,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/webhdx/ezplatform-admin-ui.git"
+            "url": "https://github.com/ezsystems/ezplatform-admin-ui.git"
         },
         {
             "type": "vcs",
-            "url": "https://github.com/webhdx/ezplatform-richtext.git"
+            "url": "https://github.com/ezsystems/ezplatform-richtext.git"
         }
     ],
     "minimum-stability": "dev",
