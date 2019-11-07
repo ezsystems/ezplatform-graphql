@@ -58,6 +58,7 @@ class LandingPageGraphQLConfigurationPass implements CompilerPassInterface
             'definition_type' => 'MyCustomFieldDefinition',
             'value_resolver' => 'field.someProperty'
         ];
+        $container->setParameter('ezplatform_graphql.schema.content.mapping.field_definition_type', $mapping);
     }
 }
 ```
