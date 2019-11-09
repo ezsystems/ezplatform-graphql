@@ -1,0 +1,24 @@
+FieldFilter:
+    type: input-object
+    config:
+        fields:
+            in:
+                type: "[String]"
+            equals:
+                type: String
+            greaterThan:
+                type: String
+            greatThanOrEqual:
+                type: String
+            lowerThan:
+                type: String
+            lowerThanOrEqual:
+                type: String
+            contains:
+                type: String
+            beginsWith:
+                type: String
+            endsWith:
+                type: String
+            between:
+                type: "[String]"

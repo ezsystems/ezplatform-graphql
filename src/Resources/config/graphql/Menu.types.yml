@@ -1,0 +1,37 @@
+Menu:
+    type: object
+    config:
+        fields:
+            identifier:
+                type: String
+            items:
+                type: '[MenuItem]'
+
+MenuItem:
+    type: interface
+    config:
+        fields:
+            label:
+                type: String
+            uri:
+                type: String
+        resolveType: "@=value.hasChildren() ? 'BranchMenuItem' : 'LeafMenuItem'"
+
+LeafMenuItem:
+    type: object
+    config:
+        interfaces: [MenuItem]
+        fields:
+            label:
+                type: String
+            uri:
+                type: String
+
+BranchMenuItem:
+    type: object
+    inherits: [LeafMenuItem]
+    config:
+        fields:
+            children:
+                type: "[MenuItem]"
+                resolve: "@=value.children"

@@ -1,0 +1,7 @@
+Site:
+    type: object
+    config:
+        fields:
+            menus:
+                type: MenuCollection
+                resolve: {}

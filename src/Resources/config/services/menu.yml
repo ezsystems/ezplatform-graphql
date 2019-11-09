@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    EzSystems\EzPlatformGraphQL\Menu\:
+        resource: '../../../src/Menu/*'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\MenuResolver:
+        arguments: []
+        tags:
+            - {name: overblog_graphql.resolver, alias: "MenuByIdentifier", method: "resolveMenuByIdentifier"}
