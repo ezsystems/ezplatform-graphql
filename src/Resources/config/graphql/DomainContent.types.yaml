@@ -139,3 +139,4 @@ Thumbnail:
                 description: "The height as number of pixels (example: 200)"
             alternativeText:
                 type: String
+                deprecationReason: "Will be removed in 2.0 of ezplatform-graphql. Use the content name, or compute your own alternative text."

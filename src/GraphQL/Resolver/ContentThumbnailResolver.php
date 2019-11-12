@@ -16,37 +16,6 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 
 final class ContentThumbnailResolver
 {
-    const THUMBNAIL_VARIATION_IDENTIFIER = 'medium';
-
-    /**
-     * @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader
-     */
-    private $contentLoader;
-    /**
-     * @var \eZ\Publish\Core\FieldType\ImageAsset\AssetMapper
-     */
-    private $assetMapper;
-    /**
-     * @var \eZ\Publish\SPI\Variation\VariationHandler
-     */
-    private $variationHandler;
-    /**
-     * @var \eZ\Publish\Core\FieldType\Image\Type
-     */
-    private $imageFieldType;
-
-    public function __construct(
-        FieldType\Image\Type $imageFieldType,
-        ContentLoader $contentLoader,
-        FieldType\ImageAsset\AssetMapper $assetMapper,
-        VariationHandler $variationHandler)
-    {
-        $this->contentLoader = $contentLoader;
-        $this->assetMapper = $assetMapper;
-        $this->variationHandler = $variationHandler;
-        $this->imageFieldType = $imageFieldType;
-    }
-
     /**
      * @param Content $content
      *
@@ -54,58 +23,17 @@ final class ContentThumbnailResolver
      */
     public function resolveContentThumbnail(Content $content): ?array
     {
-        try {
-            $imageField = $this->getThumbnailImageField($content);
-        } catch (Exception $e) {
-            return null;
+        $thumbnailUri = $content->getThumbnail();
+        $width = $height = null;
+        if (pathinfo($thumbnailUri, PATHINFO_EXTENSION) !== 'svg') {
+            list($width, $height) = getimagesize($thumbnailUri);
         }
-
-        if ($imageField === null || $this->imageFieldType->isEmptyValue($imageField->value)) {
-            return null;
-        }
-
-        $thumbnailVariation = $this->variationHandler->getVariation($imageField, $content->versionInfo, self::THUMBNAIL_VARIATION_IDENTIFIER);
 
         return [
-            'uri' => $thumbnailVariation->uri,
-            'width' => $thumbnailVariation->width,
-            'height' => $thumbnailVariation->height,
-            'alternativeText' => $imageField->value->alternativeText,
+            'uri' => $thumbnailUri,
+            'width' => $width,
+            'height' => $height,
+            'alternativeText' => $content->getName(),
         ];
-    }
-
-    /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Content $content
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field
-     *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     */
-    private function getThumbnailImageField(Content $content): Field
-    {
-        foreach ($content->getFieldsByLanguage() as $field) {
-            if ($field->fieldTypeIdentifier === 'ezimage') {
-                return $field;
-            } elseif ($field->fieldTypeIdentifier === 'ezimageasset') {
-                $assetContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
-
-                return $this->assetMapper->getAssetField($assetContent);
-            } elseif ($field->fieldTypeIdentifier === 'ezobjectrelation') {
-                $relatedContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
-
-                return $this->getThumbnailImageField($relatedContent);
-            }
-        }
-
-        foreach ($content->getFieldsByLanguage() as $field) {
-            if ($field->fieldTypeIdentifier === 'ezobjectrelation') {
-                $relatedContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
-
-                return $this->getThumbnailImageField($relatedContent);
-            }
-        }
-
-        throw new Exception("Content doesn't have an image compatible field");
     }
 }
