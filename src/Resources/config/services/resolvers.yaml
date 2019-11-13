@@ -43,9 +43,7 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentThumbnailResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "ContentThumbnail", method: "resolveContentThumbnail" }
-        arguments:
-            $imageFieldType: "@ezpublish.fieldType.ezimage"
-            $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
+            - { name: overblog_graphql.resolver, alias: "ContentThumbnailType", method: "resolveContentThumbnailType" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
         arguments:
