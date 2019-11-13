@@ -36,4 +36,13 @@ final class ContentThumbnailResolver
             'alternativeText' => $content->getName(),
         ];
     }
+
+    public function resolveContentThumbnailType(array $thumbnail): string
+    {
+        if (isset($thumbnail['width']) && isset($thumbnail['height'])) {
+            return 'MeasurableThumbnail';
+        } else {
+            return 'PlainThumbnail';
+        }
+    }
 }

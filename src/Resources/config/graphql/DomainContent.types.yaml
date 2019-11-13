@@ -124,9 +124,41 @@ DomainContentByIdentifierConnection:
             orderBy:
                 type: String
 
+
 Thumbnail:
+    type: interface
+    config:
+        fields:
+            uri:
+                type: String
+                description: "The image's URI (example: 'https://example.com/var/site/storage/images/_aliases/small/9/8/1/0/189-1-eng-GB/image.png')"
+        resolveType: "@=resolver('ContentThumbnailType', [value])"
+
+PlainThumbnail:
     type: object
     config:
+        interfaces: [Thumbnail]
+        fields:
+            uri:
+                type: String
+                description: "The image's URI (example: 'https://example.com/var/site/storage/images/_aliases/small/9/8/1/0/189-1-eng-GB/image.png')"
+
+Measurable:
+    type: interface
+    config:
+        fields:
+            width:
+                type: Int
+                description: "The width as number of pixels (example: 320)"
+            height:
+                type: Int
+                description: "The height as number of pixels (example: 200)"
+        resolveType: "@=resolver('ContentThumbnailType', [value])"
+
+MeasurableThumbnail:
+    type: object
+    config:
+        interfaces: [Thumbnail, Measurable]
         fields:
             uri:
                 type: String
@@ -137,6 +169,3 @@ Thumbnail:
             height:
                 type: Int
                 description: "The height as number of pixels (example: 200)"
-            alternativeText:
-                type: String
-                deprecationReason: "Will be removed in 2.0 of ezplatform-graphql. Use the content name, or compute your own alternative text."
