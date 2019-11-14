@@ -104,7 +104,7 @@ class ImageFieldResolver
         }
 
         if (!$fieldFound) {
-            throw new UserError("No image field with ID $fieldId could be found");
+            throw new UserError("Could not find an image Field with ID $fieldId");
         }
 
         // check the field's value

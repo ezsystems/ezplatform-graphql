@@ -97,7 +97,7 @@ class UploadFiles
                 $valueType = FieldType\Media\Value::class;
                 break;
             default:
-                throw new UserError('FieldType not supported for upload');
+                throw new UserError('Field Type does not support upload');
         }
         $struct->setField(
             $mapping['contentFieldIdentifier'],
