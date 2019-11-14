@@ -56,6 +56,10 @@ services:
         arguments:
             - '@overblog_graphql.type_resolver'
 
+    EzSystems\EzPlatformGraphQL\Schema\Builder: '@EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder'
+
+    EzSystems\EzPlatformGraphQL\Schema\DynamicSchema\SchemaDiffBuilder: ~
+
     EzSystems\EzPlatformGraphQL\Schema\DynamicSchema\EventSubscriber\PreExecutorSubscriber:
         tags:
             - { name: kernel.event_subscriber }

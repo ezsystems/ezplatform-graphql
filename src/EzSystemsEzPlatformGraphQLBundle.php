@@ -19,6 +19,7 @@ class EzSystemsEzPlatformGraphQLBundle extends Bundle
         $container->addCompilerPass(new Compiler\FieldInputHandlersPass());
         $container->addCompilerPass(new Compiler\RichTextInputConvertersPass());
         $container->addCompilerPass(new Compiler\SchemaWorkersPass());
+        $container->addCompilerPass(new Compiler\SchemaWorkersTestPass());
         $container->addCompilerPass(new Compiler\SchemaDomainIteratorsPass());
     }
 }

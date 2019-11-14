@@ -18,17 +18,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PreExecutorSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var \Overblog\GraphQLBundle\Resolver\FluentResolverInterface
-     */
+    /** @var \Overblog\GraphQLBundle\Resolver\FluentResolverInterface */
     private $typeResolver;
-    /**
-     * @var \Overblog\GraphQLBundle\Definition\ConfigProcessor
-     */
+
+    /** @var \Overblog\GraphQLBundle\Definition\ConfigProcessor */
+
     private $configProcessor;
-    /**
-     * @var \Overblog\GraphQLBundle\Definition\GlobalVariables
-     */
+
+    /** @var \Overblog\GraphQLBundle\Definition\GlobalVariables */
     private $globalVariables;
 
     public function __construct(FluentResolverInterface $typeResolver, ConfigProcessor $configProcessor, GlobalVariables $globalVariables)
