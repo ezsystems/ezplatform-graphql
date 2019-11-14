@@ -49,3 +49,15 @@ services:
         decorates: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
         arguments:
             $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper.inner'
+
+    EzSystems\EzPlatformGraphQL\Schema\DynamicSchema\ConfigProcessor:
+        tags:
+            - { name: overblog_graphql.definition_config_processor, priority: 512 }
+        arguments:
+            - '@overblog_graphql.type_resolver'
+
+    EzSystems\EzPlatformGraphQL\Schema\DynamicSchema\EventSubscriber\PreExecutorSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+        arguments:
+            $typeResolver: '@overblog_graphql.type_resolver'
