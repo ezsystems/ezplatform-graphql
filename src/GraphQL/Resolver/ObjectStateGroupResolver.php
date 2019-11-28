@@ -20,19 +20,11 @@ class ObjectStateGroupResolver
     /** @var \eZ\Publish\API\Repository\ObjectStateService */
     private $objectStateService;
 
-    /**
-     * @param \eZ\Publish\API\Repository\ObjectStateService $objectStateService
-     */
     public function __construct(ObjectStateService $objectStateService)
     {
         $this->objectStateService = $objectStateService;
     }
 
-    /**
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
-     *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup
-     */
     public function resolveObjectStateGroupById(Argument $args): ObjectStateGroup
     {
         try {

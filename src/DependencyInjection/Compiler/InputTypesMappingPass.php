@@ -36,12 +36,7 @@ final class InputTypesMappingPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds(self::INPUT_HANDLER_TAG) as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['fieldtype'])) {
-                    throw new \InvalidArgumentException(
-                        sprintf(
-                            "The %s tag requires a 'fieldtype' property set to the Field Type's identifier",
-                            self::INPUT_HANDLER_TAG
-                        )
-                    );
+                    throw new \InvalidArgumentException(sprintf("The %s tag requires a 'fieldtype' property set to the Field Type's identifier", self::INPUT_HANDLER_TAG));
                 }
 
                 if (isset($tag['inputType'])) {

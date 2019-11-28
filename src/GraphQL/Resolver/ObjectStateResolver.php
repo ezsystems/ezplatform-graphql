@@ -22,19 +22,11 @@ class ObjectStateResolver
     /** @var \eZ\Publish\API\Repository\ObjectStateService */
     private $objectStateService;
 
-    /**
-     * @param \eZ\Publish\API\Repository\ObjectStateService $objectStateService
-     */
     public function __construct(ObjectStateService $objectStateService)
     {
         $this->objectStateService = $objectStateService;
     }
 
-    /**
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
-     *
-     * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState
-     */
     public function resolveObjectStateById(Argument $args): ObjectState
     {
         try {
@@ -45,8 +37,6 @@ class ObjectStateResolver
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState[]
      */
     public function resolveObjectStatesByGroup(ObjectStateGroup $objectStateGroup): array
@@ -55,8 +45,6 @@ class ObjectStateResolver
     }
 
     /**
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
-     *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState[]
      */
     public function resolveObjectStatesByGroupId(Argument $args): array
@@ -71,8 +59,6 @@ class ObjectStateResolver
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $contentInfo
-     *
      * @return \eZ\Publish\API\Repository\Values\ObjectState\ObjectState[]
      */
     public function resolveObjectStateByContentInfo(ContentInfo $contentInfo): array

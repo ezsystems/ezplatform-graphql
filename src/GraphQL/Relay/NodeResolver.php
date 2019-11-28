@@ -46,7 +46,7 @@ class NodeResolver
     /**
      * @param $globalId
      *
-     * @return null|\eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo|null
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException

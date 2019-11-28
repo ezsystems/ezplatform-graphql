@@ -18,8 +18,6 @@ interface LocationLoader
     /**
      * Loads a list of locations given a Query Criterion.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
-     *
      * @return \eZ\Publish\API\Repository\Values\Content\Location[]
      */
     public function find(LocationQuery $query): array;
@@ -28,8 +26,6 @@ interface LocationLoader
      * Loads a single content item given a Query Criterion.
      *
      * @param string $id a location id
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
      */
     public function findById($id): Location;
 
@@ -37,22 +33,16 @@ interface LocationLoader
      * Loads a single content item given a Query Criterion.
      *
      * @param string $remoteId A location remote id
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
      */
     public function findByRemoteId($remoteId): Location;
 
     /**
      * @param string $remoteId A location remote id
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
      */
     public function findByUrlAlias(string $urlAlias): Location;
 
     /**
      * Counts the results of a query.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationQuery $query
      *
      * @return int
      */

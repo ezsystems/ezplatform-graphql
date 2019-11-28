@@ -6,13 +6,13 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition;
 
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use EzSystems\EzPlatformGraphQL\Schema\Builder;
+use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
-use EzSystems\EzPlatformGraphQL\Schema\Builder;
-use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
 class AddFieldValueToDomainContent extends BaseWorker implements Worker
 {

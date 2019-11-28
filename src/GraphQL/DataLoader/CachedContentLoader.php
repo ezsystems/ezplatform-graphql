@@ -54,8 +54,6 @@ class CachedContentLoader implements ContentLoader
     /**
      * Counts the results of a query.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     *
      * @return int
      */
     public function count(Query $query)

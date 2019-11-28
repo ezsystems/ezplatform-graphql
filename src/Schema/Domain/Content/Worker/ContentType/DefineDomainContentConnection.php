@@ -6,11 +6,11 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType;
 
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
-use EzSystems\EzPlatformGraphQL\Schema\Worker;
+use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
+use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
 class DefineDomainContentConnection extends BaseWorker implements Worker
 {

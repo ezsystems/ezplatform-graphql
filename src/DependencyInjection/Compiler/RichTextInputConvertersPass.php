@@ -26,9 +26,7 @@ class RichTextInputConvertersPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['format'])) {
-                    throw new \InvalidArgumentException(
-                        "The ezplatform_graphql.richtext_input_converter tag requires a 'format' property set to the converted format"
-                    );
+                    throw new \InvalidArgumentException("The ezplatform_graphql.richtext_input_converter tag requires a 'format' property set to the converted format");
                 }
 
                 $handlers[$tag['format']] = new Reference($id);

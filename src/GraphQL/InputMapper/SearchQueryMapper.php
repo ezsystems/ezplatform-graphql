@@ -12,8 +12,6 @@ use InvalidArgumentException;
 class SearchQueryMapper
 {
     /**
-     * @param array $inputArray
-     *
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
     public function mapInputToQuery(array $inputArray)
@@ -102,7 +100,6 @@ class SearchQueryMapper
     }
 
     /**
-     * @param array $queryArg
      * @param $dateMetadata
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Query\Criterion\DateMetadata[]

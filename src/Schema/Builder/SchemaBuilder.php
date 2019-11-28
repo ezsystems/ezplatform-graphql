@@ -114,8 +114,6 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     /**
      * @param string $type
-     *
-     * @return bool
      */
     public function hasType($type): bool
     {
@@ -125,8 +123,6 @@ class SchemaBuilder implements SchemaBuilderInterface
     /**
      * @param string $type
      * @param string $field
-     *
-     * @return bool
      */
     public function hasTypeWithField($type, $field): bool
     {
@@ -139,8 +135,6 @@ class SchemaBuilder implements SchemaBuilderInterface
      * @param string $type
      * @param string $field
      * @param $arg
-     *
-     * @return bool
      */
     public function hasTypeFieldWithArg($type, $field, $arg): bool
     {
@@ -151,8 +145,6 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     /**
      * @param string $enum
-     *
-     * @return bool
      */
     public function hasEnum($enum): bool
     {

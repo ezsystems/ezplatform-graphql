@@ -8,8 +8,8 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 
 /**
  * @internal
@@ -57,10 +57,6 @@ class SelectionFieldResolver
 
     /**
      * Returns the options set based on the language.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Content $content
-     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\Field $field
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      *
      * @return array
      */

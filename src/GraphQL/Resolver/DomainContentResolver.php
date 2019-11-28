@@ -6,14 +6,14 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\FieldType;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
+use eZ\Publish\Core\FieldType;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
@@ -105,7 +105,6 @@ class DomainContentResolver
 
     /**
      * @param string $contentTypeIdentifier
-     * @param \Overblog\GraphQLBundle\Definition\Argument $args
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
@@ -188,8 +187,6 @@ class DomainContentResolver
     }
 
     /**
-     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Value\Field $field
-     *
      * @return array
      *
      * @throws UserError if the field isn't a Relation or RelationList value

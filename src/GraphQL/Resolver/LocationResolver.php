@@ -85,7 +85,6 @@ class LocationResolver
 
     /**
      * @param int $locationId
-     * @param Argument $args
      *
      * @return Connection
      */

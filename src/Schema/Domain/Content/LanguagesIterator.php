@@ -7,8 +7,8 @@
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
 use eZ\Publish\API\Repository\LanguageService;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Iterator;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Iterator;
 use Generator;
 
 class LanguagesIterator implements Iterator
