@@ -52,20 +52,20 @@ class DomainContentMutationResolver
         } elseif (isset($args['contentId'])) {
             $contentId = $args['contentId'];
         } else {
-            throw new UserError('One argument out of id or contentId is required');
+            throw new UserError('Either id or contentId is required as an argument');
         }
 
         try {
             $contentInfo = $this->getContentService()->loadContentInfo($contentId);
         } catch (RepositoryExceptions\NotFoundException $e) {
-            throw new UserError("Content with id $contentId could not be loaded");
+            throw new UserError("Could not load content with ID $contentId");
         } catch (RepositoryExceptions\UnauthorizedException $e) {
             throw new UserError('You are not authorized to load this content');
         }
         try {
             $contentType = $this->getContentTypeService()->loadContentType($contentInfo->contentTypeId);
         } catch (RepositoryExceptions\NotFoundException $e) {
-            throw new UserError("Content type with id $contentInfo->contentTypeId could not be loaded");
+            throw new UserError("Could not load Content Type with ID $contentInfo->contentTypeId");
         }
 
         $contentUpdateStruct = $this->getContentService()->newContentUpdateStruct();
@@ -89,13 +89,13 @@ class DomainContentMutationResolver
             try {
                 $versionInfo = $this->getContentService()->createContentDraft($contentInfo)->versionInfo;
             } catch (RepositoryExceptions\UnauthorizedException $e) {
-                throw new UserError('You are not authorized to create a draft of this content');
+                throw new UserError('You are not authorized to create a draft of this Content item');
             }
         } else {
             try {
                 $versionInfo = $this->getContentService()->loadVersionInfo($contentInfo, $versionNo);
             } catch (RepositoryExceptions\NotFoundException $e) {
-                throw new UserError("Version $versionNo was not found");
+                throw new UserError("Could not find version $versionNo");
             } catch (RepositoryExceptions\UnauthorizedException $e) {
                 throw new UserError('You are not authorized to load this version');
             }
@@ -113,7 +113,7 @@ class DomainContentMutationResolver
         } catch (RepositoryExceptions\ContentFieldValidationException $e) {
             throw new UserErrors($this->renderFieldValidationErrors($e, $contentType));
         } catch (RepositoryExceptions\ContentValidationException $e) {
-            throw new UserError('The given input did not validate: ' . $e->getMessage());
+            throw new UserError('The provided input did not validate: ' . $e->getMessage());
         } catch (RepositoryExceptions\UnauthorizedException $e) {
             throw new UserError('You are not authorized to update this version');
         }
@@ -178,15 +178,15 @@ class DomainContentMutationResolver
         } elseif (isset($args['contentId'])) {
             $contentId = $args['contentId'];
         } else {
-            throw new UserError('One argument out of id or contentId is required');
+            throw new UserError('Either id or contentId is required as an argument');
         }
 
         try {
             $contentInfo = $this->getContentService()->loadContentInfo($contentId);
         } catch (API\Exceptions\NotFoundException $e) {
-            throw new UserError("No content item was found with id $contentId");
+            throw new UserError("Could not find a Content item with ID $contentId");
         } catch (API\Exceptions\UnauthorizedException $e) {
-            throw new UserError("You are not authorized to load the content item with id $contentId");
+            throw new UserError("You are not authorized to load the Content item with ID $contentId");
         }
         if (!isset($globalId)) {
             $globalId = GlobalId::toGlobalId(
@@ -198,7 +198,7 @@ class DomainContentMutationResolver
         try {
             $this->getContentService()->deleteContent($contentInfo);
         } catch (API\Exceptions\UnauthorizedException $e) {
-            throw new UserError("You are not authorized to delete the content item with id $contentInfo->id");
+            throw new UserError("You are not authorized to delete the Content item with ID $contentInfo->id");
         }
 
         return [

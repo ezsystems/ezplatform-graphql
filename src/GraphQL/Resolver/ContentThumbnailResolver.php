@@ -100,6 +100,6 @@ final class ContentThumbnailResolver
             }
         }
 
-        throw new Exception("Content doesn't have an image compatible field");
+        throw new Exception('The Content item does not have an image-compatible Field');
     }
 }

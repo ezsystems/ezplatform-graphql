@@ -30,7 +30,7 @@ class ObjectStateGroupResolver
         try {
             return $this->objectStateService->loadObjectStateGroup($args['id']);
         } catch (NotFoundException $e) {
-            throw new UserError("Object State Group with ID: {$args['id']} was not found.");
+            throw new UserError("Object state group with ID: {$args['id']} not found.");
         }
     }
 

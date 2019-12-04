@@ -32,7 +32,7 @@ class ObjectStateResolver
         try {
             return $this->objectStateService->loadObjectState($args['id']);
         } catch (NotFoundException $e) {
-            throw new UserError("Object State with ID: {$args['id']} was not found.");
+            throw new UserError("Object state with ID: {$args['id']} not found.");
         }
     }
 
@@ -52,7 +52,7 @@ class ObjectStateResolver
         try {
             $group = $this->objectStateService->loadObjectStateGroup($args['groupId']);
         } catch (NotFoundException $e) {
-            throw new UserError("Object State Group with ID: {$args['groupId']} was not found.");
+            throw new UserError("Object state group with ID: {$args['groupId']} not found.");
         }
 
         return $this->objectStateService->loadObjectStates($group);

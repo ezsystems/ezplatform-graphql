@@ -30,17 +30,17 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'id', 'Int',
-            ['description' => sprintf('A %s content id', $contentType->identifier)]
+            ['description' => sprintf('Content ID of the %s', $contentType->identifier)]
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'remoteId', 'String',
-            ['description' => sprintf('A %s content remote id', $contentType->identifier)]
+            ['description' => sprintf('Content remote ID of the %s', $contentType->identifier)]
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'locationId', 'Int',
-            ['description' => sprintf('A %s content location id', $contentType->identifier)]
+            ['description' => sprintf('Location ID of the %s', $contentType->identifier)]
         ));
     }
 
