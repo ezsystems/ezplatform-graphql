@@ -6,13 +6,13 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use eZ\Publish\API\Repository\Exceptions as ApiException;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 
 /**
  * @internal
@@ -53,8 +53,6 @@ class SearchContentLoader implements ContentLoader
      *
      * @param Criterion $filter A Query Criterion. Use Criterion\ContentId, Criterion\RemoteId or Criterion\LocationId for basic loading.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
-     *
      * @throws ArgumentsException
      */
     public function findSingle(Criterion $filter): Content
@@ -69,8 +67,6 @@ class SearchContentLoader implements ContentLoader
 
     /**
      * Counts the results of a query.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
      *
      * @return int
      *

@@ -6,16 +6,16 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\DataLoader;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\URLAlias;
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 use eZ\Publish\API\Repository\Exceptions as ApiException;
+use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Location;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
+use eZ\Publish\API\Repository\Values\Content\URLAlias;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 
 /**
  * @internal

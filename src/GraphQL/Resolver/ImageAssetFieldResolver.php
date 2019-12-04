@@ -7,8 +7,8 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 
 /**
