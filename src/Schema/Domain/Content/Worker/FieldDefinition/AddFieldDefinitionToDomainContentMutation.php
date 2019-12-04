@@ -72,31 +72,16 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
             && !$schema->hasTypeWithField($this->nameCreateInputType($args), $this->nameFieldDefinitionField($args));
     }
 
-    /**
-     * @param array $args
-     *
-     * @return string
-     */
     protected function nameCreateInputType(array $args): string
     {
         return $this->getNameHelper()->domainContentCreateInputName($args['ContentType']);
     }
 
-    /**
-     * @param array $args
-     *
-     * @return string
-     */
     private function nameUpdateInputType(array $args): string
     {
         return $this->getNameHelper()->domainContentUpdateInputName($args['ContentType']);
     }
 
-    /**
-     * @param array $args
-     *
-     * @return string
-     */
     protected function nameFieldDefinitionField(array $args): string
     {
         return $this->getNameHelper()->fieldDefinitionField($args['FieldDefinition']);
@@ -124,8 +109,6 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
      * Extracts the description of a field definition.
      *
      * @param array $args
-     *
-     * @return string|null
      */
     private function mapDescription($args): ?string
     {

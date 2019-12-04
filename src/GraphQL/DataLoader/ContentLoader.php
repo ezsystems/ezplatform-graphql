@@ -18,8 +18,6 @@ interface ContentLoader
     /**
      * Loads a list of content items given a Query Criterion.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
-     *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
     public function find(Query $query): array;
@@ -29,15 +27,11 @@ interface ContentLoader
      *
      * @param Criterion $criterion A Query Criterion.
      *        Use Criterion\ContentId, Criterion\RemoteId or Criterion\LocationId for basic loading.
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
      */
     public function findSingle(Criterion $criterion): Content;
 
     /**
      * Counts the results of a query.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query $query
      *
      * @return int
      */

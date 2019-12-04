@@ -48,8 +48,6 @@ final class ContentThumbnailResolver
     }
 
     /**
-     * @param Content $content
-     *
      * @return array|null array with the thumbnail info, or null if no thumbnail could be obtained for that image
      */
     public function resolveContentThumbnail(Content $content): ?array
@@ -75,10 +73,6 @@ final class ContentThumbnailResolver
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Content $content
-     *
-     * @return \eZ\Publish\API\Repository\Values\Content\Field
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */

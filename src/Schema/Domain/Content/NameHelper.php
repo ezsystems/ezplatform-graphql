@@ -145,10 +145,6 @@ class NameHelper
     /**
      * Removes potential spaces in content types groups names.
      * (content types groups identifiers are actually their name).
-     *
-     * @param ContentTypeGroup $contentTypeGroup
-     *
-     * @return string
      */
     protected function sanitizeContentTypeGroupIdentifier(ContentTypeGroup $contentTypeGroup): string
     {

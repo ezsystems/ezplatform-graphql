@@ -73,11 +73,8 @@ class UploadFiles
 
     /**
      * @param array $mapping The upload mapping for this file (array with ContentTypeIdentifier, nameFieldIdentifier...)
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      * @param $locationId The parent location ID
      * @param $languageCode
-     *
-     * @return ContentInfo
      */
     private function createContent(array $mapping, UploadedFile $file, $locationId, $languageCode): ContentInfo
     {

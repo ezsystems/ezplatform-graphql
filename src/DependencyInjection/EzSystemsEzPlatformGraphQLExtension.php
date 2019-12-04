@@ -7,11 +7,11 @@
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection;
 
 use EzSystems\EzPlatformGraphQL\DependencyInjection\GraphQL\YamlSchemaProvider;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -57,10 +57,6 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
 
     /**
      * Uses YamlConfigProvider to determinate what schema should be used.
-     *
-     * @param string $configDir
-     *
-     * @return array
      */
     private function getGraphQLConfig(string $configDir): array
     {
@@ -72,16 +68,13 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
         ];
     }
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
     private function setContainerParameters(ContainerBuilder $container): void
     {
         $rootDir = rtrim($container->getParameter('kernel.root_dir'), '/');
         $appSchemaDir = $rootDir . self::APP_SCHEMA_DIR_RELATIVE_PATH;
         $eZPlatformSchemaDir = $appSchemaDir . self::EZPLATFORM_SCHEMA_DIR_RELATIVE_PATH;
         $packageRootDir = $rootDir . self::PACKAGE_DIR_RELATIVE_PATH;
-        $fieldsDefinitionFile = $packageRootDir . self::PACKAGE_SCHEMA_DIR_RELATIVE_PATH . DIRECTORY_SEPARATOR . self::FIELS_DEFINITION_FILE_NAME;
+        $fieldsDefinitionFile = $packageRootDir . self::PACKAGE_SCHEMA_DIR_RELATIVE_PATH . \DIRECTORY_SEPARATOR . self::FIELS_DEFINITION_FILE_NAME;
 
         $container->setParameter('ezplatform.graphql.schema.root_dir', $appSchemaDir);
         $container->setParameter('ezplatform.graphql.schema.ezplatform_dir', $eZPlatformSchemaDir);

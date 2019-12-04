@@ -6,10 +6,10 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
+use eZ\Publish\API\Repository\ContentTypeService;
+use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Iterator;
-use EzSystems\EzPlatformGraphQL\Schema\Builder;
-use eZ\Publish\API\Repository\ContentTypeService;
 use Generator;
 
 class ContentDomainIterator implements Iterator

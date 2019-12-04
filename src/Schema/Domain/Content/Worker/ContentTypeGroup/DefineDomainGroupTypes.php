@@ -7,10 +7,10 @@
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup;
 
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
+use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
-use EzSystems\EzPlatformGraphQL\Schema\Builder;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 
 /**
  * Defines the type that indexes the types from a group by identifier.

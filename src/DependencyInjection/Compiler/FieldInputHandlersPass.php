@@ -30,9 +30,7 @@ class FieldInputHandlersPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['fieldtype'])) {
-                    throw new \InvalidArgumentException(
-                        "The ezplatform_graphql.fieldtype_input_handler tag requires a 'fieldtype' property set to the Field Type's identifier"
-                    );
+                    throw new \InvalidArgumentException("The ezplatform_graphql.fieldtype_input_handler tag requires a 'fieldtype' property set to the Field Type's identifier");
                 }
 
                 $handlers[$tag['fieldtype']] = new Reference($id);

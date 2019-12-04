@@ -6,9 +6,9 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\API\Repository\SearchService;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
-use eZ\Publish\API\Repository\SearchService;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
 /**

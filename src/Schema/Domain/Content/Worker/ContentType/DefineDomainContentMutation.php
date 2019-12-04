@@ -115,8 +115,6 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
-     *
-     * @return string
      */
     protected function getCreateInputName($contentType): string
     {
@@ -125,8 +123,6 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
-     *
-     * @return string
      */
     protected function getUpdateInputName($contentType): string
     {
@@ -135,8 +131,6 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
-     *
-     * @return string
      */
     protected function getCreateField($contentType): string
     {
@@ -145,17 +139,12 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
 
     /**
      * @param $contentType
-     *
-     * @return string
      */
     protected function getUpdateField($contentType): string
     {
         return $this->getNameHelper()->domainMutationUpdateContentField($contentType);
     }
 
-    /**
-     * @return Builder\Input\Arg
-     */
     private function buildLanguageFieldInput(): Builder\Input\Arg
     {
         return new Builder\Input\Arg(

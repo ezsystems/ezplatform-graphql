@@ -9,10 +9,10 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use eZ\Publish\API\Repository\ContentService;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use eZ\Publish\Core\FieldType;
+use eZ\Publish\Core\FieldType\Image\Value as ImageFieldValue;
 use eZ\Publish\SPI\Variation\VariationHandler;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use Overblog\GraphQLBundle\Error\UserError;
-use eZ\Publish\Core\FieldType\Image\Value as ImageFieldValue;
 
 /**
  * @internal
@@ -83,8 +83,6 @@ class ImageFieldResolver
     }
 
     /**
-     * @param ImageFieldValue $fieldValue
-     *
      * @return [Content, Field]
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
@@ -117,11 +115,6 @@ class ImageFieldResolver
         return [$content, $field];
     }
 
-    /**
-     * @param ImageFieldValue $fieldValue
-     *
-     * @return array
-     */
     protected function decomposeImageId(ImageFieldValue $fieldValue): array
     {
         $idArray = explode('-', $fieldValue->imageId);
