@@ -38,8 +38,14 @@ class ImageAssetFieldResolver
 
     public function resolveDomainImageAssetFieldValue(Field $field)
     {
+        $destinationContentId = $field->value->destinationContentId;
+
+        if ($destinationContentId === null) {
+            return null;
+        }
+
         $assetField = $this->assetMapper->getAssetField(
-            $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId))
+            $this->contentLoader->findSingle(new Criterion\ContentId($destinationContentId))
         );
 
         if (empty($assetField->value->alternativeText)) {
