@@ -13,6 +13,7 @@
         "bdunogier/ezplatform-graphql-bundle": "self.version"
     },
     "require": {
+        "ext-dom": "*",
         "ezsystems/ezpublish-kernel": "^6.0|^7.0",
         "ezsystems/ezplatform-admin-ui": "^1.0",
         "overblog/graphql-bundle": "^0.11",
