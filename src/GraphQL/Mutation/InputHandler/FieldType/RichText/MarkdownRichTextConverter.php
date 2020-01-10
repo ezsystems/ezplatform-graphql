@@ -7,7 +7,7 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText;
 
 use DOMDocument;
-use eZ\Publish\Core\FieldType\RichText as RichTextFieldType;
+use EzSystems\EzPlatformRichText\eZ\RichText as RichTextFieldType;
 use Parsedown;
 
 class MarkdownRichTextConverter implements RichTextInputConverter

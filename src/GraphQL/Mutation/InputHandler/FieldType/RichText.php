@@ -6,11 +6,11 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType;
 
-use eZ\Publish\Core\FieldType\RichText as RichTextFieldType;
 use eZ\Publish\SPI\FieldType\Value;
 use EzSystems\EzPlatformGraphQL\Exception\UnsupportedFieldInputFormatException;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\RichTextInputConverter;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldTypeInputHandler;
+use EzSystems\EzPlatformRichText\eZ\RichText as RichTextFieldType;
 
 class RichText implements FieldTypeInputHandler
 {
@@ -28,7 +28,7 @@ class RichText implements FieldTypeInputHandler
      * @param array $input
      * @param null $inputFormat
      *
-     * @return RichTextFieldType\Value
+     * @return \EzSystems\EzPlatformRichText\eZ\FieldType\RichText\Value
      */
     public function toFieldValue($input, $inputFormat = null): Value
     {
