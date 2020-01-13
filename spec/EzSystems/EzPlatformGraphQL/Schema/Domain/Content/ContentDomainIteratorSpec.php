@@ -1,6 +1,7 @@
 <?php
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
+use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use spec\EzSystems\EzPlatformGraphQL\Tools\TypeArgument;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
@@ -83,11 +84,11 @@ class ContentDomainIteratorSpec extends ObjectBehavior
         $contentTypeService->loadContentTypes(Argument::any())->willReturn([
             $type = new ContentType([
                 'identifier' => 'type',
-                'fieldDefinitions' => [
+                'fieldDefinitions' => new FieldDefinitionCollection([
                     'field1' => $field1 = new FieldDefinition(),
                     'field2' => $field2 = new FieldDefinition(),
                     'field3' => $field3 = new FieldDefinition(),
-                ]
+                ])
             ]),
         ]);
 
@@ -111,15 +112,15 @@ class ContentDomainIteratorSpec extends ObjectBehavior
         $contentTypeService->loadContentTypes(Argument::any())->willReturn([
             $type1 = new ContentType([
                 'identifier' => 'type1',
-                'fieldDefinitions' => [
+                'fieldDefinitions' => new FieldDefinitionCollection([
                     'type1_field1' => ($type1field1 = new FieldDefinition()),
-                ]
+                ])
             ]),
             $type2 = new ContentType([
                 'identifier' => 'type2',
-                'fieldDefinitions' => [
+                'fieldDefinitions' => new FieldDefinitionCollection([
                     'type2_field1' => ($type2field1 = new FieldDefinition()),
-                ]
+                ])
             ]),
         ]);
 
