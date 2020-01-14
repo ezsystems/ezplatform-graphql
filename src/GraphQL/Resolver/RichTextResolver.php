@@ -7,7 +7,7 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use DOMDocument;
-use eZ\Publish\Core\FieldType\RichText\Converter as RichTextConverterInterface;
+use EzSystems\EzPlatformRichText\eZ\RichText\Converter as RichTextConverterInterface;
 
 /**
  * @internal
