@@ -9,6 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use eZ\Publish\API\Repository as API;
 use eZ\Publish\API\Repository\Exceptions as RepositoryExceptions;
 use eZ\Publish\API\Repository\Values as RepositoryValues;
+use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\Exception\UnsupportedFieldTypeException;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldTypeInputHandler;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
@@ -207,7 +208,7 @@ class DomainContentMutationResolver
         ];
     }
 
-    private function getInputFieldValue($fieldInput, RepositoryValues\ContentType\FieldDefinition $fieldDefinition)
+    private function getInputFieldValue($fieldInput, FieldDefinition $fieldDefinition)
     {
         if (isset($this->fieldInputHandlers[$fieldDefinition->fieldTypeIdentifier])) {
             $format = null;
@@ -270,7 +271,12 @@ class DomainContentMutationResolver
     {
         $errors = [];
         foreach ($e->getFieldErrors() as $fieldDefId => $fieldErrors) {
-            $fieldDefinition = $contentType->getFieldDefinitionById($fieldDefId);
+            $fieldDefinition = $contentType->getFieldDefinitions()->filter(
+                static function (FieldDefinition $fieldDefinition) use ($fieldDefId) {
+                    return $fieldDefinition->id === $fieldDefId;
+                }
+            )->first();
+
             foreach ($fieldErrors['eng-GB'] as $fieldError) {
                 $translatableMessage = $fieldError->getTranslatableMessage();
                 if ($translatableMessage instanceof API\Values\Translation\Plural) {
@@ -300,7 +306,7 @@ class DomainContentMutationResolver
      *
      * @return string
      */
-    private function getInputField(API\Values\ContentType\FieldDefinition $fieldDefinition)
+    private function getInputField(FieldDefinition $fieldDefinition)
     {
         return $this->nameHelper->fieldDefinitionField($fieldDefinition);
     }
