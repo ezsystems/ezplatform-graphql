@@ -16,6 +16,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.3",
+        "ext-dom": "*",
         "ezsystems/ezpublish-kernel": "^8.0@dev",
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
