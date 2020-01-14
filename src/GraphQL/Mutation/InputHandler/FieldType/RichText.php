@@ -10,7 +10,7 @@ use eZ\Publish\SPI\FieldType\Value;
 use EzSystems\EzPlatformGraphQL\Exception\UnsupportedFieldInputFormatException;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldType\RichText\RichTextInputConverter;
 use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\InputHandler\FieldTypeInputHandler;
-use EzSystems\EzPlatformRichText\eZ\RichText as RichTextFieldType;
+use EzSystems\EzPlatformRichText\eZ\FieldType\RichText as RichTextFieldType;
 
 class RichText implements FieldTypeInputHandler
 {
