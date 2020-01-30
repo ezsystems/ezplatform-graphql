@@ -2,7 +2,7 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionBuilderMapper;
 use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use PhpSpec\ObjectBehavior;
@@ -29,7 +29,7 @@ class ConfigurableFieldDefinitionMapperSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ConfigurableFieldDefinitionMapper::class);
+        $this->shouldHaveType(ConfigurableFieldDefinitionBuilderMapper::class);
         $this->shouldHaveType(FieldDefinitionMapper::class);
     }
 

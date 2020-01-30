@@ -21,9 +21,15 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
      */
     private $fieldDefinitionMapper;
 
-    public function __construct(FieldDefinitionMapper $fieldDefinitionMapper)
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionArgsBuilderMapper[]
+     */
+    private $argsMappers;
+
+    public function __construct(FieldDefinitionMapper $fieldDefinitionMapper, array $argsMappers = [])
     {
         $this->fieldDefinitionMapper = $fieldDefinitionMapper;
+        $this->argsMappers = $argsMappers;
     }
 
     public function work(Builder $schema, array $args)
@@ -37,10 +43,16 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     private function getDefinition(FieldDefinition $fieldDefinition)
     {
-        return [
+        $definition = [
             'type' => $this->fieldDefinitionMapper->mapToFieldValueType($fieldDefinition),
             'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition),
         ];
+
+        if (isset($this->argsMappers[$fieldDefinition->fieldTypeIdentifier])) {
+            $definition['argsBuilder'] = $this->argsMappers[$fieldDefinition->fieldTypeIdentifier]->mapToFieldValueArgsBuilder($fieldDefinition);
+        }
+
+        return $definition;
     }
 
     public function canWork(Builder $schema, array $args)

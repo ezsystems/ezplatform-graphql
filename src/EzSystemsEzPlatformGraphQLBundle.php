@@ -18,6 +18,7 @@ class EzSystemsEzPlatformGraphQLBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new Compiler\FieldDefinitionInputMappersPass());
+        $container->addCompilerPass(new Compiler\FieldDefinitionArgsBuilderMappersPass());
         $container->addCompilerPass(new Compiler\FieldInputHandlersPass());
         $container->addCompilerPass(new Compiler\InputTypesMappingPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
         $container->addCompilerPass(new Compiler\RichTextInputConvertersPass());
