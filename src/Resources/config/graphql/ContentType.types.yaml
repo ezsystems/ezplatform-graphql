@@ -9,11 +9,6 @@ ContentType:
             description:
                 type: "String"
                 description: "The content type's description"
-                args:
-                    language:
-                      type: "RepositoryLanguage"
-                      defaultValue: ~
-                resolve: "@=value.getDescription(args['language']) ?: ''"
             fieldDefinitions:
                 type: "[FieldDefinition]"
                 description: "The ContentType's Field Definitions."
@@ -27,11 +22,6 @@ ContentType:
             name:
                 type: "String"
                 description: "The Content Type's name in the main language"
-                args:
-                    language:
-                        type: "RepositoryLanguage"
-                        defaultValue: ~
-                resolve: "@=value.getName(args['language']) ?: ''"
             names:
                 type: "[String]"
                 description: "The Content Type's names in all languages"

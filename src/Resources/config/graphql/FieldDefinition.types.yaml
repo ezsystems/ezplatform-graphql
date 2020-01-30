@@ -9,19 +9,9 @@ FieldDefinition:
             name:
                 type: String
                 description: "The field definition name, either in the most prioritized language, or in the language given as an argument"
-                resolve: "@=value.getName(args['language']) ?: ''"
-                args:
-                    language:
-                        type: RepositoryLanguage
-                        defaultValue: ~
             description:
                 type: String
                 description: "The field definition description, either in the most prioritized language, or in the language given as an argument"
-                resolve: "@=value.getDescription(args['language']) ?: ''"
-                args:
-                    language:
-                        type: RepositoryLanguage
-                        defaultValue: ~
             identifier:
                 type: String
                 description: "The system identifier of the field definition."

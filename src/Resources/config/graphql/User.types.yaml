@@ -9,9 +9,9 @@ User:
             name:
                 type: "String"
                 resolve: "@=value.contentInfo.name"
-            content:
-                type: "UserContent"
-                resolve: "@=value"
+            #content:
+            #    type: "UserContent"
+            #    resolve: "@=value"
             version:
                 type: "Version"
                 description: "Current version metadata"
@@ -42,10 +42,10 @@ UserGroup:
             name:
                 type: "String"
                 resolve: "@=value.contentInfo.name"
-            content:
-                description: "The User content item"
-                type: "UserGroupContent"
-                resolve: "@=value"
+            #content:
+            #    description: "The User content item"
+            #    type: "UserGroupContent"
+            #    resolve: "@=value"
             version:
                 type: "Version"
                 description: "Current version"

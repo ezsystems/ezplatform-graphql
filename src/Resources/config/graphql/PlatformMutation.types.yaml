@@ -21,9 +21,9 @@ PlatformMutation:
                         description: "The location ID of a container to upload the files to"
                     files:
                         type: "[FileUpload]!"
-                    language:
-                        type: RepositoryLanguage!
-                        description: "The language the content items must be created in"
+                    #language:
+                    #    type: RepositoryLanguage!
+                    #    description: "The language the content items must be created in"
 
 UploadedFilesPayload:
     type: object
