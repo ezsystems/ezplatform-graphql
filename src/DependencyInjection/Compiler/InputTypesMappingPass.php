@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionBuilderMapper;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\ConfigurableFieldDefinitionMapper;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -56,7 +56,7 @@ final class InputTypesMappingPass implements CompilerPassInterface
 
         $container->setParameter(self::PARAM, $mappingConfiguration);
 
-        $configurableMapperDefinition = $container->getDefinition(ConfigurableFieldDefinitionBuilderMapper::class);
+        $configurableMapperDefinition = $container->getDefinition(ConfigurableFieldDefinitionMapper::class);
         foreach ($mappingConfiguration as $fieldtype => $configuration) {
             if (isset($configuration['input_type'])) {
                 $configurableMapperDefinition->addTag(self::INPUT_MAPPER_TAG, ['fieldtype' => $fieldtype]);
