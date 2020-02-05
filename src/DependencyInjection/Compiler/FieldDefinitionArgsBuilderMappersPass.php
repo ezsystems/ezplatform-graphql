@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FieldDefinitionArgsBuilderMappersPass implements CompilerPassInterface
 {
-    const TAG = 'ezplatform_graphql.field_definition_args_builder_mapper';
+    private const TAG = 'ezplatform_graphql.field_definition_args_builder_mapper';
     const ATTRIBUTE = 'fieldtype';
 
     public function process(ContainerBuilder $container)
