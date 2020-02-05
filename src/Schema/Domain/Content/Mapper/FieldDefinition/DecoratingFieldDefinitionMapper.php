@@ -47,7 +47,7 @@ abstract class DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
         throw new LogicException('The inner mapper is not a FieldDefinitionInputMapper. This method should not have been called in a 1.x version of ezplatform-graphql.');
     }
 
-    public function mapToFieldValueArgs(FieldDefinition $fieldDefinition): ?string
+    public function mapToFieldValueArgsBuilder(FieldDefinition $fieldDefinition): ?string
     {
         /** @deprecated this test will be removed in ezplatform-graphql 2.x */
         if ($this->innerMapper instanceof FieldDefinitionArgsBuilderMapper) {
