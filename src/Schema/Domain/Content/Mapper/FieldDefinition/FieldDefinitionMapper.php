@@ -21,4 +21,11 @@ interface FieldDefinitionMapper
     public function mapToFieldValueInputType(ContentType $contentType, FieldDefinition $fieldDefinition): ?string;
 
     public function mapToFieldValueResolver(FieldDefinition $fieldDefinition): ?string;
+
+    /**
+     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     *
+     * @return string|null the argsBuilder string, or null if there are none.
+     */
+    public function mapToFieldValueArgsBuilder(FieldDefinition $fieldDefinition): ?string;
 }

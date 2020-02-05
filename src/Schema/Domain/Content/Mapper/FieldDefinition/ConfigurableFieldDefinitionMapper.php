@@ -9,7 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefiniti
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 
-class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper, FieldDefinitionInputMapper
+class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper, FieldDefinitionInputMapper, FieldDefinitionArgsBuilderMapper
 {
     /**
      * @var array
@@ -54,5 +54,10 @@ class ConfigurableFieldDefinitionMapper implements FieldDefinitionMapper, FieldD
         return isset($this->typesMap[$fieldDefinition->fieldTypeIdentifier]['value_resolver']) ?
             '@=' . $this->typesMap[$fieldDefinition->fieldTypeIdentifier]['value_resolver']
             : $this->innerMapper->mapToFieldValueResolver($fieldDefinition);
+    }
+
+    public function mapToFieldValueArgsBuilder(FieldDefinition $fieldDefinition): ?string
+    {
+        return $this->typesMap[$fieldDefinition->fieldTypeIdentifier]['argsBuilder'] ?? null;
     }
 }
