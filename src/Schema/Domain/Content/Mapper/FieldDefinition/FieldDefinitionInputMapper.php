@@ -11,6 +11,8 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefiniti
 
 /**
  * Maps a Field Definition to its GraphQL components for input (mutations).
+ *
+ * @deprecated since 2.0, will be removed in 3.0. Use the FieldDefinitionMapper interface instead.
  */
 interface FieldDefinitionInputMapper
 {

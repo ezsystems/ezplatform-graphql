@@ -6,11 +6,10 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-
 /**
  * Maps a Field Definition to its GraphQL arguments.
- * @deprecated since 2.0, merged into the FieldDefinitionMapper interface.
+ *
+ * @deprecated since 2.0, will be removed in 3.0. Use the FieldDefinitionMapper interface instead.
  */
 interface FieldDefinitionArgsBuilderMapper
 {

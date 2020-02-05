@@ -30,4 +30,9 @@ class DefaultFieldDefinitionMapper implements FieldDefinitionMapper
     {
         return '@=field';
     }
+
+    public function mapToFieldValueArgsBuilder(FieldDefinition $fieldDefinition): ?string
+    {
+        return null;
+    }
 }
