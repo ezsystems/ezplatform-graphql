@@ -41,6 +41,11 @@ abstract class DecoratingFieldDefinitionMapper implements FieldDefinitionMapper
         return $this->innerMapper->mapToFieldValueInputType($contentType, $fieldDefinition);
     }
 
+    public function mapToFieldValueArgsBuilder(FieldDefinition $fieldDefinition): ?string
+    {
+        return $this->innerMapper->mapToFieldValueArgsBuilder($fieldDefinition);
+    }
+
     abstract protected function getFieldTypeIdentifier(): string;
 
     protected function canMap(FieldDefinition $fieldDefinition)

@@ -37,10 +37,16 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     private function getDefinition(FieldDefinition $fieldDefinition)
     {
-        return [
+        $definition = [
             'type' => $this->fieldDefinitionMapper->mapToFieldValueType($fieldDefinition),
             'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition),
         ];
+
+        if (($argsBuilder = $this->fieldDefinitionMapper->mapToFieldValueArgsBuilder($fieldDefinition)) !== null) {
+            $definition['argsBuilder'] = $argsBuilder;
+        }
+
+        return $definition;
     }
 
     public function canWork(Builder $schema, array $args)

@@ -41,6 +41,7 @@ class AddFieldValueToDomainContentSpec extends ObjectBehavior
     {
         $mapper->mapToFieldValueType(Argument::any())->willReturn('String');
         $mapper->mapToFieldValueResolver(Argument::any())->willReturn('field');
+        $mapper->mapToFieldValueArgsBuilder(Argument::any())->willReturn(null);
 
         $schema->addFieldToType(
             Argument::any(),
