@@ -43,7 +43,7 @@ class GeneratePlatformSchemaCommand extends Command
             ->addOption('include', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $schema = $this->generator->generate();
 
@@ -68,6 +68,8 @@ class GeneratePlatformSchemaCommand extends Command
 
         $output->writeln('');
         $this->compileTypes($output);
+        
+        return 0;
     }
 
     private function compileTypes(OutputInterface $output)
