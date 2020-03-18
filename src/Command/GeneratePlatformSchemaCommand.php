@@ -68,7 +68,7 @@ class GeneratePlatformSchemaCommand extends Command
 
         $output->writeln('');
         $this->compileTypes($output);
-        
+
         return 0;
     }
 
