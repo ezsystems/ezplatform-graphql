@@ -12,14 +12,12 @@
     "replace": {
         "bdunogier/ezplatform-graphql-bundle": "self.version"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^7.3",
         "ext-dom": "*",
-        "ezsystems/ezpublish-kernel": "dev-symfony5 as 8.0.x-dev",
-        "ezsystems/ezplatform-admin-ui": "dev-symfony5 as 2.0.x-dev",
-        "ezsystems/ezplatform-richtext": "dev-symfony5 as 2.0.x-dev",
+        "ezsystems/ezpublish-kernel": "^8.0@dev",
+        "ezsystems/ezplatform-admin-ui": "^2.0@dev",
+        "ezsystems/ezplatform-richtext": "^2.0@dev",
         "overblog/graphql-bundle": "^0.11",
         "erusev/parsedown": "^1.7",
         "symfony/dependency-injection": "^5.0",
