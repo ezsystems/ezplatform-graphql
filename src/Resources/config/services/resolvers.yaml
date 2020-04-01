@@ -112,7 +112,6 @@ services:
             $imageFieldType: "@ezpublish.fieldType.ezimage"
             $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
             $contentService: "@ezpublish.siteaccessaware.service.content"
-            $variations: "$image_variations$"
         tags:
             - { name: overblog_graphql.resolver, alias: "ImageVariations", method: "resolveImageVariations" }
             - { name: overblog_graphql.resolver, alias: "ImageVariation", method: "resolveImageVariation" }
