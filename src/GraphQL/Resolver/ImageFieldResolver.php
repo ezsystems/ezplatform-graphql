@@ -29,10 +29,6 @@ class ImageFieldResolver
      */
     private $contentService;
     /**
-     * @var array
-     */
-    private $variations;
-    /**
      * @var FieldType\Image\Type
      */
     private $fieldType;
@@ -45,12 +41,10 @@ class ImageFieldResolver
         FieldType\Image\Type $imageFieldType,
         VariationHandler $variationHandler,
         ContentLoader $contentLoader,
-        ContentService $contentService,
-        array $variations
+        ContentService $contentService
     ) {
         $this->variationHandler = $variationHandler;
         $this->contentService = $contentService;
-        $this->variations = $variations;
         $this->fieldType = $imageFieldType;
         $this->contentLoader = $contentLoader;
     }
