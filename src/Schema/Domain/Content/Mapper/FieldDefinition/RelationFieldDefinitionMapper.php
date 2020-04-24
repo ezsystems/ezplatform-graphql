@@ -7,6 +7,7 @@
 namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition;
 
 use eZ\Publish\API\Repository\ContentTypeService;
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 
@@ -39,11 +40,16 @@ class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper impl
         }
         $settings = $fieldDefinition->getFieldSettings();
 
+        $type = 'DomainContent';
         if (count($settings['selectionContentTypes']) === 1) {
-            $contentType = $this->contentTypeService->loadContentTypeByIdentifier($settings['selectionContentTypes'][0]);
-            $type = $this->nameHelper->domainContentName($contentType);
-        } else {
-            $type = 'DomainContent';
+            try {
+                $contentType = $this->contentTypeService->loadContentTypeByIdentifier(
+                    $settings['selectionContentTypes'][0]
+                );
+                $type = $this->nameHelper->domainContentName($contentType);
+            } catch (NotFoundException $e) {
+                // Nothing to do
+            }
         }
 
         if ($this->isMultiple($fieldDefinition)) {
