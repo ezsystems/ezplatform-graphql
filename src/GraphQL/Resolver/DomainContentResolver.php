@@ -8,11 +8,13 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\Core\FieldType;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
@@ -50,18 +52,23 @@ class DomainContentResolver
      */
     private $contentTypeLoader;
 
+    /** @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader */
+    private $locationLoader;
+
     public function __construct(
         Repository $repository,
         TypeResolver $typeResolver,
         SearchQueryMapper $queryMapper,
         ContentLoader $contentLoader,
-        ContentTypeLoader $contentTypeLoader)
+        ContentTypeLoader $contentTypeLoader,
+        LocationLoader $locationLoader)
     {
         $this->repository = $repository;
         $this->typeResolver = $typeResolver;
         $this->queryMapper = $queryMapper;
         $this->contentLoader = $contentLoader;
         $this->contentTypeLoader = $contentTypeLoader;
+        $this->locationLoader = $locationLoader;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
@@ -75,7 +82,7 @@ class DomainContentResolver
      * @param \Overblog\GraphQLBundle\Definition\Argument|array $args
      * @param string|null $contentTypeIdentifier
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
+     * @return \eZ\Publish\API\Repository\Values\Content\Location
      *
      * @throws \GraphQL\Error\UserError if $contentTypeIdentifier was specified, and the loaded item's type didn't match it
      * @throws \GraphQL\Error\UserError if no argument was provided
@@ -83,24 +90,24 @@ class DomainContentResolver
     public function resolveDomainContentItem($args, $contentTypeIdentifier)
     {
         if (isset($args['id'])) {
-            $criterion = new Query\Criterion\ContentId($args['id']);
+            $location = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['id']))->contentInfo->getMainLocation();
         } elseif (isset($args['remoteId'])) {
-            $criterion = new Query\Criterion\RemoteId($args['remoteId']);
+            $location = $this->contentLoader->findSingle(new Query\Criterion\RemoteId($args['remoteId']))->contentInfo->getMainLocation();
         } elseif (isset($args['locationId'])) {
-            $criterion = new Query\Criterion\LocationId($args['locationId']);
+            $location = $this->locationLoader->findById($args['locationId']);
+        } elseif (isset($args['locationRemoteId'])) {
+            $location = $this->locationLoader->findByRemoteId($args['locationRemoteId']);
         } else {
             throw new UserError('Missing required argument id, remoteId or locationId');
         }
 
-        $content = $this->contentLoader->findSingle($criterion);
-
-        $contentType = $this->contentTypeLoader->load($content->contentInfo->contentTypeId);
+        $contentType = $location->getContentInfo()->getContentType();
 
         if (null !== $contentTypeIdentifier && $contentType->identifier !== $contentTypeIdentifier) {
-            throw new UserError("Content {$content->contentInfo->id} is not of type '$contentTypeIdentifier'");
+            throw new UserError("Content {$location->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
         }
 
-        return $content;
+        return $location;
     }
 
     /**
@@ -116,24 +123,24 @@ class DomainContentResolver
             $input['sortBy'] = $args['sortBy'];
         }
 
-        return $this->contentLoader->find(
+        return $this->locationLoader->find(
             $this->queryMapper->mapInputToQuery($input)
         );
     }
 
-    public function resolveMainUrlAlias(Content $content)
+    public function resolveMainUrlAlias(Location $location)
     {
         $aliases = $this->repository->getURLAliasService()->listLocationAliases(
-            $this->getLocationService()->loadLocation($content->contentInfo->mainLocationId),
+            $location,
             false
         );
 
         return isset($aliases[0]->path) ? $aliases[0]->path : null;
     }
 
-    public function resolveDomainFieldValue(Content $content, $fieldDefinitionIdentifier)
+    public function resolveDomainFieldValue(Location $location, $fieldDefinitionIdentifier)
     {
-        return Field::fromField($content->getField($fieldDefinitionIdentifier));
+        return Field::fromField($location->getContent()->getField($fieldDefinitionIdentifier));
     }
 
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)

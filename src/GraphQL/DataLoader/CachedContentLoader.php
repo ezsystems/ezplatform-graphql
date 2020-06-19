@@ -56,7 +56,7 @@ class CachedContentLoader implements ContentLoader
      *
      * @return int
      */
-    public function count(Query $query)
+    public function count(Query $query): int
     {
         return $this->innerLoader->count($query);
     }

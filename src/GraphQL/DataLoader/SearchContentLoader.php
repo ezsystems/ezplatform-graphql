@@ -72,7 +72,7 @@ class SearchContentLoader implements ContentLoader
      *
      * @throws ArgumentsException
      */
-    public function count(Query $query)
+    public function count(Query $query): int
     {
         $countQuery = clone $query;
         $countQuery->limit = 0;

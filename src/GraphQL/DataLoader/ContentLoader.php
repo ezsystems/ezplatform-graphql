@@ -20,7 +20,7 @@ interface ContentLoader
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
      */
-    public function find(Query $query): array;
+    public function find(Query $query): iterable;
 
     /**
      * Loads a single content item given a Query Criterion.
@@ -35,5 +35,5 @@ interface ContentLoader
      *
      * @return int
      */
-    public function count(Query $query);
+    public function count(Query $query): int;
 }

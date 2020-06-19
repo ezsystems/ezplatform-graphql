@@ -30,14 +30,14 @@ interface LocationLoader
     public function findById($id): Location;
 
     /**
-     * Loads a single location by remote id.
+     * Loads a single content item given a Query Criterion.
      *
      * @param string $remoteId A location remote id
      */
     public function findByRemoteId($remoteId): Location;
 
     /**
-     * Loads a single location by url alias.
+     * @param string $remoteId A location remote id
      */
     public function findByUrlAlias(string $urlAlias): Location;
 
