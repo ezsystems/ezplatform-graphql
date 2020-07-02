@@ -18,8 +18,14 @@ What location is loaded depends on how the items are queried:
 
 If the siteaccess uses a custom tree root, the locations should always be within that subtree.
 
+### Multiple locations
+
+Probably the biggest challenge. What do we do if a Query Field, resolved with `findLocations()`, returns several locations for the same item ? Do we want the same item several times ? Does it make sense ?
+
+Is it likely ? Multiple locations in the same tree would most likely be used to model something. Can we just switch to searching for locations without further changes ?
+
 ## Tech stuff
 
 - Do we introduce a custom value object used when loading domain items, a composition of content + location ?
   - Or is the location dynamically determined based on... some context ?
-  - That custom value object could just be "a location", since it always refer to one content item
+  - That custom value object could just be `Location`, since it always refer to a content item.
