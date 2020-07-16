@@ -15,7 +15,7 @@
     "require": {
         "php": "^7.3",
         "ext-dom": "*",
-        "ezsystems/ezplatform-kernel": "^1.0@dev",
+        "ezsystems/ezplatform-kernel": "~1.1.0@dev",
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
         "overblog/graphql-bundle": "^0.11",
