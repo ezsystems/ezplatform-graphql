@@ -1,0 +1,13 @@
+My:
+    type: object
+    config:
+        fields:
+            name:
+                type: String
+                resolve: "Hardcoded name"
+            profile:
+                type: UserProfile
+                resolve: "@=resolver('MyProfile')"
+            basket:
+                type: CommerceBasket
+                resolve: "@=resolver('MyBasket')"

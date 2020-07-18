@@ -4,6 +4,10 @@ services:
         autowire: true
         public: false
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ProfileResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "MyProfile", method: "resolveMyProfile"}
+            -
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "Location", method: "resolveLocation" }
