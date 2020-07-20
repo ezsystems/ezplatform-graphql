@@ -24,6 +24,14 @@ PlatformMutation:
                     language:
                         type: RepositoryLanguage!
                         description: "The language the content items must be created in"
+            createToken:
+                type: CreatedTokenPayload
+                resolve: '@=mutation("CreateToken", [args])'
+                args:
+                    username:
+                        type: String!
+                    password:
+                        type: String!
 
 UploadedFilesPayload:
     type: object
@@ -45,3 +53,12 @@ DeleteContentPayload:
                 type: ID
                 description: "Global ID"
 
+CreatedTokenPayload:
+    type: object
+    config:
+        fields:
+            token:
+                type: String
+            message:
+                type: String
+                description: "The reason why authentication has failed, if it has"
