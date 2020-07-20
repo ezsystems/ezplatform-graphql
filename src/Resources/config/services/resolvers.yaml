@@ -51,6 +51,10 @@ services:
             $imageFieldType: "@ezpublish.fieldType.ezimage"
             $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Mutation\Authentication:
+        tags:
+            - { name: overblog_graphql.mutation, alias: "CreateToken", method: "createToken" }
+
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
         arguments:
             $repository: '@ezpublish.siteaccessaware.repository'
