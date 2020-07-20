@@ -11,3 +11,17 @@ My:
             basket:
                 type: CommerceBasket
                 resolve: "@=resolver('MyBasket')"
+
+# @todo figure out how to make extensible
+UserProfile:
+    type: object
+    config:
+        fields:
+            username:
+                type: String
+            email:
+                type: String
+            name:
+                type: String
+            picture:
+                type: Thumbnail

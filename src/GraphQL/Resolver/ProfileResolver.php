@@ -6,6 +6,7 @@
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\Core\MVC\Symfony\Security\User;
 use Symfony\Component\Security\Core\Security;
 
 class ProfileResolver
@@ -20,9 +21,20 @@ class ProfileResolver
         $this->security = $security;
     }
 
-    public function resolveMyProfile()
+    public function resolveMyProfile(): array
     {
         $user = $this->security->getUser();
-        return $user;
+
+        if ($user instanceof User) {
+            $apiUser = $user->getAPIUser();
+            return [
+                'username' => $apiUser->login,
+                'email' => $apiUser->email,
+                'name' => $apiUser->getName(),
+                'picture' => $apiUser->getThumbnail(),
+            ];
+        } else {
+            return [];
+        }
     }
 }
