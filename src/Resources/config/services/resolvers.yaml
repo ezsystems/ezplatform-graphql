@@ -55,6 +55,10 @@ services:
         tags:
             - { name: overblog_graphql.mutation, alias: "CreateToken", method: "createToken" }
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Mutation\User:
+        tags:
+            - { name: overblog_graphql.mutation, alias: "RegisterAccount", method: "registerAccount" }
+
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
         arguments:
             $repository: '@ezpublish.siteaccessaware.repository'

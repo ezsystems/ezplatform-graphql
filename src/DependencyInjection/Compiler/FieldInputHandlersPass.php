@@ -6,6 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection\Compiler;
 
+use EzSystems\EzPlatformGraphQL\GraphQL\Mutation\User;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentMutationResolver;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToDomainContentMutation;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -38,5 +39,6 @@ class FieldInputHandlersPass implements CompilerPassInterface
         }
 
         $container->findDefinition(DomainContentMutationResolver::class)->setArgument('$fieldInputHandlers', $handlers);
+        $container->findDefinition(User::class)->setArgument('$fieldInputHandlers', $handlers);
     }
 }

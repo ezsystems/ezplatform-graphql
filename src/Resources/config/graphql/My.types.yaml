@@ -12,8 +12,18 @@ My:
                 type: CommerceBasket
                 resolve: "@=resolver('MyBasket')"
 
-# @todo figure out how to make extensible
-UserProfile:
+UserAccountInput:
+    type: input-object
+    config:
+        fields:
+            username:
+                type: String!
+            email:
+                type: String!
+            password:
+                type: String!
+
+UserAccount:
     type: object
     config:
         fields:
@@ -21,7 +31,19 @@ UserProfile:
                 type: String
             email:
                 type: String
-            name:
-                type: String
-            picture:
-                type: Thumbnail
+
+# Not used for now, would require multiple user types
+UserProfileInterface:
+    type: interface
+    config:
+        fields:
+            account:
+                type: UserAccount
+
+BaseUserProfile:
+    type: object
+    config:
+        #interfaces: [UserProfile]
+        fields:
+            account:
+                type: UserAccount

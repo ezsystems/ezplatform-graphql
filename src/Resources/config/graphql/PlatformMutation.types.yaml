@@ -32,6 +32,12 @@ PlatformMutation:
                         type: String!
                     password:
                         type: String!
+            registerAsMember:
+                type: RegisteredMemberUserPayload
+                resolve: '@=mutation("RegisterAccount", [args])'
+                args:
+                    input:
+                        type: RegisterMemberUserInput!
 
 UploadedFilesPayload:
     type: object
