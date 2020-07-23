@@ -7,22 +7,18 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
 use eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException;
-use eZ\Publish\API\Repository\Exceptions\ContentValidationException;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Repository\Values\User\UserCreateStruct;
+use eZ\Publish\SPI\FieldType\ValidationError;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
 use EzSystems\EzPlatformUser\ConfigResolver\RegistrationContentTypeLoader;
 use EzSystems\EzPlatformUser\ConfigResolver\RegistrationGroupLoader;
-use eZ\Publish\Core\FieldType\User as UserFieldType;
-use GraphQL\Error\UserError;
+use Overblog\GraphQLBundle\Error\UserErrors;
 
 class User
 {
-    /**
-     * @var \eZ\Publish\API\Repository\UserService
-     */
+    /** @var \eZ\Publish\API\Repository\UserService */
     private $userService;
 
     /** @var \EzSystems\EzPlatformUser\ConfigResolver\RegistrationContentTypeLoader */
@@ -37,11 +33,15 @@ class User
     /** @var array */
     private $fieldInputHandlers;
 
+    /** @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper */
+    private $nameHelper;
+
     public function __construct(
         Repository $repository,
         UserService $userService,
         RegistrationContentTypeLoader $userTypeLoader,
         RegistrationGroupLoader $registrationGroupLoader,
+        NameHelper $nameHelper,
         array $fieldInputHandlers = []
     )
     {
@@ -50,6 +50,7 @@ class User
         $this->registrationGroupLoader = $registrationGroupLoader;
         $this->repository = $repository;
         $this->fieldInputHandlers = $fieldInputHandlers;
+        $this->nameHelper = $nameHelper;
     }
 
     public function registerAccount($args)
@@ -58,9 +59,9 @@ class User
         $contentType = $this->userTypeLoader->loadContentType();
 
         $userCreateStruct = $this->userService->newUserCreateStruct(
-            $profile['account']['username'],
-            $profile['account']['email'],
-            $profile['account']['password'],
+            $profile['username'],
+            $profile['email'],
+            $profile['password'],
             'eng-GB'
         );
 
@@ -74,37 +75,45 @@ class User
                 ]);*/
             }
 
-            if (isset($profile[$fieldDefinition->identifier])) {
-                $userCreateStruct->setField(
-                    $fieldDefinition->identifier,
-                    $this->getInputFieldValue($profile[$fieldDefinition->identifier], $fieldDefinition)
-                );
+            if ($value = $this->getInputFieldValue($profile, $fieldDefinition)) {
+                $userCreateStruct->setField($fieldDefinition->identifier, $value);
             }
         }
         $parentGroups = [$this->registrationGroupLoader->loadGroup()];
 
         try {
-            return $this->repository->sudo(function (Repository $repository) use ($userCreateStruct, $parentGroups) {
-                $repository->getUserService()->createUser($userCreateStruct, $parentGroups);
+            $return = $this->repository->sudo(function (Repository $repository) use ($userCreateStruct, $parentGroups) {
+                return $repository->getUserService()->createUser($userCreateStruct, $parentGroups);
             });
+
+            return $return;
         } catch (ContentFieldValidationException $e) {
             $this->throwContentFieldValidationError($e);
         }
     }
 
-    private function getInputFieldValue($fieldInput, FieldDefinition $fieldDefinition)
+    private function getInputFieldValue(array $profile, FieldDefinition $fieldDefinition)
     {
-        if (isset($this->fieldInputHandlers[$fieldDefinition->fieldTypeIdentifier])) {
-            $format = null;
-            if (isset($fieldInput['input'])) {
-                $input = $fieldInput['input'];
-                $format = $fieldInput['format'] ?? null;
-            } else {
-                $input = $fieldInput;
-            }
-
-            return $this->fieldInputHandlers[$fieldDefinition->fieldTypeIdentifier]->toFieldValue($input, $format);
+        if (!isset($this->fieldInputHandlers[$fieldDefinition->fieldTypeIdentifier])) {
+            return null;
         }
+
+        $inputKey = $this->nameHelper->fieldDefinitionField($fieldDefinition);
+        if (!isset($profile[$inputKey])) {
+            return null;
+        }
+
+        $fieldInput = $profile[$inputKey];
+
+        $format = null;
+        if (isset($fieldInput['input'])) {
+            $input = $fieldInput['input'];
+            $format = $fieldInput['format'] ?? null;
+        } else {
+            $input = $fieldInput;
+        }
+
+        return $this->fieldInputHandlers[$fieldDefinition->fieldTypeIdentifier]->toFieldValue($input, $format);
     }
 
     public function requestPasswordReset($args)
@@ -117,15 +126,30 @@ class User
 
     }
 
+    /**
+     * @todo centralize handling of that exception so that it can be used for content mutations as well.
+     */
     private function throwContentFieldValidationError(ContentFieldValidationException $e)
     {
         $errors = [];
-        foreach ($e->getFieldErrors() as $fieldId => $errorsForField) {
-            if (isset($errorsForField['eng-GB'])) {
-                $errors[] = $errorsForField['eng-GB']->getTranslatableMessage();
+        foreach ($e->getFieldErrors() as $errorsPerLanguage) {
+            if (isset($errorsPerLanguage['eng-GB'])) {
+                if (is_array($errorsPerLanguage['eng-GB'])) {
+                    $errors = array_merge(
+                        $errors,
+                        array_map(
+                            function(ValidationError $validationError) {
+                                return (string)$validationError->getTranslatableMessage();
+                            },
+                            $errorsPerLanguage['eng-GB']
+                        )
+                    );
+                } else {
+                    $errors[] = (string)$errorsPerLanguage['eng-GB']->getTranslatableMessage();
+                }
             }
         }
 
-        throw new UserError(implode(', ', $errors));
+        throw new UserErrors($errors);
     }
 }

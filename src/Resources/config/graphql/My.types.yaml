@@ -37,13 +37,17 @@ UserProfileInterface:
     type: interface
     config:
         fields:
-            account:
-                type: UserAccount
+            username:
+                type: String
+            email:
+                type: String
 
 BaseUserProfile:
     type: object
     config:
         #interfaces: [UserProfile]
         fields:
-            account:
-                type: UserAccount
+            username:
+                type: String
+            email:
+                type: String
