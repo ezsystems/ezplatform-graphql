@@ -6,7 +6,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ProfileResolver:
         tags:
-            - { name: overblog_graphql.resolver, alias: "MyProfile", method: "resolveMyProfile"}
+            - { name: overblog_graphql.resolver, alias: "ViewerProfile", method: "resolveViewerProfile"}
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationResolver:
         tags:

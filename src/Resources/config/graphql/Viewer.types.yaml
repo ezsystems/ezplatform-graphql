@@ -1,4 +1,4 @@
-My:
+Viewer:
     type: object
     config:
         fields:
@@ -7,10 +7,10 @@ My:
                 resolve: "Hardcoded name"
             profile:
                 type: UserProfile
-                resolve: "@=resolver('MyProfile')"
+                resolve: "@=resolver('ViewerProfile')"
             basket:
                 type: CommerceBasket
-                resolve: "@=resolver('MyBasket')"
+                resolve: "@=resolver('ViewerBasket')"
 
 UserAccountInput:
     type: input-object

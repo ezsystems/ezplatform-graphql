@@ -21,7 +21,7 @@ class ProfileResolver
         $this->security = $security;
     }
 
-    public function resolveMyProfile(): array
+    public function resolveViewerProfile(): array
     {
         $user = $this->security->getUser();
 

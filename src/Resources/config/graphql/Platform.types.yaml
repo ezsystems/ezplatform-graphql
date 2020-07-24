@@ -11,6 +11,6 @@ Platform:
                 builderConfig:
                     nodeInterfaceType: Node
                     idFetcher: '@=resolver("node", [value])'
-            my:
-                type: My
+            viewer:
+                type: Viewer
                 resolve: { }
