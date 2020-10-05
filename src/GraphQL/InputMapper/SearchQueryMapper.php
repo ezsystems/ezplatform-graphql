@@ -12,6 +12,16 @@ use InvalidArgumentException;
 class SearchQueryMapper
 {
     /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\ContentCollectionFilterBuilder
+     */
+    private $filterBuilder;
+
+    public function __construct(ContentCollectionFilterBuilder $filterBuilder)
+    {
+        $this->filterBuilder = $filterBuilder;
+    }
+
+    /**
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
     public function mapInputToQuery(array $inputArray)
@@ -23,7 +33,7 @@ class SearchQueryMapper
         if (isset($inputArray['limit'])) {
             $query->limit = $inputArray['limit'];
         }
-        $criteria = [];
+        $criteria = [$this->filterBuilder->buildFilter()];
 
         if (isset($inputArray['ContentTypeIdentifier'])) {
             $criteria[] = new Query\Criterion\ContentTypeIdentifier($inputArray['ContentTypeIdentifier']);
@@ -92,9 +102,7 @@ class SearchQueryMapper
             return $query;
         }
 
-        if (count($criteria)) {
-            $query->filter = count($criteria) > 1 ? new Query\Criterion\LogicalAnd($criteria) : $criteria[0];
-        }
+        $query->filter = new Query\Criterion\LogicalAnd($criteria);
 
         return $query;
     }
