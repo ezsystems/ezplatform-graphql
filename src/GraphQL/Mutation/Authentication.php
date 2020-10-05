@@ -33,7 +33,7 @@ final class Authentication
     /**
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
-    public function createToken($args)
+    public function createToken($args): array
     {
         $username = $args['username'];
         $password = $args['password'];
