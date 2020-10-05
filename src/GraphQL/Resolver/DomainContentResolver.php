@@ -167,10 +167,10 @@ class DomainContentResolver
         return $contentItems[0] ?? null;
     }
 
-    public function resolveDomainContentType(Content $content)
+    public function resolveDomainContentType(Location $location)
     {
         $typeName = $this->makeDomainContentTypeName(
-            $this->contentTypeLoader->load($content->contentInfo->contentTypeId)
+            $this->contentTypeLoader->load($location->contentInfo->contentTypeId)
         );
 
         return  ($this->typeResolver->hasSolution($typeName))
