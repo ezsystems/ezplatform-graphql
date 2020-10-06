@@ -12,3 +12,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\:
         resource: '../../GraphQL/InputMapper'
+
+    EzSystems\EzPlatformGraphQL\Security\NonAdminGraphQLRequestMatcher:
+        arguments:
+            $siteAccessGroups: '%ezpublish.siteaccess.groups%'
