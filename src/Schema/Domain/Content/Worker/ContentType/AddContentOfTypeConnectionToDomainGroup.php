@@ -56,7 +56,8 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
 
     protected function groupName(array $args): string
     {
-        return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
+        return 'Domain';
+        //return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
     }
 
     protected function connectionField(array $args): string

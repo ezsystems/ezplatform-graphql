@@ -56,7 +56,8 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
 
     protected function groupName(array $args): string
     {
-        return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
+        return 'Domain';
+        // return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
     }
 
     protected function typeField($args): string
