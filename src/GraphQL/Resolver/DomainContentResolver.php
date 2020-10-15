@@ -7,7 +7,6 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
@@ -16,6 +15,7 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
@@ -55,13 +55,19 @@ class DomainContentResolver
     /** @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader */
     private $locationLoader;
 
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser
+     */
+    private $locationGuesser;
+
     public function __construct(
         Repository $repository,
         TypeResolver $typeResolver,
         SearchQueryMapper $queryMapper,
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader,
-        LocationLoader $locationLoader)
+        LocationLoader $locationLoader,
+        LocationGuesser $locationGuesser)
     {
         $this->repository = $repository;
         $this->typeResolver = $typeResolver;
@@ -69,6 +75,7 @@ class DomainContentResolver
         $this->contentLoader = $contentLoader;
         $this->contentTypeLoader = $contentTypeLoader;
         $this->locationLoader = $locationLoader;
+        $this->locationGuesser = $locationGuesser;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
@@ -90,9 +97,14 @@ class DomainContentResolver
     public function resolveDomainContentItem($args, $contentTypeIdentifier)
     {
         if (isset($args['id'])) {
-            $location = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['id']))->contentInfo->getMainLocation();
+            $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['id']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
+        } elseif (isset($args['contentId'])) {
+            $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['contentId']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
         } elseif (isset($args['remoteId'])) {
-            $location = $this->contentLoader->findSingle(new Query\Criterion\RemoteId($args['remoteId']))->contentInfo->getMainLocation();
+            $content = $this->contentLoader->findSingle(new Query\Criterion\RemoteId($args['remoteId']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
         } elseif (isset($args['locationId'])) {
             $location = $this->locationLoader->findById($args['locationId']);
         } elseif (isset($args['locationRemoteId'])) {
@@ -198,7 +210,7 @@ class DomainContentResolver
      *
      * @throws UserError if the field isn't a Relation or RelationList value
      */
-    private function getContentIds(Field $field)
+    private function getContentIds(Field $field): array
     {
         if ($field->value instanceof FieldType\RelationList\Value) {
             return $field->value->destinationContentIds;

@@ -12,3 +12,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\:
         resource: '../../GraphQL/InputMapper'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationGuesser: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser: '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationGuesser'
