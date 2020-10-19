@@ -6,10 +6,11 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use InvalidArgumentException;
 
-class SearchQueryMapper
+final class SearchQueryMapper
 {
     /**
      * @var \EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\ContentCollectionFilterBuilder
@@ -22,11 +23,29 @@ class SearchQueryMapper
     }
 
     /**
+     * @return \eZ\Publish\API\Repository\Values\Content\LocationQuery
+     */
+    public function mapInputToLocationQuery(array $inputArray)
+    {
+        $query = new LocationQuery();
+        $this->mapInput($query, $inputArray);
+
+        return $query;
+    }
+
+    /**
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
     public function mapInputToQuery(array $inputArray)
     {
         $query = new Query();
+        $this->mapInput($query, $inputArray);
+
+        return $query;
+    }
+
+    private function mapInput($query, array $inputArray)
+    {
         if (isset($inputArray['offset'])) {
             $query->offset = $inputArray['offset'];
         }
@@ -103,8 +122,6 @@ class SearchQueryMapper
         }
 
         $query->filter = new Query\Criterion\LogicalAnd($criteria);
-
-        return $query;
     }
 
     /**

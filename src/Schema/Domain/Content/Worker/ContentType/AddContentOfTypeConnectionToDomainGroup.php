@@ -15,6 +15,17 @@ use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
 class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Worker
 {
+    /**
+     * Wether to use locations instead of content.
+     * @var bool
+     */
+    private $useLocations;
+
+    public function __construct($useLocations = false)
+    {
+
+        $this->useLocations = $useLocations;
+    }
     public function work(Builder $schema, array $args)
     {
         $contentType = $args['ContentType'];
@@ -25,10 +36,7 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
             $this->connectionType($args),
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => sprintf(
-                    '@=resolver("SearchContentOfTypeAsConnection", ["%s", args])',
-                    $contentType->identifier
-                ),
+                'resolve' => $this->getResolver($contentType),
                 'argsBuilder' => 'Relay::Connection',
             ]
         ));
@@ -72,5 +80,25 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
     protected function typeName($args): string
     {
         return $this->getNameHelper()->domainContentName($args['ContentType']);
+    }
+
+    /**
+     * @param $contentType
+     *
+     * @return string
+     */
+    private function getResolver($contentType): string
+    {
+        if ($this->useLocations) {
+            return sprintf(
+                '@=resolver("SearchContentOfTypeAsConnection", ["%s", args])',
+                $contentType->identifier
+            );
+        } else {
+            return sprintf(
+                '@=resolver("SearchLocationsOfTypeAsConnection", ["%s", args])',
+                $contentType->identifier
+            );
+        }
     }
 }

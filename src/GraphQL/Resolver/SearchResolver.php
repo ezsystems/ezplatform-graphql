@@ -7,14 +7,16 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 
 /**
  * @internal
  */
-class SearchResolver
+final class SearchResolver
 {
     /**
      * @var SearchService
@@ -31,9 +33,15 @@ class SearchResolver
      */
     private $contentLoader;
 
-    public function __construct(ContentLoader $contentLoader, SearchService $searchService, SearchQueryMapper $queryMapper)
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader
+     */
+    private $locationLoader;
+
+    public function __construct(ContentLoader $contentLoader, LocationLoader $locationLoader, SearchService $searchService, SearchQueryMapper $queryMapper)
     {
         $this->contentLoader = $contentLoader;
+        $this->locationLoader = $locationLoader;
         $this->searchService = $searchService;
         $this->queryMapper = $queryMapper;
     }
@@ -63,6 +71,28 @@ class SearchResolver
             $args,
             function () use ($query) {
                 return $this->contentLoader->count($query);
+            }
+        );
+    }
+
+    public function searchLocationsOfTypeAsConnection($contentTypeIdentifier, $args)
+    {
+        $query = $args['query'] ?: [];
+        $query['ContentTypeIdentifier'] = $contentTypeIdentifier;
+        $query['sortBy'] = $args['sortBy'];
+        $query = $this->queryMapper->mapInputToLocationQuery($query);
+
+        $paginator = new Paginator(function ($offset, $limit) use ($query) {
+            $query->offset = $offset;
+            $query->limit = $limit ?? 10;
+
+            return $this->locationLoader->find($query);
+        });
+
+        return $paginator->auto(
+            $args,
+            function () use ($query) {
+                return $this->locationLoader->count($query);
             }
         );
     }
