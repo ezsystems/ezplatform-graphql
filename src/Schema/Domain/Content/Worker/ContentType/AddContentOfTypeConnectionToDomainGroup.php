@@ -39,6 +39,11 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
         ));
 
         $schema->addArgToField($this->groupName($args), $this->connectionField($args), new Input\Arg(
+            'aggregations', '[AggregationInput]',
+            ['description' => 'Aggregations']
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->connectionField($args), new Input\Arg(
             'sortBy', '[SortByOptions]',
             ['description' => 'A Sort Clause, or array of Clauses. Add _desc after a Clause to reverse it']
         ));

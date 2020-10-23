@@ -88,6 +88,10 @@ class SearchQueryMapper
             $query->sortClauses = array_filter($query->sortClauses);
         }
 
+        if (isset($inputArray['aggregations'])) {
+            $query->aggregations = $this->mapAggregations($inputArray['aggregations']);
+        }
+
         if (count($criteria) === 0) {
             return $query;
         }
@@ -97,6 +101,12 @@ class SearchQueryMapper
         }
 
         return $query;
+    }
+
+    private function mapAggregations(array $input): array
+    {
+        /* TODO: Map aggregations */
+        return [];
     }
 
     /**

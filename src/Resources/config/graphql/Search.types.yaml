@@ -107,3 +107,52 @@ SortByOptions:
             _desc:
                 value: 'descending'
                 description: "Reverse the previous sorting option"
+
+AggregationInput:
+    type: "input-object"
+    config:
+        fields:
+            ContentTypeGroupTermAggregation:
+                type: "[ContentTypeGroupTermAggregation]"
+            ContentTypeTermAggregation:
+                type: "[ContentTypeTermAggregation]"
+            LanguageTermAggregation:
+                type: "[LanguageTermAggregation]"
+            IntegerStatsAggregation:
+                type: "[IntegerStatsAggregation]"
+
+ContentTypeGroupTermAggregation:
+    type: "input-object"
+    config:
+        fields:
+            name:
+                type: "String!"
+                description: "Aggregation name"
+
+ContentTypeTermAggregation:
+    type: "input-object"
+    config:
+        fields:
+            name:
+                type: "String!"
+                description: "Aggregation name"
+
+LanguageTermAggregation:
+    type: "input-object"
+    config:
+        fields:
+            name:
+                type: "String!"
+                description: "Aggregation name"
+
+IntegerStatsAggregation:
+    type: "input-object"
+    config:
+        fields:
+            name:
+                type: "String!"
+                description: "Aggregation name"
+            contentTypeIdentifier:
+                type: "String"
+            fieldDefinitionIdentifier:
+                type: "String"
