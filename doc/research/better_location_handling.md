@@ -29,3 +29,12 @@ Is it likely ? Multiple locations in the same tree would most likely be used to 
 - Do we introduce a custom value object used when loading domain items, a composition of content + location ?
   - Or is the location dynamically determined based on... some context ?
   - That custom value object could just be `Location`, since it always refer to a content item.
+  
+## Backward compatibility
+The main BC change is with collections: the items returned by the same GraphQL query may differ after this change.
+The easiest way to cover it would be to make the new resolver's tags optional, as an opt-in mechanism for the 2.x
+release of ezplatform-graphql.
+
+What could the new resolver be like ?
+- `LocationCollectionResolver`
+  But does it only handle collections ? It also handles fields values.
