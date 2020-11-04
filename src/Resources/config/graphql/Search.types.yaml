@@ -104,6 +104,9 @@ SortByOptions:
             _sectionName:
                 value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionName'
                 description: "Sort by section name"
+            _score:
+                value: '\eZ\Publish\API\Repository\Values\Content\Query\SortClause\Score'
+                description: "Sort by score"
             _desc:
                 value: 'descending'
                 description: "Reverse the previous sorting option"
