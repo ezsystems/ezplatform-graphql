@@ -15,7 +15,8 @@ use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 
 /**
- * Builds the base query used to retrieve collections.
+ * Builds the base query used to retrieve locations collections.
+ *
  * @internal
  */
 class ContentCollectionFilterBuilder
@@ -44,12 +45,12 @@ class ContentCollectionFilterBuilder
         $treeRootLocationId = $this->configResolver->getParameter('content.tree_root.location_id');
         $rootLocation = $this->repository->getLocationService()->loadLocation($treeRootLocationId);
 
-        $includedSubtrees = [$rootLocation->pathString];
+        $includedSubtrees = [$rootLocation->pathString ?? '/'];
 
         foreach ($this->configResolver->getParameter('content.tree_root.excluded_uri_prefixes') as $uriPrefix) {
             $urlAlias = $this->repository->getURLAliasService()->lookup($uriPrefix);
             if ($urlAlias->type === URLAlias::LOCATION) {
-                $includedSubtrees[] = $this->repository->getLocationService()->loadLocation($urlAlias->destination);
+                $includedSubtrees[] = $this->repository->getLocationService()->loadLocation($urlAlias->destination)->pathString;
             }
         }
 

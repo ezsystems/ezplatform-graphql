@@ -69,7 +69,7 @@ AbstractDomainContent:
             _url:
                 description: "The content item's url alias, based on the main location."
                 type: String
-                resolve: "@=resolver('MainUrlAlias', [value])"
+                resolve: "@=resolver('LocationUrlAlias', [value])"
             _thumbnail:
                 type: Thumbnail
                 resolve: "@=resolver('ContentThumbnail', [value])"

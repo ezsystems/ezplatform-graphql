@@ -88,6 +88,7 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "UrlAliasType", method: "resolveUrlAliasType" }
             - { name: overblog_graphql.resolver, alias: "LocationUrlAliases", method: "resolveLocationUrlAliases" }
+            - { name: overblog_graphql.resolver, alias: "LocationUrlAlias", method: "resolveLocationUrlAlias" }
         arguments:
             $urlAliasService: '@ezpublish.siteaccessaware.service.url_alias'
 
