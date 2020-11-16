@@ -11,7 +11,6 @@ use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\Core\FieldType;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
@@ -149,7 +148,6 @@ class DomainContentResolver
             return null;
         }
         $path = $urlAliases[0]->path;
-
     }
 
     public function resolveDomainFieldValue(Location $location, $fieldDefinitionIdentifier)
