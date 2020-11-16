@@ -73,10 +73,11 @@ class TreeRootLocationGuesser implements LocationGuesser
      * @param \eZ\Publish\API\Repository\Values\Content\Location $location
      *
      * @return bool
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
-        private function locationIsInTreeRoot(Location $location): bool
+    private function locationIsInTreeRoot(Location $location): bool
     {
         static $rootLocations = [];
 
@@ -94,6 +95,7 @@ class TreeRootLocationGuesser implements LocationGuesser
      * @param \eZ\Publish\API\Repository\Values\Content\Location $candidateLocation
      *
      * @return bool
+     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
      */
