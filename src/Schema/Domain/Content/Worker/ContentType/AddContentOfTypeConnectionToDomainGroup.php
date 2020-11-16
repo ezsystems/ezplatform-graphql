@@ -17,15 +17,16 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
 {
     /**
      * Wether to use locations instead of content.
+     *
      * @var bool
      */
     private $useLocations;
 
     public function __construct($useLocations = false)
     {
-
         $this->useLocations = $useLocations;
     }
+
     public function work(Builder $schema, array $args)
     {
         $contentType = $args['ContentType'];
