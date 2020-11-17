@@ -37,7 +37,10 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
             $this->connectionType($args),
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => $this->getResolver($contentType),
+                'resolve' => sprintf(
+                    '@=resolver("SearchItemsOfTypeAsConnection", ["%s", args])',
+                    $contentType->identifier
+                ),
                 'argsBuilder' => 'Relay::Connection',
             ]
         ));
@@ -75,31 +78,11 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
 
     protected function connectionType(array $args): string
     {
-        return $this->getNameHelper()->domainContentConnection($args['ContentType']);
+        return $this->getNameHelper()->itemConnection($args['ContentType']);
     }
 
     protected function typeName($args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
-    }
-
-    /**
-     * @param $contentType
-     *
-     * @return string
-     */
-    private function getResolver($contentType): string
-    {
-        if ($this->useLocations) {
-            return sprintf(
-                '@=resolver("SearchContentOfTypeAsConnection", ["%s", args])',
-                $contentType->identifier
-            );
-        } else {
-            return sprintf(
-                '@=resolver("SearchLocationsOfTypeAsConnection", ["%s", args])',
-                $contentType->identifier
-            );
-        }
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }

@@ -17,6 +17,7 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
@@ -123,6 +124,45 @@ class DomainContentResolver
     }
 
     /**
+     * Resolves a domain content item by id, and checks that it is of the requested type.
+     *
+     * @param \Overblog\GraphQLBundle\Definition\Argument|array $args
+     * @param string|null $contentTypeIdentifier
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     *
+     * @throws \GraphQL\Error\UserError if $contentTypeIdentifier was specified, and the loaded item's type didn't match it
+     * @throws \GraphQL\Error\UserError if no argument was provided
+     */
+    public function resolveItem($args, $contentTypeIdentifier): Item
+    {
+        if (isset($args['id'])) {
+            $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['id']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
+        } elseif (isset($args['contentId'])) {
+            $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['contentId']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
+        } elseif (isset($args['remoteId'])) {
+            $content = $this->contentLoader->findSingle(new Query\Criterion\RemoteId($args['remoteId']));
+            $location = $this->locationGuesser->guessLocation($content)->location;
+        } elseif (isset($args['locationId'])) {
+            $location = $this->locationLoader->findById($args['locationId']);
+        } elseif (isset($args['locationRemoteId'])) {
+            $location = $this->locationLoader->findByRemoteId($args['locationRemoteId']);
+        } else {
+            throw new UserError('Missing required argument id, remoteId or locationId');
+        }
+
+        $contentType = $location->getContentInfo()->getContentType();
+
+        if (null !== $contentTypeIdentifier && $contentType->identifier !== $contentTypeIdentifier) {
+            throw new UserError("Content {$location->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
+        }
+
+        return new Item($location);
+    }
+
+    /**
      * @param string $contentTypeIdentifier
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content[]
@@ -150,9 +190,9 @@ class DomainContentResolver
         $path = $urlAliases[0]->path;
     }
 
-    public function resolveDomainFieldValue(Location $location, $fieldDefinitionIdentifier)
+    public function resolveDomainFieldValue(Item $item, $fieldDefinitionIdentifier)
     {
-        return Field::fromField($location->getContent()->getField($fieldDefinitionIdentifier));
+        return Field::fromField($item->getContent()->getField($fieldDefinitionIdentifier));
     }
 
     public function resolveDomainRelationFieldValue(Field $field, $multiple = false)

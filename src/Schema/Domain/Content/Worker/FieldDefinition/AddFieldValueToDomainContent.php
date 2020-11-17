@@ -61,7 +61,7 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     protected function typeName(array $args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 
     protected function fieldName($args): string

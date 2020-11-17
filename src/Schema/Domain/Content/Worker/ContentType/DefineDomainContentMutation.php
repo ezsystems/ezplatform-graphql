@@ -33,7 +33,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
         $schema->addFieldToType(self::MUTATION_TYPE,
             new Builder\Input\Field(
                 $this->getCreateField($contentType),
-                $this->getNameHelper()->domainContentName($contentType) . '!',
+                $this->getNameHelper()->itemName($contentType) . '!',
                 [
                     'resolve' => sprintf(
                         '@=mutation("CreateDomainContent", [args["input"], "%s", args["parentLocationId"], args["language"]])',
@@ -67,7 +67,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
             self::MUTATION_TYPE,
             new Builder\Input\Field(
                 $this->getUpdateField($contentType),
-                $this->getNameHelper()->domainContentName($contentType) . '!',
+                $this->getNameHelper()->itemName($contentType) . '!',
                 ['resolve' => '@=mutation("UpdateDomainContent", [args["input"], args, args["versionNo"], args["language"]])']
             )
         );

@@ -33,9 +33,19 @@ class NameHelper
         return ucfirst($this->toCamelCase($contentType->identifier)) . 'Content';
     }
 
+    public function itemName(ContentType $contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'Item';
+    }
+
     public function domainContentConnection($contentType)
     {
         return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentConnection';
+    }
+
+    public function itemConnection($contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ItemConnection';
     }
 
     public function domainContentCreateInputName(ContentType $contentType)

@@ -46,7 +46,7 @@ class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper impl
                 $contentType = $this->contentTypeService->loadContentTypeByIdentifier(
                     $settings['selectionContentTypes'][0]
                 );
-                $type = $this->nameHelper->domainContentName($contentType);
+                $type = $this->nameHelper->itemName($contentType);
             } catch (NotFoundException $e) {
                 // Nothing to do
             }

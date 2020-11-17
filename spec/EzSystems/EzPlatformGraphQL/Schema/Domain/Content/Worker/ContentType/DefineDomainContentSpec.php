@@ -4,7 +4,7 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentT
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineDomainContent;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineItem;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\TypeArgument;
 use Prophecy\Argument;
@@ -24,7 +24,7 @@ class DefineDomainContentSpec extends ContentTypeWorkerBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(DefineDomainContent::class);
+        $this->shouldHaveType(DefineItem::class);
     }
 
     function it_can_not_work_if_args_do_not_include_a_ContentTypeGroup(SchemaBuilder $schema)

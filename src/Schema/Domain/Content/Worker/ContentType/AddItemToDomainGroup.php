@@ -13,7 +13,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddDomainContentToDomainGroup extends BaseWorker implements Worker
+class AddItemToDomainGroup extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
@@ -24,7 +24,7 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
             $this->typeField($args), $this->typeName($args),
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => sprintf('@=resolver("DomainContentItem", [args, "%s"])', $contentType->identifier),
+                'resolve' => sprintf('@=resolver("Item", [args, "%s"])', $contentType->identifier),
             ]
         ));
 
@@ -66,6 +66,6 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
 
     protected function typeName($args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }

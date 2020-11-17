@@ -54,6 +54,7 @@ AbstractDomainContent:
                 description: 'Underlying content info item'
                 type: Content
                 resolve: '@=value.contentInfo'
+                deprecationReason: "Renamed to _info"
             _location:
                 description: 'Main location'
                 type: Location
@@ -73,6 +74,70 @@ AbstractDomainContent:
             _thumbnail:
                 type: Thumbnail
                 resolve: "@=resolver('ContentThumbnail', [value])"
+Item:
+    type: "interface"
+    config:
+        fields:
+            _contentInfo:
+                description: "Item's content info"
+                type: Content
+            _type:
+                description: "Item's content type"
+                type: ContentType
+            _location:
+                description: "The content's main location"
+                type: Location
+            _allLocations:
+                description: "All the content's locations"
+                type: "[Location]"
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
+            _url:
+                description: "The content item's url alias, based on the main location."
+                type: String
+            _thumbnail:
+                type: Thumbnail
+        resolveType: "@=resolver('DomainContentType', [value])"
+
+AbstractItem:
+    type: "object"
+    config:
+        fields:
+            id:
+                type: "ID!"
+                builder: Relay::GlobalId
+                builderConfig:
+                    typeName: DomainContent
+                description: "The Content item's unique ID."
+            _type:
+                description: "The item's Content type"
+                type: ContentType
+                resolve: '@=resolver("ContentTypeById", [value.getContentInfo().contentTypeId])'
+            _contentInfo:
+                description: 'Underlying content info item'
+                type: Content
+                resolve: '@=value.getContentInfo()'
+                deprecationReason: "Renamed to _info"
+            _location:
+                description: 'Main location'
+                type: Location
+                resolve: '@=value.getLocation()'
+            _allLocations:
+                description: 'All the locations'
+                type: '[Location]'
+                resolve: '@=resolver("LocationsByContentId", [value.getContentInfo().id])'
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
+                resolve: "@=value.getContent().getName()"
+            _url:
+                description: "The content item's url alias, based on the main location."
+                type: String
+                resolve: "@=resolver('LocationUrlAlias', [value.getLocation()])"
+            _thumbnail:
+                type: Thumbnail
+                resolve: "@=resolver('ContentThumbnail', [value.getContent()])"
 
 UntypedContent:
     type: object

@@ -12,15 +12,15 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class DefineDomainContent extends BaseWorker implements Worker
+class DefineItem extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
         $schema->addType(new Input\Type(
             $this->typeName($args), 'object',
             [
-                'inherits' => 'AbstractDomainContent',
-                'interfaces' => ['DomainContent', 'Node'],
+                'inherits' => 'AbstractItem',
+                'interfaces' => ['Item', 'Node'],
             ]
         ));
     }
@@ -35,6 +35,6 @@ class DefineDomainContent extends BaseWorker implements Worker
 
     protected function typeName(array $args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }
