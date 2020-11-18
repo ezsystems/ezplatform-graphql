@@ -29,7 +29,7 @@ class AddItemToDomainGroup extends BaseWorker implements Worker
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
-            'id', 'Int',
+            'contentId', 'Int',
             ['description' => sprintf('Content ID of the %s', $contentType->identifier)]
         ));
 
