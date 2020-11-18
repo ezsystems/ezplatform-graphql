@@ -98,6 +98,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "SearchContent", method: "searchContent" }
             - { name: overblog_graphql.resolver, alias: "SearchContentOfTypeAsConnection", method: "searchContentOfTypeAsConnection" }
             - { name: overblog_graphql.resolver, alias: "SearchLocationsOfTypeAsConnection", method: "searchLocationsOfTypeAsConnection" }
+            - { name: overblog_graphql.resolver, alias: "SearchItemsOfTypeAsConnection", method: "searchItemsOfTypeAsConnection" }
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
 
