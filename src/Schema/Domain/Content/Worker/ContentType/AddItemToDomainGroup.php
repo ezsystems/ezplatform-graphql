@@ -42,6 +42,11 @@ class AddItemToDomainGroup extends BaseWorker implements Worker
             'locationId', 'Int',
             ['description' => sprintf('Location ID of the %s', $contentType->identifier)]
         ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'urlAlias', 'String',
+            ['description' => sprintf('URL alias of the %s', $contentType->identifier)]
+        ));
     }
 
     public function canWork(Builder $schema, array $args)

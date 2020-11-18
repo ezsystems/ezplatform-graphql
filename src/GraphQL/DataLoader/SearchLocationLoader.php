@@ -127,7 +127,9 @@ class SearchLocationLoader implements LocationLoader
             $pathPrefix !== '/'
         ) {
             $urlAlias = $pathPrefix . $pathinfo;
+        } else {
+            $urlAlias = $pathinfo;
         }
 
-        return $this->urlAliasService->lookup($pathPrefix . $pathinfo);
+        return $this->urlAliasService->lookup($urlAlias);
     }}

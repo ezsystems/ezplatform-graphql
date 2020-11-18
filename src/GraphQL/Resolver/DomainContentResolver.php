@@ -149,6 +149,8 @@ class DomainContentResolver
             $location = $this->locationLoader->findById($args['locationId']);
         } elseif (isset($args['locationRemoteId'])) {
             $location = $this->locationLoader->findByRemoteId($args['locationRemoteId']);
+        } elseif (isset($args['urlAlias'])) {
+            $location = $this->locationLoader->findByUrlAlias($args['urlAlias']);
         } else {
             throw new UserError('Missing required argument id, remoteId or locationId');
         }
