@@ -118,7 +118,6 @@ AbstractItem:
                 description: 'Underlying content info item'
                 type: Content
                 resolve: '@=value.getContentInfo()'
-                deprecationReason: "Renamed to _info"
             _location:
                 description: 'Main location'
                 type: Location
