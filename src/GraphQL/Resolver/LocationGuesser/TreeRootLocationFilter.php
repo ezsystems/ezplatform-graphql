@@ -14,15 +14,14 @@ use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use EzSystems\EzPlatformGraphQL\Exception\MultiplePossibleLocationsException;
+use EzSystems\EzPlatformGraphQL\Exception\MultipleValidLocationsException;
 use EzSystems\EzPlatformGraphQL\Exception\NoValidLocationFoundException;
 
 /**
- * Selects a Location based on the tree root site settings.
- *
- * Accepts locations that are within the site root or one of the excluded paths.
+ * Filters a Location based on the tree root site settings.
+ * Only locations that are within the site root or one of the excluded paths are kept.
  */
-class TreeRootLocationGuesser implements LocationGuesser
+class TreeRootLocationFilter implements LocationFilter
 {
     /**
      * @var \eZ\Publish\API\Repository\LocationService
@@ -46,25 +45,13 @@ class TreeRootLocationGuesser implements LocationGuesser
         $this->urlAliasService = $urlAliasService;
     }
 
-    public function guessLocation(Content $content): LocationGuess
+    public function filter(Content $content, LocationList $locationList): void
     {
-        $locations = $this->locationService->loadLocations($content->contentInfo);
-        $validLocations = [];
-        foreach ($locations as $candidateLocation) {
-            if (!$this->locationPrefixIsExcluded($candidateLocation) && !$this->locationIsInTreeRoot($candidateLocation)) {
-                continue;
+        foreach ($locationList->getLocations() as $location) {
+            if (!$this->locationIsInTreeRoot($location) && !$this->locationPrefixIsExcluded($location)) {
+                $locationList->filter($location);
             }
-
-            $validLocations[] = $candidateLocation;
         }
-
-        if (count($validLocations) === 0) {
-            throw new NoValidLocationFoundException($content);
-        } elseif (count($validLocations) > 1) {
-            throw new MultiplePossibleLocationsException($validLocations);
-        }
-
-        return new LocationGuess($validLocations[0]);
     }
 
     /**

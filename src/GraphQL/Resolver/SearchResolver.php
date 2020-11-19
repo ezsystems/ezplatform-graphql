@@ -7,10 +7,12 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use eZ\Publish\API\Repository\SearchService;
+use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
@@ -39,13 +41,23 @@ final class SearchResolver
      * @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader
      */
     private $locationLoader;
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory
+     */
+    private $itemFactory;
 
-    public function __construct(ContentLoader $contentLoader, LocationLoader $locationLoader, SearchService $searchService, SearchQueryMapper $queryMapper)
+    public function __construct(
+        ContentLoader $contentLoader,
+        LocationLoader $locationLoader,
+        SearchService $searchService,
+        SearchQueryMapper $queryMapper,
+        ItemFactory $itemFactory)
     {
         $this->contentLoader = $contentLoader;
         $this->locationLoader = $locationLoader;
         $this->searchService = $searchService;
         $this->queryMapper = $queryMapper;
+        $this->itemFactory = $itemFactory;
     }
 
     public function searchContent($args)
@@ -111,17 +123,17 @@ final class SearchResolver
             $query->limit = $limit ?? 10;
 
             return array_map(
-                function(Location $location) {
-                    return new Item($location);
+                function(Content $content) {
+                    return $this->itemFactory->fromContent($content);
                 },
-                $this->locationLoader->find($query)
+                $this->contentLoader->find($query)
             );
         });
 
         return $paginator->auto(
             $args,
             function () use ($query) {
-                return $this->locationLoader->count($query);
+                return $this->contentLoader->count($query);
             }
         );
     }

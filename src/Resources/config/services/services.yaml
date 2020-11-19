@@ -13,6 +13,15 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\:
         resource: '../../GraphQL/InputMapper'
 
-    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationGuesser: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationFilter: ~
 
-    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser: '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationGuesser'
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\MainLocationFilter: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser:
+        class: 'EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\FilterLocationGuesser'
+        arguments:
+            $filters:
+                - '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationFilter'
+                - '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\MainLocationFilter'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory: ~

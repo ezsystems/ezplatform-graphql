@@ -15,6 +15,7 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
@@ -59,7 +60,12 @@ class DomainContentResolver
     /**
      * @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser
      */
+
     private $locationGuesser;
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory
+     */
+    private $itemFactory;
 
     public function __construct(
         Repository $repository,
@@ -68,7 +74,8 @@ class DomainContentResolver
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader,
         LocationLoader $locationLoader,
-        LocationGuesser $locationGuesser
+        LocationGuesser $locationGuesser,
+        ItemFactory $itemFactory
     ) {
         $this->repository = $repository;
         $this->typeResolver = $typeResolver;
@@ -77,6 +84,7 @@ class DomainContentResolver
         $this->contentTypeLoader = $contentTypeLoader;
         $this->locationLoader = $locationLoader;
         $this->locationGuesser = $locationGuesser;
+        $this->itemFactory = $itemFactory;
     }
 
     public function resolveDomainContentItems($contentTypeIdentifier, $query = null)
@@ -138,13 +146,10 @@ class DomainContentResolver
     {
         if (isset($args['id'])) {
             $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['id']));
-            $location = $this->locationGuesser->guessLocation($content)->location;
         } elseif (isset($args['contentId'])) {
             $content = $this->contentLoader->findSingle(new Query\Criterion\ContentId($args['contentId']));
-            $location = $this->locationGuesser->guessLocation($content)->location;
         } elseif (isset($args['remoteId'])) {
             $content = $this->contentLoader->findSingle(new Query\Criterion\RemoteId($args['remoteId']));
-            $location = $this->locationGuesser->guessLocation($content)->location;
         } elseif (isset($args['locationId'])) {
             $location = $this->locationLoader->findById($args['locationId']);
         } elseif (isset($args['locationRemoteId'])) {
@@ -155,13 +160,21 @@ class DomainContentResolver
             throw new UserError('Missing required argument id, remoteId or locationId');
         }
 
-        $contentType = $location->getContentInfo()->getContentType();
-
-        if (null !== $contentTypeIdentifier && $contentType->identifier !== $contentTypeIdentifier) {
-            throw new UserError("Content {$location->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
+        if (isset($content)) {
+            $item = $this->itemFactory->fromContent($content);
+        } else if (isset($location)) {
+            $item = $this->itemFactory->fromLocation($location);
+        } else {
+            throw new \Exception("One of 'location' or 'content' must be defined");
         }
 
-        return new Item($location);
+        $contentType = $item->getContentInfo()->getContentType();
+
+        if (null !== $contentTypeIdentifier && $contentType->identifier !== $contentTypeIdentifier) {
+            throw new UserError("Content {$item->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
+        }
+
+        return $item;
     }
 
     /**

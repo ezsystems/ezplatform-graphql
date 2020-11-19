@@ -9,6 +9,8 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Value;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Location;
+use eZ\Publish\Core\Base\Exceptions\BadStateException;
+use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 
 /**
  * A DXP item, combination of a Content and Location
@@ -21,9 +23,18 @@ class Item
     /** @var \eZ\Publish\API\Repository\Values\Content\Location */
     private $location;
 
-    public function __construct(Location $location)
+    /** @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser */
+    private $locationGuesser;
+
+    public function __construct(LocationGuesser $locationGuesser, ?Location $location = null, ?Content $content = null)
     {
+        if ($location === null && $content === null) {
+            // @todo find a better exception
+            throw new \Exception("Constructing an item requires one of location or content");
+        }
         $this->location = $location;
+        $this->content = $content;
+        $this->locationGuesser = $locationGuesser;
     }
 
     public function getContent(): Content
@@ -37,6 +48,10 @@ class Item
 
     public function getLocation(): Location
     {
+        if ($this->location === null) {
+            $this->location = $this->locationGuesser->guessLocation($this->content)->getLocation();
+        }
+
         return $this->location;
     }
 
