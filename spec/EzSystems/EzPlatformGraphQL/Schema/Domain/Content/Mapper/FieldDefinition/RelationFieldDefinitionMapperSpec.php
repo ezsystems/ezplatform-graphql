@@ -25,8 +25,8 @@ class RelationFieldDefinitionMapperSpec extends ObjectBehavior
         $contentTypeService->loadContentTypeByIdentifier('article')->willReturn($articleContentType);
         $contentTypeService->loadContentTypeByIdentifier('folder')->willReturn($folderContentType);
 
-        $nameHelper->domainContentName($articleContentType)->willReturn('ArticleContent');
-        $nameHelper->domainContentName($folderContentType)->willReturn('FolderContent');
+        $nameHelper->itemName($articleContentType)->willReturn('ArticleItem');
+        $nameHelper->itemName($folderContentType)->willReturn('FolderItem');
     }
 
     function it_is_initializable()
@@ -38,37 +38,37 @@ class RelationFieldDefinitionMapperSpec extends ObjectBehavior
     function it_maps_single_selection_without_type_limitations_to_a_single_generic_content()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_SINGLE, []);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('DomainContent');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('Item');
     }
 
     function it_maps_single_selection_with_multiple_type_limitations_to_a_single_generic_content()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_SINGLE, ['article', 'blog_post']);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('DomainContent');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('Item');
     }
 
     function it_maps_single_selection_with_a_unique_type_limitations_to_a_single_item_of_that_type()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_SINGLE, ['article']);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('ArticleContent');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('ArticleItem');
     }
 
     function it_maps_multi_selection_without_type_limitations_to_an_array_of_generic_content()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_MULTI, []);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[DomainContent]');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[Item]');
     }
 
     function it_maps_multi_selection_with_multiple_type_limitations_to_an_array_of_generic_content()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_NONE, ['article', 'blog_post']);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[DomainContent]');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[Item]');
     }
 
     function it_maps_multi_selection_with_a_unique_type_limitations_to_an_array_of_that_type()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_MULTI, ['article']);
-        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[ArticleContent]');
+        $this->mapToFieldValueType($fieldDefinition)->shouldReturn('[ArticleItem]');
     }
 
     function it_delegates_the_field_definition_type_to_the_inner_mapper(FieldDefinitionMapper $innerMapper)

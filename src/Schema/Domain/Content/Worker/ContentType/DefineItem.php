@@ -12,33 +12,29 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class DefineDomainContentConnection extends BaseWorker implements Worker
+class DefineItem extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
         $schema->addType(new Input\Type(
-            $this->connectionTypeName($args),
-            'relay-connection',
+            $this->typeName($args), 'object',
             [
-                'inherits' => 'DomainContentByIdentifierConnection',
-                'nodeType' => $this->typeName($args),
+                'inherits' => 'AbstractItem',
+                'interfaces' => ['Item', 'Node'],
             ]
         ));
     }
 
     public function canWork(Builder $schema, array $args)
     {
-        return isset($args['ContentType']) && $args['ContentType'] instanceof ContentType
-               && !$schema->hasType($this->connectionTypeName($args));
+        return
+            isset($args['ContentType'])
+            && $args['ContentType'] instanceof ContentType
+            && !$schema->hasType($this->typeName($args));
     }
 
-    protected function connectionTypeName(array $args): string
+    protected function typeName(array $args): string
     {
-        return $this->getNameHelper()->domainContentConnection($args['ContentType']);
-    }
-
-    protected function typeName($args): string
-    {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }

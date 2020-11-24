@@ -12,9 +12,9 @@ use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Initializer;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class DefineDomainContentMutation extends BaseWorker implements Worker, Initializer
+class DefineItemMutation extends BaseWorker implements Worker, Initializer
 {
-    const MUTATION_TYPE = 'DomainContentMutation';
+    const MUTATION_TYPE = 'ItemMutation';
 
     public function init(Builder $schema)
     {
@@ -33,7 +33,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
         $schema->addFieldToType(self::MUTATION_TYPE,
             new Builder\Input\Field(
                 $this->getCreateField($contentType),
-                $this->getNameHelper()->domainContentName($contentType) . '!',
+                $this->getNameHelper()->itemName($contentType) . '!',
                 [
                     'resolve' => sprintf(
                         '@=mutation("CreateDomainContent", [args["input"], "%s", args["parentLocationId"], args["language"]])',
@@ -67,7 +67,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
             self::MUTATION_TYPE,
             new Builder\Input\Field(
                 $this->getUpdateField($contentType),
-                $this->getNameHelper()->domainContentName($contentType) . '!',
+                $this->getNameHelper()->itemName($contentType) . '!',
                 ['resolve' => '@=mutation("UpdateDomainContent", [args["input"], args, args["versionNo"], args["language"]])']
             )
         );
@@ -118,7 +118,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
      */
     protected function getCreateInputName($contentType): string
     {
-        return $this->getNameHelper()->domainContentCreateInputName($contentType);
+        return $this->getNameHelper()->itemCreateInputName($contentType);
     }
 
     /**
@@ -126,7 +126,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
      */
     protected function getUpdateInputName($contentType): string
     {
-        return $this->getNameHelper()->domainContentUpdateInputName($contentType);
+        return $this->getNameHelper()->itemUpdateInputName($contentType);
     }
 
     /**
@@ -134,7 +134,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
      */
     protected function getCreateField($contentType): string
     {
-        return $this->getNameHelper()->domainMutationCreateContentField($contentType);
+        return $this->getNameHelper()->itemMutationCreateItemField($contentType);
     }
 
     /**
@@ -142,7 +142,7 @@ class DefineDomainContentMutation extends BaseWorker implements Worker, Initiali
      */
     protected function getUpdateField($contentType): string
     {
-        return $this->getNameHelper()->domainMutationUpdateContentField($contentType);
+        return $this->getNameHelper()->itemMutationUpdateItemField($contentType);
     }
 
     private function buildLanguageFieldInput(): Builder\Input\Arg

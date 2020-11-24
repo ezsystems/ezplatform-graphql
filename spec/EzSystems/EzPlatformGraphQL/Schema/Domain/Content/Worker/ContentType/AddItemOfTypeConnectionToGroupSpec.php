@@ -4,8 +4,7 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentT
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddContentOfTypeConnectionToDomainGroup;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddDomainContentCollectionToDomainGroup;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemOfTypeConnectionToGroup;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeGroupArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\FieldArgArgument;
@@ -13,32 +12,32 @@ use spec\EzSystems\EzPlatformGraphQL\Tools\FieldArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\TypeArgument;
 use Prophecy\Argument;
 
-class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehavior
+class AddItemOfTypeConnectionToGroupSpec extends ContentTypeWorkerBehavior
 {
-    const GROUP_TYPE = 'DomainGroupTestGroup';
-    const TYPE_TYPE = 'TestTypeContentConnection';
-    const COLLECTION_FIELD = 'testTypes';
+    const GROUP_TYPE = 'ItemTestGroup';
+    const TYPE_TYPE = 'TestItemConnection';
+    const CONNECTION_FIELD = 'testTypes';
 
     function let(NameHelper $nameHelper)
     {
         $this->setNameHelper($nameHelper);
 
         $nameHelper
-            ->domainGroupName(ContentTypeGroupArgument::withIdentifier(self::GROUP_IDENTIFIER))
+            ->itemGroupName(ContentTypeGroupArgument::withIdentifier(self::GROUP_IDENTIFIER))
             ->willReturn(self::GROUP_TYPE);
 
         $nameHelper
-            ->domainContentCollectionField(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
-            ->willReturn(self::COLLECTION_FIELD);
+            ->itemConnectionField(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
+            ->willReturn(self::CONNECTION_FIELD);
 
         $nameHelper
-            ->domainContentConnection(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
+            ->itemConnectionName(ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER))
             ->willReturn(self::TYPE_TYPE);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AddContentOfTypeConnectionToDomainGroup::class);
+        $this->shouldHaveType(AddItemOfTypeConnectionToGroup::class);
     }
 
     function it_can_not_work_if_args_do_not_include_a_ContentTypeGroup(SchemaBuilder $schema)
@@ -55,7 +54,7 @@ class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehav
 
     function it_can_not_work_if_the_collection_field_is_already_set(SchemaBuilder $schema)
     {
-        $schema->hasTypeWithField(self::GROUP_TYPE, self::COLLECTION_FIELD)->willReturn(true);
+        $schema->hasTypeWithField(self::GROUP_TYPE, self::CONNECTION_FIELD)->willReturn(true);
         $this->canWork($schema, $this->args())->shouldBe(false);
     }
 
@@ -65,7 +64,7 @@ class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehav
             ->addFieldToType(
                 self::GROUP_TYPE,
                 Argument::allOf(
-                    FieldArgument::hasName(self::COLLECTION_FIELD),
+                    FieldArgument::hasName(self::CONNECTION_FIELD),
                     FieldArgument::hasType(self::TYPE_TYPE),
                     FieldArgument::hasDescription(self::TYPE_DESCRIPTION),
                     FieldArgument::withResolver('SearchContentOfTypeAsConnection')
@@ -76,7 +75,7 @@ class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehav
         $schema
             ->addArgToField(
                 self::GROUP_TYPE,
-                self::COLLECTION_FIELD,
+                self::CONNECTION_FIELD,
                 Argument::allOf(
                     FieldArgArgument::withName('query'),
                     FieldArgArgument::withType('ContentSearchQuery')
@@ -87,7 +86,7 @@ class AddContentOfTypeConnectionToDomainGroupSpec extends ContentTypeWorkerBehav
         $schema
             ->addArgToField(
                 self::GROUP_TYPE,
-                self::COLLECTION_FIELD,
+                self::CONNECTION_FIELD,
                 Argument::allOf(
                     FieldArgArgument::withName('sortBy'),
                     FieldArgArgument::withType('[SortByOptions]')

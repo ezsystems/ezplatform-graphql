@@ -4,17 +4,17 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDef
 
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToDomainContentType;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToItemType;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use spec\EzSystems\EzPlatformGraphQL\Tools\FieldArgument;
 use eZ\Publish\Core\Repository\Values\ContentType;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
+class AddFieldDefinitionToItemTypeSpec extends ObjectBehavior
 {
     const TYPE_IDENTIFIER = 'test';
-    const TYPE_NAME = 'TestContent';
+    const TYPE_NAME = 'TestItemType';
     const FIELD_IDENTIFIER = 'test_field';
     const FIELD_NAME = 'testField';
     const FIELD_DESCRIPTION = ['eng-GB' => 'Description'];
@@ -36,7 +36,7 @@ class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
         $this->beConstructedWith($mapper);
 
         $nameHelper
-            ->domainContentTypeName(
+            ->itemtypeName(
                 Argument::type(ContentType\ContentType::class)
             )
             ->willReturn(self::TYPE_NAME);
@@ -52,7 +52,7 @@ class AddFieldDefinitionToDomainContentTypeSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AddFieldDefinitionToDomainContentType::class);
+        $this->shouldHaveType(AddFieldDefinitionToItemType::class);
     }
 
     function it_adds_the_field_definition_to_the_domain_content_type(Builder $schema)

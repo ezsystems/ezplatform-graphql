@@ -17,6 +17,6 @@ class NameHelperSpec extends ObjectBehavior
     function it_removes_special_characters_from_ContentTypeGroup_identifier()
     {
         $contentTypeGroup = new ContentTypeGroup(['identifier' => 'Name with-hyphen']);
-        $this->domainGroupName($contentTypeGroup)->shouldBe('DomainGroupNameWithHyphen');
+        $this->itemGroupName($contentTypeGroup)->shouldBe('ItemGroupNameWithHyphen');
     }
 }

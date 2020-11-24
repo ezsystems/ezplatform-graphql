@@ -16,7 +16,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Worker;
 /**
  * Adds a content type to the content type identifiers list (ContentTypeIdentifier).
  */
-class AddContentTypeToContentTypeIdentifierList extends BaseWorker implements Worker, Initializer
+class AddItemTypeToItemTypeIdentifierList extends BaseWorker implements Worker, Initializer
 {
     const TYPE = 'ContentTypeIdentifier';
 

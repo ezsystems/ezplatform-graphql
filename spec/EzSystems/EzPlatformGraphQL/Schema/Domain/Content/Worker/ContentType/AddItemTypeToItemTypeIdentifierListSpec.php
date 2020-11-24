@@ -4,11 +4,11 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentT
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddContentTypeToContentTypeIdentifierList;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemTypeToItemTypeIdentifierList;
 use spec\EzSystems\EzPlatformGraphQL\Tools\EnumValueArgument;
 use Prophecy\Argument;
 
-class AddContentTypeToContentTypeIdentifierListSpec extends ContentTypeWorkerBehavior
+class AddItemTypeToItemTypeIdentifierListSpec extends ContentTypeWorkerBehavior
 {
     const ENUM_TYPE = 'ContentTypeIdentifier';
 
@@ -19,7 +19,7 @@ class AddContentTypeToContentTypeIdentifierListSpec extends ContentTypeWorkerBeh
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AddContentTypeToContentTypeIdentifierList::class);
+        $this->shouldHaveType(AddItemTypeToItemTypeIdentifierList::class);
     }
 
     function it_can_not_work_if_args_do_not_have_a_ContentType(SchemaBuilder $schema)
