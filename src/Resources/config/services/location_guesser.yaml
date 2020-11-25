@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationFilter: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\MainLocationFilter: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser:
+        class: 'EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\FilterLocationGuesser'
+        arguments:
+            $filters:
+                - '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\TreeRootLocationFilter'
+                - '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\MainLocationFilter'
+
