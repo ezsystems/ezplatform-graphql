@@ -14,8 +14,14 @@ use EzSystems\EzPlatformGraphQL\Exception;
 
 class LocationGuess
 {
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Content
+     */
     private $content;
 
+    /**
+     * @var \eZ\Publish\API\Repository\Values\Content\Location[]
+     */
     private $locations;
 
     public function __construct(Content $content, array $locations)
@@ -30,14 +36,14 @@ class LocationGuess
      * @return \eZ\Publish\API\Repository\Values\Content\Location
      *
      * @throws \EzSystems\EzPlatformGraphQL\Exception\MultipleValidLocationsException
-     * @throws \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\NoValidLocationsException
+     * @throws \EzSystems\EzPlatformGraphQL\Exception\NoValidLocationsException
      */
     public function getLocation(): Location
     {
         if (count($this->locations) > 1) {
             throw new Exception\MultipleValidLocationsException($this->content, $this->locations);
         } elseif (count($this->locations) === 0) {
-            throw new NoValidLocationsException($this->content);
+            throw new Exception\NoValidLocationsException($this->content);
         }
 
         return $this->locations[0];

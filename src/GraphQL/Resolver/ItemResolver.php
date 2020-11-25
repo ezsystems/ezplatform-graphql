@@ -9,7 +9,6 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\FieldType;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
@@ -19,7 +18,6 @@ use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
 use GraphQL\Error\UserError;
-use Overblog\GraphQLBundle\Definition\Argument;
 use Overblog\GraphQLBundle\Relay\Connection\Output\Connection;
 use Overblog\GraphQLBundle\Relay\Connection\Paginator;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
@@ -120,32 +118,6 @@ final class ItemResolver
     public function resolveItemFieldValue(Item $item, $fieldDefinitionIdentifier): Field
     {
         return Field::fromField($item->getContent()->getField($fieldDefinitionIdentifier));
-    }
-
-    public function resolveItemRelationFieldValue(Field $field, $multiple = false)
-    {
-        $destinationContentIds = $this->getContentIds($field);
-
-        if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && null === $destinationContentIds[0]) {
-            return $multiple ? [] : null;
-        }
-
-        // @todo use Collection Filter Builder
-        $contentItems = $this->contentLoader->find(new Query(
-            ['filter' => new Query\Criterion\ContentId($destinationContentIds)]
-        ));
-
-        if ($multiple) {
-            return array_map(
-                function ($contentId) use ($contentItems) {
-                    return $contentItems[array_search($contentId, array_column($contentItems, 'id'))];
-                },
-                $destinationContentIds
-            );
-        }
-
-        // @todo it supports multiple relations, why isn't this the case here ?
-        return $contentItems[0] ? $this->itemFactory->fromContent($contentItems[0]) : null;
     }
 
     public function resolveItemsOfTypeAsConnection(string $contentTypeIdentifier, $args): Connection

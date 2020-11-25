@@ -19,7 +19,7 @@ class MainLocationFilter implements LocationFilter
     {
         foreach ($locationList->getLocations() as $location) {
             if ($location->id !== $content->contentInfo->mainLocationId) {
-                $locationList->filter($location);
+                $locationList->removeLocation($location);
             }
         }
     }

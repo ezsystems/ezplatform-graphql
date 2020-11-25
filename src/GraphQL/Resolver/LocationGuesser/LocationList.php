@@ -12,9 +12,9 @@ use EzSystems\EzPlatformGraphQL\Exception;
 use SplObjectStorage;
 
 /**
- * The result of the guesser's work.
+ * List of locations used by the LocationGuesser.
  */
-class LocationList
+final class LocationList
 {
     /**
      * The content item locations were guessed for.
@@ -34,7 +34,7 @@ class LocationList
         $this->locations = new SplObjectStorage();
     }
 
-    public function addLocation(Location $location)
+    public function addLocation(Location $location): void
     {
         $this->locations->attach($location);
     }
@@ -61,15 +61,12 @@ class LocationList
         return \iterator_to_array($this->locations);
     }
 
-    /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
-     */
     public function hasOneLocation(): bool
     {
         return count($this->locations) === 1;
     }
 
-    public function filter(Location $location)
+    public function removeLocation(Location $location): void
     {
         $this->locations->detach($location);
     }

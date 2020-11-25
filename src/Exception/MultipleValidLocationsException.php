@@ -29,14 +29,14 @@ class MultipleValidLocationsException extends \Exception
      */
     public function __construct(Content $content, array $locations)
     {
-        $this->locations = $locations;
         parent::__construct(
             sprintf(
                 'Could not determine which location to return for content with id %s. Possible candidates: %s)',
                 $content->id,
-                implode(',', array_map(function (Location $location) { return $location->pathString; }, $locations))
+                implode(',', array_column($locations, 'pathString'))
             )
         );
+        $this->locations = $locations;
         $this->content = $content;
     }
 

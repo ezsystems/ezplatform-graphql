@@ -47,7 +47,7 @@ class TreeRootLocationFilter implements LocationFilter
     {
         foreach ($locationList->getLocations() as $location) {
             if (!$this->locationIsInTreeRoot($location) && !$this->locationPrefixIsExcluded($location)) {
-                $locationList->filter($location);
+                $locationList->removeLocation($location);
             }
         }
     }
@@ -56,8 +56,6 @@ class TreeRootLocationFilter implements LocationFilter
      * Checks if a location is valid in regards to the tree root setting.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Location $location
-     *
-     * @return bool
      *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
@@ -79,10 +77,9 @@ class TreeRootLocationFilter implements LocationFilter
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Location $candidateLocation
      *
-     * @return bool
-     *
      * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
      */
     private function locationPrefixIsExcluded(Location $candidateLocation): bool
     {
@@ -113,8 +110,6 @@ class TreeRootLocationFilter implements LocationFilter
     /**
      * @param array $path
      * @param array $rootPath
-     *
-     * @return bool
      */
     private function containsRootPath(array $path, array $rootPath): bool
     {
