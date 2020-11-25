@@ -26,7 +26,7 @@ class AddItemOfTypeConnectionToGroup extends BaseWorker implements Worker
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
                 'resolve' => sprintf(
-                    '@=resolver("SearchContentOfTypeAsConnection", ["%s", args])',
+                    '@=resolver("ItemsOfTypeAsConnection", ["%s", args])',
                     $contentType->identifier
                 ),
                 'argsBuilder' => 'Relay::Connection',

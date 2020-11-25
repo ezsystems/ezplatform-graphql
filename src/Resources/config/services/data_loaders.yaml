@@ -31,3 +31,4 @@ services:
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
             $locationService: '@ezpublish.siteaccessaware.service.location'
+            $urlAliasGenerator: '@ezpublish.urlalias_generator'

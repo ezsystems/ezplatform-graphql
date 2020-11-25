@@ -67,7 +67,7 @@ class AddItemOfTypeConnectionToGroupSpec extends ContentTypeWorkerBehavior
                     FieldArgument::hasName(self::CONNECTION_FIELD),
                     FieldArgument::hasType(self::TYPE_TYPE),
                     FieldArgument::hasDescription(self::TYPE_DESCRIPTION),
-                    FieldArgument::withResolver('SearchContentOfTypeAsConnection')
+                    FieldArgument::withResolver('ItemsOfTypeAsConnection')
                 )
             )
             ->shouldBeCalled();

@@ -41,11 +41,15 @@ class ResolverVariables implements FieldDefinitionMapper
         return str_replace(
             [
                 'content',
+                'location',
+                'item',
                 'field',
             ],
             [
+                'value.getContent()',
+                'value.getLocation()',
                 'value',
-                'resolver("DomainFieldValue", [value, "' . $fieldDefinition->identifier . '"])',
+                'resolver("ItemFieldValue", [value, "' . $fieldDefinition->identifier . '"])',
             ],
             $resolver
         );

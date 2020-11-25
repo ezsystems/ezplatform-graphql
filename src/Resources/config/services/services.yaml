@@ -16,3 +16,5 @@ services:
     EzSystems\EzPlatformGraphQL\Security\NonAdminGraphQLRequestMatcher:
         arguments:
             $siteAccessGroups: '%ezpublish.siteaccess.groups%'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory: ~

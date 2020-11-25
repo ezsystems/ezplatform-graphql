@@ -22,7 +22,7 @@ Item:
                 type: String
             _thumbnail:
                 type: Thumbnail
-        resolveType: "@=resolver('DomainContentType', [value])"
+        resolveType: "@=resolver('ItemType', [value])"
 
 AbstractItem:
     type: "object"
@@ -61,6 +61,19 @@ AbstractItem:
             _thumbnail:
                 type: Thumbnail
                 resolve: "@=resolver('ContentThumbnail', [value.getContent()])"
+
+UntypedItem:
+    type: object
+    inherits:
+        - AbstractItem
+    config:
+        interfaces:
+            - Item
+            - Node
+        fields:
+            reason:
+                type: String
+                resolve: "This content type isn't part of the schema."
 
 ItemTypeGroup:
     type: object

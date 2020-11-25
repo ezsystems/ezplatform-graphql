@@ -40,16 +40,20 @@ services:
         arguments:
             $repository: "@ezpublish.siteaccessaware.repository"
 
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ItemResolver:
+        tags:
+            - { name: overblog_graphql.resolver, alias: "ItemOfType", method: "resolveItemOfType" }
+            - { name: overblog_graphql.resolver, alias: "ItemFieldValue", method: "resolveItemFieldValue" }
+            - { name: overblog_graphql.resolver, alias: "ItemRelationFieldValue", method: "resolveItemRelationFieldValue" }
+            - { name: overblog_graphql.resolver, alias: "ItemType", method: "resolveItemType" }
+            - { name: overblog_graphql.resolver, alias: "ItemsOfTypeAsConnection", method: "resolveItemsOfTypeAsConnection" }
+
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ContentThumbnailResolver:
         tags:
             - { name: overblog_graphql.resolver, alias: "ContentThumbnail", method: "resolveContentThumbnail" }
         arguments:
             $imageFieldType: "@ezpublish.fieldType.ezimage"
             $variationHandler: "@ezpublish.fieldType.ezimage.variation_service"
-
-    EzSystems\EzPlatformGraphQL\GraphQL\Mutation\Authentication:
-        tags:
-            - { name: overblog_graphql.mutation, alias: "CreateToken", method: "createToken" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\UploadFiles:
         arguments:
@@ -92,6 +96,7 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "UrlAliasType", method: "resolveUrlAliasType" }
             - { name: overblog_graphql.resolver, alias: "LocationUrlAliases", method: "resolveLocationUrlAliases" }
+            - { name: overblog_graphql.resolver, alias: "LocationUrlAlias", method: "resolveLocationUrlAlias" }
         arguments:
             $urlAliasService: '@ezpublish.siteaccessaware.service.url_alias'
 
@@ -99,6 +104,7 @@ services:
         tags:
             - { name: overblog_graphql.resolver, alias: "SearchContent", method: "searchContent" }
             - { name: overblog_graphql.resolver, alias: "SearchContentOfTypeAsConnection", method: "searchContentOfTypeAsConnection" }
+            - { name: overblog_graphql.resolver, alias: "SearchLocationsOfTypeAsConnection", method: "searchLocationsOfTypeAsConnection" }
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
 

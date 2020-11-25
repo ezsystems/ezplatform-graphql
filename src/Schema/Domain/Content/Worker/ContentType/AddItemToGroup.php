@@ -24,12 +24,12 @@ class AddItemToGroup extends BaseWorker implements Worker
             $this->typeField($args), $this->typeName($args),
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => sprintf('@=resolver("DomainContentItem", [args, "%s"])', $contentType->identifier),
+                'resolve' => sprintf('@=resolver("ItemOfType", [args, "%s"])', $contentType->identifier),
             ]
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
-            'id', 'Int',
+            'contentId', 'Int',
             ['description' => sprintf('Content ID of the %s', $contentType->identifier)]
         ));
 
@@ -41,6 +41,16 @@ class AddItemToGroup extends BaseWorker implements Worker
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'locationId', 'Int',
             ['description' => sprintf('Location ID of the %s', $contentType->identifier)]
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'locationRemoteId', 'String',
+            ['description' => sprintf('Location remote ID of the %s', $contentType->identifier)]
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'urlAlias', 'String',
+            ['description' => sprintf('URL alias of the %s', $contentType->identifier)]
         ));
     }
 

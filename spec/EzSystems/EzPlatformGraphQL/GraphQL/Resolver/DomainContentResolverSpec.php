@@ -8,7 +8,7 @@ use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\DomainContentResolver;
 use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\FieldType;
@@ -24,7 +24,7 @@ class DomainContentResolverSpec extends ObjectBehavior
     function let(
         Repository $repository,
         TypeResolver $typeResolver,
-        SearchQueryMapper $queryMapper,
+        QueryMapper $queryMapper,
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader
     ) {

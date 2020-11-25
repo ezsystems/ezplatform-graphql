@@ -12,9 +12,10 @@ use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\Exception\ArgumentsException;
 
 /**
@@ -36,12 +37,22 @@ class SearchLocationLoader implements LocationLoader
      * @var \eZ\Publish\API\Repository\URLAliasService
      */
     private $urlAliasService;
+    /**
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     */
+    private $configResolver;
+    /**
+     * @var \eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator
+     */
+    private $urlAliasGenerator;
 
-    public function __construct(SearchService $searchService, LocationService $locationService, URLAliasService $urlAliasService)
+    public function __construct(SearchService $searchService, LocationService $locationService, URLAliasService $urlAliasService, ConfigResolverInterface $configResolver, UrlAliasGenerator $urlAliasGenerator)
     {
         $this->searchService = $searchService;
         $this->locationService = $locationService;
         $this->urlAliasService = $urlAliasService;
+        $this->configResolver = $configResolver;
+        $this->urlAliasGenerator = $urlAliasGenerator;
     }
 
     public function find(LocationQuery $query): array
@@ -76,7 +87,7 @@ class SearchLocationLoader implements LocationLoader
 
     public function findByUrlAlias(string $urlAlias): Location
     {
-        $alias = $this->urlAliasService->lookup($urlAlias);
+        $alias = $this->getUrlAlias($urlAlias);
 
         return ($alias->type == URLAlias::LOCATION)
             ? $this->locationService->loadLocation($alias->destination)
@@ -103,5 +114,23 @@ class SearchLocationLoader implements LocationLoader
         } catch (ApiException\InvalidArgumentException $e) {
             throw new ArgumentsException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    protected function getUrlAlias($pathinfo): URLAlias
+    {
+        $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id');
+        $pathPrefix = $this->urlAliasGenerator->getPathPrefixByRootLocationId($rootLocationId);
+
+        if (
+            $rootLocationId !== null &&
+            !$this->urlAliasGenerator->isUriPrefixExcluded($pathinfo) &&
+            $pathPrefix !== '/'
+        ) {
+            $urlAlias = $pathPrefix . $pathinfo;
+        } else {
+            $urlAlias = $pathinfo;
+        }
+
+        return $this->urlAliasService->lookup($urlAlias);
     }
 }

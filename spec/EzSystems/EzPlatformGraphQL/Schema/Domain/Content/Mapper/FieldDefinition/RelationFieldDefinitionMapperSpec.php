@@ -81,13 +81,13 @@ class RelationFieldDefinitionMapperSpec extends ObjectBehavior
     function it_maps_multi_selection_to_resolve_multiple()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_MULTI);
-        $this->mapToFieldValueResolver($fieldDefinition)->shouldReturn('@=resolver("DomainRelationFieldValue", [field, true])');
+        $this->mapToFieldValueResolver($fieldDefinition)->shouldReturn('@=resolver("RelationFieldValue", [field, true])');
     }
 
-    function it_maps_singl_selection_to_resolve_single()
+    function it_maps_single_selection_to_resolve_single()
     {
         $fieldDefinition = $this->createFieldDefinition(self::DEF_LIMIT_SINGLE);
-        $this->mapToFieldValueResolver($fieldDefinition)->shouldReturn('@=resolver("DomainRelationFieldValue", [field, false])');
+        $this->mapToFieldValueResolver($fieldDefinition)->shouldReturn('@=resolver("RelationFieldValue", [field, false])');
     }
 
     private function createFieldDefinition($selectionLimit = 0, $selectionContentTypes = [])

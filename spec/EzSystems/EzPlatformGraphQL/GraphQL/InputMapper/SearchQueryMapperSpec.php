@@ -2,12 +2,21 @@
 
 namespace spec\EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
+use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\ContentCollectionFilterBuilder;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use PhpSpec\ObjectBehavior;
 
 class SearchQueryMapperSpec extends ObjectBehavior
 {
+    function let(ContentCollectionFilterBuilder $filterBuilder)
+    {
+        $this->beConstructedWith($filterBuilder);
+
+        $filterBuilder->buildFilter()->willReturn(new SubTree('/1/2/'));
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(SearchQueryMapper::class);
