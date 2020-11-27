@@ -10,7 +10,9 @@ use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
+use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser;
 
 /**
  * A DXP item, combination of a Content and Location.
@@ -26,7 +28,13 @@ class Item
     /** @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser */
     private $locationGuesser;
 
-    private function __construct(LocationGuesser $locationGuesser, ?Location $location = null, ?Content $content = null)
+    /** @var \eZ\Publish\Core\MVC\Symfony\SiteAccess */
+    private $siteaccess;
+
+    /** @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser */
+    private $siteaccessGuesser;
+
+    private function __construct(LocationGuesser $locationGuesser, SiteaccessGuesser $siteaccessGuesser, ?Location $location = null, ?Content $content = null)
     {
         if ($location === null && $content === null) {
             throw new InvalidArgumentException('content or location', 'one of content or location is required');
@@ -34,6 +42,7 @@ class Item
         $this->location = $location;
         $this->content = $content;
         $this->locationGuesser = $locationGuesser;
+        $this->siteaccessGuesser = $siteaccessGuesser;
     }
 
     public function getContent(): Content
@@ -59,13 +68,22 @@ class Item
         return $this->getContent()->contentInfo;
     }
 
-    public static function fromContent(LocationGuesser $locationGuesser, Content $content): self
+    public static function fromContent(LocationGuesser $locationGuesser, SiteaccessGuesser $siteaccessGuesser, Content $content): self
     {
-        return new self($locationGuesser, null, $content);
+        return new self($locationGuesser, $siteaccessGuesser, null, $content);
     }
 
-    public static function fromLocation(LocationGuesser $locationGuesser, Location $location): self
+    public static function fromLocation(LocationGuesser $locationGuesser, SiteaccessGuesser $siteaccessGuesser, Location $location): self
     {
-        return new self($locationGuesser, $location, null);
+        return new self($locationGuesser, $siteaccessGuesser, $location, null);
+    }
+
+    public function getSiteaccess(): SiteAccess
+    {
+        if ($this->siteaccess === null) {
+            $this->siteaccess = $this->siteaccessGuesser->guessForLocation($this->getLocation());
+        }
+
+        return $this->siteaccess;
     }
 }

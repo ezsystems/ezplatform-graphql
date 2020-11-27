@@ -16,19 +16,34 @@ class ItemFactory
      * @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser
      */
     private $locationGuesser;
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser
+     */
+    private $siteaccessGuesser;
 
-    public function __construct(Resolver\LocationGuesser\LocationGuesser $locationGuesser)
-    {
+    public function __construct(
+        Resolver\LocationGuesser\LocationGuesser $locationGuesser,
+        Resolver\SiteaccessGuesser\SiteaccessGuesser $siteaccessGuesser
+    ) {
         $this->locationGuesser = $locationGuesser;
+        $this->siteaccessGuesser = $siteaccessGuesser;
     }
 
     public function fromContent(Content $content): Item
     {
-        return Item::fromContent($this->locationGuesser, $content);
+        return Item::fromContent(
+            $this->locationGuesser,
+            $this->siteaccessGuesser,
+            $content
+        );
     }
 
     public function fromLocation(Location $location): Item
     {
-        return item::fromLocation($this->locationGuesser, $location);
+        return Item::fromLocation(
+            $this->locationGuesser,
+            $this->siteaccessGuesser,
+            $location
+        );
     }
 }

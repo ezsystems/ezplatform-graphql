@@ -18,3 +18,10 @@ services:
             $siteAccessGroups: '%ezpublish.siteaccess.groups%'
 
     EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser:
+        arguments:
+            $siteAccessService: '@ezpublish.siteaccess_service'
+            $configResolver: '@ezpublish.config.resolver'
+            $provider: '@ezpublish.siteaccess.provider'
+            $siteAccessGroups: '%ezpublish.siteaccess.groups%'

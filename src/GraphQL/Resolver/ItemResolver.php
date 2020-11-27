@@ -14,7 +14,6 @@ use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory;
-use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
 use GraphQL\Error\UserError;
@@ -43,9 +42,6 @@ final class ItemResolver
     /** @var \EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader */
     private $locationLoader;
 
-    /** @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser */
-    private $locationGuesser;
-
     /** @var \EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory */
     private $itemFactory;
 
@@ -55,16 +51,14 @@ final class ItemResolver
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader,
         LocationLoader $locationLoader,
-        LocationGuesser $locationGuesser,
-        ItemFactory $itemFactory
+        ItemFactory $currentSiteItemFactory
     ) {
         $this->typeResolver = $typeResolver;
         $this->queryMapper = $queryMapper;
         $this->contentLoader = $contentLoader;
         $this->contentTypeLoader = $contentTypeLoader;
         $this->locationLoader = $locationLoader;
-        $this->locationGuesser = $locationGuesser;
-        $this->itemFactory = $itemFactory;
+        $this->itemFactory = $currentSiteItemFactory;
     }
 
     /**

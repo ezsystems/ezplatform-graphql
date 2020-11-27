@@ -11,7 +11,11 @@ use eZ\Publish\API\Repository\URLAliasService;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\API\Repository\Values\Content\URLAlias;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
+use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
+use EzSystems\EzPlatformGraphQL\GraphQL\Value\Item;
 use Overblog\GraphQLBundle\Resolver\TypeResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @internal
@@ -38,16 +42,29 @@ class UrlAliasResolver
      */
     private $locationService;
 
+    /**
+     * @var \eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator
+     */
+    private $urlGenerator;
+    /**
+     * @var \eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessService
+     */
+    private $siteaccessService;
+
     public function __construct(
         TypeResolver $typeResolver,
         URLAliasService $urlAliasService,
         LocationService $locationService,
-        ConfigResolverInterface $configResolver)
+        ConfigResolverInterface $configResolver,
+        UrlAliasGenerator $urlGenerator,
+        SiteAccessServiceInterface $siteAccessService)
     {
         $this->urlAliasService = $urlAliasService;
         $this->typeResolver = $typeResolver;
         $this->configResolver = $configResolver;
         $this->locationService = $locationService;
+        $this->urlGenerator = $urlGenerator;
+        $this->siteaccessService = $siteAccessService;
     }
 
     public function resolveLocationUrlAliases(Location $location, $args)
@@ -72,46 +89,24 @@ class UrlAliasResolver
 
     public function resolveLocationUrlAlias(Location $location): ?string
     {
-        $aliases = $this->urlAliasService->listLocationAliases($location, false);
-
-        if (empty($aliases)) {
-            return null;
-        }
-
-        $path = $aliases[0]->path;
-        $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id');
-        if ($rootLocationId !== null) {
-            $pathPrefix = $this->getPathPrefixByRootLocationId($rootLocationId);
-            // "/" cannot be considered as a path prefix since it's root, so we ignore it.
-            if ($pathPrefix !== '/' && ($path === $pathPrefix || mb_stripos($path, $pathPrefix . '/') === 0)) {
-                $path = mb_substr($path, mb_strlen($pathPrefix));
-            }
-        }
-
-        return $path;
-    }
-
-    public function getPathPrefixByRootLocationId(int $rootLocationId): string
-    {
-        // @todo this might be heavy, as it will be executed for each url alias that is generated
-        return $this->urlAliasService
-                ->reverseLookup($this->locationService->loadLocation($rootLocationId))
-                ->path;
+        return $this->urlGenerator->generate($location, [], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
-     * Checks if passed URI has an excluded prefix, when a root location is defined.
+     * Resolves the URL alias for an item, taking into account the item's siteaccess.
      */
-    public function isUriPrefixExcluded(string $uri): bool
+    public function resolveItemUrlAlias(Item $item): ?string
     {
-        $excludedUriPrefixes = $this->configResolver->getParameter('content.tree_root.excluded_uri_prefixes');
-        foreach ($excludedUriPrefixes as $excludedPrefix) {
-            $excludedPrefix = '/' . trim($excludedPrefix, '/');
-            if (mb_stripos($uri, $excludedPrefix) === 0) {
-                return true;
-            }
+        if ($item->getSiteaccess() === $this->siteaccessService->getCurrent()) {
+            $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH;
+        } else {
+            $referenceType = UrlGeneratorInterface::ABSOLUTE_URL;
         }
 
-        return false;
+        return $this->urlGenerator->generate(
+            $item->getLocation(),
+            ['siteaccess' => $item->getSiteaccess()->name],
+            $referenceType
+        );
     }
 }

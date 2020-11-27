@@ -100,8 +100,11 @@ services:
             - { name: overblog_graphql.resolver, alias: "UrlAliasType", method: "resolveUrlAliasType" }
             - { name: overblog_graphql.resolver, alias: "LocationUrlAliases", method: "resolveLocationUrlAliases" }
             - { name: overblog_graphql.resolver, alias: "LocationUrlAlias", method: "resolveLocationUrlAlias" }
+            - { name: overblog_graphql.resolver, alias: "ItemUrlAlias", method: "resolveItemUrlAlias" }
         arguments:
             $urlAliasService: '@ezpublish.siteaccessaware.service.url_alias'
+            $urlGenerator: '@ezpublish.urlalias_generator'
+            $siteAccessService: '@ezpublish.siteaccess_service'
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SearchResolver:
         tags:

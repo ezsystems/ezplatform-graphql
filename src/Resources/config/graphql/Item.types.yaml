@@ -18,7 +18,7 @@ Item:
                 description: "The content item's name, in the prioritized language(s), based on the object name pattern"
                 type: String
             _url:
-                description: "The content item's url alias, based on the main location."
+                description: "The content item's url alias for the current location."
                 type: String
             _thumbnail:
                 type: Thumbnail
@@ -57,7 +57,7 @@ AbstractItem:
             _url:
                 description: "The content item's url alias, based on the main location."
                 type: String
-                resolve: "@=resolver('LocationUrlAlias', [value.getLocation()])"
+                resolve: "@=resolver('ItemUrlAlias', [value])"
             _thumbnail:
                 type: Thumbnail
                 resolve: "@=resolver('ContentThumbnail', [value.getContent()])"
