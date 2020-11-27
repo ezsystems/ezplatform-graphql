@@ -7,7 +7,6 @@ services:
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\:
         resource: ../../GraphQL/DataLoader
 
-
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchContentLoader:
         arguments:
             $searchService: '@ezpublish.siteaccessaware.service.search'
@@ -17,8 +16,6 @@ services:
             - '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchContentLoader'
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentLoader'
-
-
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\RepositoryContentTypeLoader:
         arguments:
