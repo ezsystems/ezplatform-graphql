@@ -4,14 +4,14 @@
  * @copyright Copyright (C) eZ Systems AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser;
 
-use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Location;
 
 /**
- * Guesses a location based on voters.
+ * Guesses locations for a site by filtering out a provided list.
  */
 class FilterLocationGuesser implements LocationGuesser
 {
@@ -21,17 +21,14 @@ class FilterLocationGuesser implements LocationGuesser
     private $filters;
 
     /**
-     * @var \eZ\Publish\API\Repository\LocationService
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationProvider
      */
-    private $locationService;
+    private $provider;
 
-    /**
-     * @param LocationFilter[] $filters
-     */
-    public function __construct(LocationService $locationService, array $filters)
+    public function __construct(LocationProvider $provider, array $filters)
     {
+        $this->provider = $provider;
         $this->filters = $filters;
-        $this->locationService = $locationService;
     }
 
     /**
@@ -39,15 +36,14 @@ class FilterLocationGuesser implements LocationGuesser
      */
     public function guessLocation(Content $content): LocationGuess
     {
-        $locationList = new LocationList($content);
-        foreach ($this->locationService->loadLocations($content->contentInfo) as $location) {
-            $locationList->addLocation($location);
-        }
+        $locationList = $this->provider->getLocations($content);
 
-        foreach ($this->filters as $filter) {
-            $filter->filter($content, $locationList);
-            if ($locationList->hasOneLocation()) {
-                return new LocationGuess($content, $locationList->getLocations());
+        if (!$locationList->hasOneLocation()) {
+            foreach ($this->filters as $filter) {
+                $filter->filter($content, $locationList);
+                if ($locationList->hasOneLocation()) {
+                    return new LocationGuess($content, $locationList->getLocations());
+                }
             }
         }
 

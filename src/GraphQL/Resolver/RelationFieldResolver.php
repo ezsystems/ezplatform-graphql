@@ -21,10 +21,10 @@ final class RelationFieldResolver
     /** @var \EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory */
     private $itemFactory;
 
-    public function __construct(ContentLoader $contentLoader, ItemFactory $itemFactory)
+    public function __construct(ContentLoader $contentLoader, ItemFactory $relatedContentItemFactory)
     {
         $this->contentLoader = $contentLoader;
-        $this->itemFactory = $itemFactory;
+        $this->itemFactory = $relatedContentItemFactory;
     }
 
     public function resolveRelationFieldValue(Field $field, $multiple = false)
@@ -35,8 +35,6 @@ final class RelationFieldResolver
             return $multiple ? [] : null;
         }
 
-        // @todo do we want to restrict results to the current siteaccess (tree root) ?
-        //       What if the user has access to locations from other siteaccesses ?
         $contentItems = $this->contentLoader->find(new Query(
             ['filter' => new Query\Criterion\ContentId($destinationContentIds)]
         ));

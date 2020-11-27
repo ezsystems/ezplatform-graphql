@@ -11,8 +11,10 @@ use eZ\Publish\API\Repository\Values\Content\ContentInfo;
 use eZ\Publish\API\Repository\Values\Content\Location;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use EzSystems\EzPlatformGraphQL\Exception\NoValidLocationsException;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser;
 use EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser;
+use Overblog\GraphQLBundle\Error\UserError;
 
 /**
  * A DXP item, combination of a Content and Location.
@@ -57,7 +59,11 @@ class Item
     public function getLocation(): Location
     {
         if ($this->location === null) {
-            $this->location = $this->locationGuesser->guessLocation($this->content)->getLocation();
+            try {
+                $this->location = $this->locationGuesser->guessLocation($this->content)->getLocation();
+            } catch (NoValidLocationsException $e) {
+                throw new UserError($e->getMessage(), 0, $e);
+            }
         }
 
         return $this->location;

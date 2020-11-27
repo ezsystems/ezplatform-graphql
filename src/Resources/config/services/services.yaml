@@ -17,7 +17,19 @@ services:
         arguments:
             $siteAccessGroups: '%ezpublish.siteaccess.groups%'
 
-    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory: ~
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory $currentSiteItemFactory: '@EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory\CurrentSite'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory $relatedContentItemFactory: '@EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory\RelatedContent'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory\CurrentSite:
+        class: 'EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory'
+        arguments:
+            $locationGuesser: '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser\CurrentSiteContent'
+
+    EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory\RelatedContent:
+        class: 'EzSystems\EzPlatformGraphQL\GraphQL\ItemFactory'
+        arguments:
+            $locationGuesser: '@EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationGuesser\RelatedContent'
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\SiteaccessGuesser\SiteaccessGuesser:
         arguments:

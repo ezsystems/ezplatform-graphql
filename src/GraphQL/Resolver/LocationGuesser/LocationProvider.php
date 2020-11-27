@@ -8,14 +8,7 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser;
 
 use eZ\Publish\API\Repository\Values\Content\Content;
 
-interface LocationGuesser
+interface LocationProvider
 {
-    /**
-     * Tries to guess a valid location for a content item.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Content $content
-     *
-     * @return LocationGuess
-     */
-    public function guessLocation(Content $content): LocationGuess;
+    public function getLocations(Content $content): LocationList;
 }
