@@ -11,6 +11,9 @@ Item:
             _location:
                 description: "The content's main location"
                 type: Location
+            _parent:
+                description: "The item's parent"
+                type: Item
             _allLocations:
                 description: "All the content's locations"
                 type: "[Location]"
@@ -46,6 +49,10 @@ AbstractItem:
                 description: 'Main location'
                 type: Location
                 resolve: '@=value.getLocation()'
+            _parent:
+                description: "The item's parent"
+                type: Item
+                resolve: '@=resolver("ItemParent", [value])'
             _allLocations:
                 description: 'All the locations'
                 type: '[Location]'

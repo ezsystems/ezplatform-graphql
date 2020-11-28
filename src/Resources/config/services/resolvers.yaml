@@ -47,6 +47,7 @@ services:
             - { name: overblog_graphql.resolver, alias: "ItemFieldValue", method: "resolveItemFieldValue" }
             - { name: overblog_graphql.resolver, alias: "ItemType", method: "resolveItemType" }
             - { name: overblog_graphql.resolver, alias: "ItemsOfTypeAsConnection", method: "resolveItemsOfTypeAsConnection" }
+            - { name: overblog_graphql.resolver, alias: "ItemParent", method: "resolveItemParent" }
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\RelationFieldResolver:
         tags:

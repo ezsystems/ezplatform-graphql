@@ -123,6 +123,13 @@ final class ItemResolver
         return $item;
     }
 
+    public function resolveItemParent(Item $item)
+    {
+        return $this->itemFactory->fromLocation(
+            $item->getLocation()->getParentLocation()
+        );
+    }
+
     public function resolveItemFieldValue(Item $item, $fieldDefinitionIdentifier): Field
     {
         return Field::fromField($item->getContent()->getField($fieldDefinitionIdentifier));
