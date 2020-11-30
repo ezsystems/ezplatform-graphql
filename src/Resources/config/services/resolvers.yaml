@@ -42,6 +42,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ItemResolver:
         tags:
+            - { name: overblog_graphql.resolver, alias: "Item", method: "resolveItem" }
             - { name: overblog_graphql.resolver, alias: "ItemOfType", method: "resolveItemOfType" }
             - { name: overblog_graphql.resolver, alias: "ItemFieldValue", method: "resolveItemFieldValue" }
             - { name: overblog_graphql.resolver, alias: "ItemType", method: "resolveItemType" }

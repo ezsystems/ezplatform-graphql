@@ -67,10 +67,30 @@ final class ItemResolver
      * @param \Overblog\GraphQLBundle\Definition\Argument|array $args
      * @param string|null $contentTypeIdentifier
      *
-     * @throws \GraphQL\Error\UserError if $contentTypeIdentifier was specified, and the loaded item's type didn't match it
+     * @throws \GraphQL\Error\UserError if the loaded item's type didn't match the requested type
      * @throws \GraphQL\Error\UserError if no argument was provided
      */
     public function resolveItemOfType($args, $contentTypeIdentifier): Item
+    {
+        $item = $this->resolveItem($args);
+
+        $contentType = $item->getContentInfo()->getContentType();
+        if ($contentType->identifier !== $contentTypeIdentifier) {
+            throw new UserError("Content {$item->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
+        }
+
+        return $item;
+    }
+
+    /**
+     * Resolves a domain content item by one of its identifiers.
+     *
+     * @param \Overblog\GraphQLBundle\Definition\Argument|array $args
+     *
+     * @throws \GraphQL\Error\UserError if $contentTypeIdentifier was specified, and the loaded item's type didn't match it
+     * @throws \GraphQL\Error\UserError if no argument was provided
+     */
+    public function resolveItem($args): Item
     {
         if (isset($args['id'])) {
             $item = $this->itemFactory->fromContent(
@@ -98,12 +118,6 @@ final class ItemResolver
             );
         } else {
             throw new UserError('Missing required argument contentId, remoteId, locationId or locationRemoteId');
-        }
-
-        $contentType = $item->getContentInfo()->getContentType();
-
-        if ($contentType->identifier !== $contentTypeIdentifier) {
-            throw new UserError("Content {$item->getContentInfo()->id} is not of type '$contentTypeIdentifier'");
         }
 
         return $item;
