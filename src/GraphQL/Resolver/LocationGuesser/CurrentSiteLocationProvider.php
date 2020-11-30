@@ -43,7 +43,7 @@ class CurrentSiteLocationProvider implements LocationProvider
             ]),
         ]);
 
-        $list = new LocationList($content);
+        $list = new ObjectStorageLocationList($content);
         foreach ($this->searchService->findLocations($query)->searchHits as $searchHit) {
             $list->addLocation($searchHit->valueObject);
         }

@@ -6,38 +6,14 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\Content\Location;
-use EzSystems\EzPlatformGraphQL\Exception;
-use SplObjectStorage;
 
 /**
  * List of locations used by the LocationGuesser.
  */
-final class LocationList
+interface LocationList
 {
-    /**
-     * The content item locations were guessed for.
-     *
-     * @var \eZ\Publish\API\Repository\Values\Content\Content
-     */
-    private $content;
-
-    /**
-     * @var \SplObjectStorage
-     */
-    private $locations;
-
-    public function __construct(Content $content)
-    {
-        $this->content = $content;
-        $this->locations = new SplObjectStorage();
-    }
-
-    public function addLocation(Location $location): void
-    {
-        $this->locations->attach($location);
-    }
+    public function addLocation(Location $location): void;
 
     /**
      * @return \eZ\Publish\API\Repository\Values\Content\Location
@@ -45,32 +21,14 @@ final class LocationList
      * @throws \EzSystems\EzPlatformGraphQL\Exception\MultipleValidLocationsException
      * @throws \EzSystems\EzPlatformGraphQL\Exception\NoValidLocationsException
      */
-    public function getLocation(): Location
-    {
-        if (count($this->locations) === 1) {
-            return current($this->locations);
-        } elseif (count($this->locations) > 1) {
-            throw new Exception\MultipleValidLocationsException($this->content, \iterator_to_array($this->locations));
-        } elseif (count($this->locations) === 0) {
-            throw new Exception\NoValidLocationsException($this->content);
-        }
-    }
+    public function getLocation(): Location;
 
     /**
      * @return \eZ\Publish\API\Repository\Values\Content\Location[]
      */
-    public function getLocations(): array
-    {
-        return \iterator_to_array($this->locations);
-    }
+    public function getLocations(): array;
 
-    public function hasOneLocation(): bool
-    {
-        return count($this->locations) === 1;
-    }
+    public function hasOneLocation(): bool;
 
-    public function removeLocation(Location $location): void
-    {
-        $this->locations->detach($location);
-    }
+    public function removeLocation(Location $location): void;
 }

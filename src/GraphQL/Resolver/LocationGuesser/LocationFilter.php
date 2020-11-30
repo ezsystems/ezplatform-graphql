@@ -14,7 +14,7 @@ interface LocationFilter
      * Given a Content and a LocationList, filters out locations.
      *
      * @param \eZ\Publish\API\Repository\Values\Content\Content $content
-     * @param \EzSystems\EzPlatformGraphQL\GraphQL\Resolver\LocationGuesser\LocationList $locationList
+     * @param LocationList $locationList
      */
     public function filter(Content $content, LocationList $locationList): void;
 }

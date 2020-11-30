@@ -28,7 +28,7 @@ class AllAllowedLocationProvider implements LocationProvider
 
     public function getLocations(Content $content): LocationList
     {
-        $list = new LocationList($content);
+        $list = new ObjectStorageLocationList($content);
 
         foreach ($this->locationService->loadLocations($content->contentInfo) as $location) {
             $list->addLocation($location);
