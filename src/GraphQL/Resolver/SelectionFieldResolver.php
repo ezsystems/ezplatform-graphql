@@ -17,21 +17,14 @@ use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 class SelectionFieldResolver
 {
     /**
-     * @var DomainContentResolver
-     */
-    private $domainContentResolver;
-
-    /**
      * @var ContentTypeLoader
      */
     private $contentTypeLoader;
 
     public function __construct(
-        ContentTypeLoader $contentTypeLoader,
-        DomainContentResolver $domainContentResolver
+        ContentTypeLoader $contentTypeLoader
     ) {
         $this->contentTypeLoader = $contentTypeLoader;
-        $this->domainContentResolver = $domainContentResolver;
     }
 
     public function resolveSelectionFieldValue(Field $field, Content $content)
