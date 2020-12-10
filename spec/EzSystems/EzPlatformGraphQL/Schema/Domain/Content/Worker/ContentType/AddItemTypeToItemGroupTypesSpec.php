@@ -4,37 +4,37 @@ namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentT
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper;
-use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddContentTypeToDomainGroupTypes;
+use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemTypeToItemGroupTypes;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\ContentTypeGroupArgument;
 use spec\EzSystems\EzPlatformGraphQL\Tools\FieldArgument;
 use Prophecy\Argument;
 
-class AddContentTypeToDomainGroupTypesSpec extends ContentTypeWorkerBehavior
+class AddItemTypeToItemGroupTypesSpec extends ContentTypeWorkerBehavior
 {
     const GROUP_TYPES_TYPE = 'DomainGroupTestGroupTypes';
 
     const TYPE_FIELD = 'testType';
-    const TYPE_TYPE = 'TestTypeContentType';
+    const TYPE_TYPE = 'TestTypeType';
 
     public function let(NameHelper $nameHelper)
     {
         $this->setNameHelper($nameHelper);
 
         $nameHelper
-            ->domainContentField(
+            ->itemField(
                 ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER)
             )
             ->willReturn(self::TYPE_FIELD);
 
         $nameHelper
-            ->domainContentTypeName(
+            ->itemTypeName(
                 ContentTypeArgument::withIdentifier(self::TYPE_IDENTIFIER)
             )
             ->willReturn(self::TYPE_TYPE);
 
         $nameHelper
-            ->domainGroupTypesName(
+            ->itemGroupTypesName(
                 ContentTypeGroupArgument::withIdentifier(self::GROUP_IDENTIFIER)
             )
             ->willReturn(self::GROUP_TYPES_TYPE);
@@ -42,7 +42,7 @@ class AddContentTypeToDomainGroupTypesSpec extends ContentTypeWorkerBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AddContentTypeToDomainGroupTypes::class);
+        $this->shouldHaveType(AddItemTypeToItemGroupTypes::class);
     }
 
     function it_can_not_work_if_args_do_not_have_a_ContentTypeGroup(SchemaBuilder $schema)

@@ -13,7 +13,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Worker
+class AddItemOfTypeConnectionToGroup extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
@@ -26,7 +26,7 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
                 'resolve' => sprintf(
-                    '@=resolver("SearchContentOfTypeAsConnection", ["%s", args])',
+                    '@=resolver("ItemsOfTypeAsConnection", ["%s", args])',
                     $contentType->identifier
                 ),
                 'argsBuilder' => 'Relay::Connection',
@@ -56,21 +56,21 @@ class AddContentOfTypeConnectionToDomainGroup extends BaseWorker implements Work
 
     protected function groupName(array $args): string
     {
-        return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
+        return $this->getNameHelper()->itemGroupName($args['ContentTypeGroup']);
     }
 
     protected function connectionField(array $args): string
     {
-        return $this->getNameHelper()->domainContentCollectionField($args['ContentType']);
+        return $this->getNameHelper()->itemConnectionField($args['ContentType']);
     }
 
     protected function connectionType(array $args): string
     {
-        return $this->getNameHelper()->domainContentConnection($args['ContentType']);
+        return $this->getNameHelper()->itemConnectionName($args['ContentType']);
     }
 
     protected function typeName($args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }

@@ -13,7 +13,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddDomainContentToDomainGroup extends BaseWorker implements Worker
+class AddItemToGroup extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
@@ -24,12 +24,12 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
             $this->typeField($args), $this->typeName($args),
             [
                 'description' => isset($descriptions['eng-GB']) ? $descriptions['eng-GB'] : 'No description available',
-                'resolve' => sprintf('@=resolver("DomainContentItem", [args, "%s"])', $contentType->identifier),
+                'resolve' => sprintf('@=resolver("ItemOfType", [args, "%s"])', $contentType->identifier),
             ]
         ));
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
-            'id', 'Int',
+            'contentId', 'Int',
             ['description' => sprintf('Content ID of the %s', $contentType->identifier)]
         ));
 
@@ -41,6 +41,16 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'locationId', 'Int',
             ['description' => sprintf('Location ID of the %s', $contentType->identifier)]
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'locationRemoteId', 'String',
+            ['description' => sprintf('Location remote ID of the %s', $contentType->identifier)]
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'urlAlias', 'String',
+            ['description' => sprintf('URL alias of the %s', $contentType->identifier)]
         ));
     }
 
@@ -56,16 +66,16 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
 
     protected function groupName(array $args): string
     {
-        return $this->getNameHelper()->domainGroupName($args['ContentTypeGroup']);
+        return $this->getNameHelper()->itemGroupName($args['ContentTypeGroup']);
     }
 
     protected function typeField($args): string
     {
-        return $this->getNameHelper()->domainContentField($args['ContentType']);
+        return $this->getNameHelper()->itemField($args['ContentType']);
     }
 
     protected function typeName($args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemName($args['ContentType']);
     }
 }

@@ -10,7 +10,7 @@ User:
                 type: "String"
                 resolve: "@=value.contentInfo.name"
             content:
-                type: "UserContent"
+                type: "UserItem"
                 resolve: "@=value"
             version:
                 type: "Version"
@@ -44,7 +44,7 @@ UserGroup:
                 resolve: "@=value.contentInfo.name"
             content:
                 description: "The User content item"
-                type: "UserGroupContent"
+                type: "UserGroupItem"
                 resolve: "@=value"
             version:
                 type: "Version"

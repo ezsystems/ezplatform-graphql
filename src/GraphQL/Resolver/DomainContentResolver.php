@@ -13,7 +13,7 @@ use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\Core\FieldType;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader;
-use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper;
+use EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\QueryMapper;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 use GraphQL\Error\UserError;
 use Overblog\GraphQLBundle\Definition\Argument;
@@ -53,7 +53,7 @@ class DomainContentResolver
     public function __construct(
         Repository $repository,
         TypeResolver $typeResolver,
-        SearchQueryMapper $queryMapper,
+        QueryMapper $queryMapper,
         ContentLoader $contentLoader,
         ContentTypeLoader $contentTypeLoader)
     {
@@ -131,6 +131,9 @@ class DomainContentResolver
         return isset($aliases[0]->path) ? $aliases[0]->path : null;
     }
 
+    /**
+     * @deprecated since v3.0, use ItemResolver::resolveItemFieldValue() instead.
+     */
     public function resolveDomainFieldValue(Content $content, $fieldDefinitionIdentifier)
     {
         return Field::fromField($content->getField($fieldDefinitionIdentifier));

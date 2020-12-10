@@ -13,7 +13,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddContentTypeToDomainGroupTypes extends BaseWorker implements Worker
+class AddItemTypeToItemGroupTypes extends BaseWorker implements Worker
 {
     public function work(Builder $schema, array $args)
     {
@@ -44,16 +44,16 @@ class AddContentTypeToDomainGroupTypes extends BaseWorker implements Worker
 
     protected function typeField(array $args): string
     {
-        return $this->getNameHelper()->domainContentField($args['ContentType']);
+        return $this->getNameHelper()->itemField($args['ContentType']);
     }
 
     protected function groupTypesName(array $args): string
     {
-        return $this->getNameHelper()->domainGroupTypesName($args['ContentTypeGroup']);
+        return $this->getNameHelper()->itemGroupTypesName($args['ContentTypeGroup']);
     }
 
     protected function typeName(array $args): string
     {
-        return $this->getNameHelper()->domainContentTypeName($args['ContentType']);
+        return $this->getNameHelper()->itemTypeName($args['ContentType']);
     }
 }

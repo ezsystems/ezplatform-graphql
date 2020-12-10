@@ -6,24 +6,53 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\InputMapper;
 
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use InvalidArgumentException;
 
-class SearchQueryMapper
+final class SearchQueryMapper implements QueryMapper
 {
+    /**
+     * @var \EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\ContentCollectionFilterBuilder
+     */
+    private $filterBuilder;
+
+    public function __construct(ContentCollectionFilterBuilder $filterBuilder)
+    {
+        $this->filterBuilder = $filterBuilder;
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\Values\Content\LocationQuery
+     */
+    public function mapInputToLocationQuery(array $inputArray): LocationQuery
+    {
+        $query = new LocationQuery();
+        $this->mapInput($query, $inputArray);
+
+        return $query;
+    }
+
     /**
      * @return \eZ\Publish\API\Repository\Values\Content\Query
      */
-    public function mapInputToQuery(array $inputArray)
+    public function mapInputToQuery(array $inputArray): Query
     {
         $query = new Query();
+        $this->mapInput($query, $inputArray);
+
+        return $query;
+    }
+
+    private function mapInput($query, array $inputArray): void
+    {
         if (isset($inputArray['offset'])) {
             $query->offset = $inputArray['offset'];
         }
         if (isset($inputArray['limit'])) {
             $query->limit = $inputArray['limit'];
         }
-        $criteria = [];
+        $criteria = [$this->filterBuilder->buildFilter()];
 
         if (isset($inputArray['ContentTypeIdentifier'])) {
             $criteria[] = new Query\Criterion\ContentTypeIdentifier($inputArray['ContentTypeIdentifier']);
@@ -89,14 +118,10 @@ class SearchQueryMapper
         }
 
         if (count($criteria) === 0) {
-            return $query;
+            return;
         }
 
-        if (count($criteria)) {
-            $query->filter = count($criteria) > 1 ? new Query\Criterion\LogicalAnd($criteria) : $criteria[0];
-        }
-
-        return $query;
+        $query->filter = new Query\Criterion\LogicalAnd($criteria);
     }
 
     /**

@@ -8,13 +8,14 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefiniti
 
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use eZ\Publish\SPI\Repository\Values\MultiLanguageDescription;
 use EzSystems\EzPlatformGraphQL\Schema\Builder;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper;
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddFieldValueToDomainContent extends BaseWorker implements Worker
+class AddFieldDefinitionToItemType extends BaseWorker implements Worker
 {
     /**
      * @var \EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper
@@ -28,25 +29,17 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     public function work(Builder $schema, array $args)
     {
-        $definition = $this->getDefinition($args['FieldDefinition']);
-        $schema->addFieldToType(
-            $this->typeName($args),
-            new Input\Field($this->fieldName($args), $definition['type'], $definition)
-        );
-    }
-
-    private function getDefinition(FieldDefinition $fieldDefinition)
-    {
-        $definition = [
-            'type' => $this->fieldDefinitionMapper->mapToFieldValueType($fieldDefinition),
-            'resolve' => $this->fieldDefinitionMapper->mapToFieldValueResolver($fieldDefinition),
-        ];
-
-        if (($argsBuilder = $this->fieldDefinitionMapper->mapToFieldValueArgsBuilder($fieldDefinition)) !== null) {
-            $definition['argsBuilder'] = $argsBuilder;
-        }
-
-        return $definition;
+        $schema->addFieldToType($this->typeName($args), new Input\Field(
+            $this->fieldName($args),
+            $this->fieldType($args),
+            [
+                'description' => $this->fieldDescription($args),
+                'resolve' => sprintf(
+                    '@=value.getFieldDefinition("%s")',
+                    $args['FieldDefinition']->identifier
+                ),
+            ]
+        ));
     }
 
     public function canWork(Builder $schema, array $args)
@@ -61,11 +54,26 @@ class AddFieldValueToDomainContent extends BaseWorker implements Worker
 
     protected function typeName(array $args): string
     {
-        return $this->getNameHelper()->domainContentName($args['ContentType']);
+        return $this->getNameHelper()->itemTypeName($args['ContentType']);
     }
 
     protected function fieldName($args): string
     {
         return $this->getNameHelper()->fieldDefinitionField($args['FieldDefinition']);
+    }
+
+    public function fieldDescription($args)
+    {
+        $description = '';
+        if ($args['FieldDefinition'] instanceof MultiLanguageDescription) {
+            $description = $args['FieldDefinition']->getDescription('eng-GB') ?? '';
+        }
+
+        return $description;
+    }
+
+    private function fieldType($args)
+    {
+        return $this->fieldDefinitionMapper->mapToFieldDefinitionType($args['FieldDefinition']);
     }
 }

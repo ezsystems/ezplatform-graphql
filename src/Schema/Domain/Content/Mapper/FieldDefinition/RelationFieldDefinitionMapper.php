@@ -40,13 +40,13 @@ class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper impl
         }
         $settings = $fieldDefinition->getFieldSettings();
 
-        $type = 'DomainContent';
+        $type = 'Item';
         if (count($settings['selectionContentTypes']) === 1) {
             try {
                 $contentType = $this->contentTypeService->loadContentTypeByIdentifier(
                     $settings['selectionContentTypes'][0]
                 );
-                $type = $this->nameHelper->domainContentName($contentType);
+                $type = $this->nameHelper->itemName($contentType);
             } catch (NotFoundException $e) {
                 // Nothing to do
             }
@@ -67,7 +67,7 @@ class RelationFieldDefinitionMapper extends DecoratingFieldDefinitionMapper impl
 
         $isMultiple = $this->isMultiple($fieldDefinition) ? 'true' : 'false';
 
-        return sprintf('@=resolver("DomainRelationFieldValue", [field, %s])', $isMultiple);
+        return sprintf('@=resolver("RelationFieldValue", [field, %s])', $isMultiple);
     }
 
     protected function canMap(FieldDefinition $fieldDefinition)

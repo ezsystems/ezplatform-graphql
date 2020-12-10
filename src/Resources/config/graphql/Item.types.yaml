@@ -1,0 +1,113 @@
+Item:
+    type: "interface"
+    config:
+        fields:
+            _contentInfo:
+                description: "Item's content info"
+                type: Content
+            _type:
+                description: "Item's content type"
+                type: ContentType
+            _location:
+                description: "The content's main location"
+                type: Location
+            _allLocations:
+                description: "All the content's locations"
+                type: "[Location]"
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
+            _url:
+                description: "The content item's url alias for the current location."
+                type: String
+            _thumbnail:
+                type: Thumbnail
+        resolveType: "@=resolver('ItemType', [value])"
+
+AbstractItem:
+    type: "object"
+    config:
+        fields:
+            id:
+                type: "ID!"
+                builder: Relay::GlobalId
+                builderConfig:
+                    typeName: DomainContent
+                description: "The Content item's unique ID."
+            _type:
+                description: "The item's Content type"
+                type: ContentType
+                resolve: '@=resolver("ContentTypeById", [value.getContentInfo().contentTypeId])'
+            _contentInfo:
+                description: 'Underlying content info item'
+                type: Content
+                resolve: '@=value.getContentInfo()'
+            _location:
+                description: 'Main location'
+                type: Location
+                resolve: '@=value.getLocation()'
+            _allLocations:
+                description: 'All the locations'
+                type: '[Location]'
+                resolve: '@=resolver("LocationsByContentId", [value.getContentInfo().id])'
+            _name:
+                description: "The content item's name, in the prioritized language(s), based on the object name pattern"
+                type: String
+                resolve: "@=value.getContent().getName()"
+            _url:
+                description: "The content item's url alias, based on the main location."
+                type: String
+                resolve: "@=resolver('ItemUrlAlias', [value])"
+            _thumbnail:
+                type: Thumbnail
+                resolve: "@=resolver('ContentThumbnail', [value.getContent()])"
+
+UntypedItem:
+    type: object
+    inherits:
+        - AbstractItem
+    config:
+        interfaces:
+            - Item
+            - Node
+        fields:
+            reason:
+                type: String
+                resolve: "This content type isn't part of the schema."
+
+ItemTypeGroup:
+    type: object
+    config:
+        fields:
+            _info:
+                type: ContentTypeGroup
+                description: "The contenttype group's properties"
+                resolve: "@=value"
+            _types:
+                type: DomainGroupContentTypes
+                description: "Content types from this group"
+
+ItemType:
+    type: interface
+    config:
+        fields:
+            _info:
+                type: ContentType
+                description: "The content type's properties"
+
+BaseItemType:
+    type: object
+    config:
+        fields:
+            _info:
+                type: ContentType
+                resolve: "@=value"
+
+ItemByIdentifierConnection:
+    type: relay-connection
+    config:
+        connectionFields:
+            sliceSize:
+                type: Int!
+            orderBy:
+                type: String

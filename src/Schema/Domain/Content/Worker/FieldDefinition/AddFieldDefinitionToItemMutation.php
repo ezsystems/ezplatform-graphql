@@ -13,7 +13,7 @@ use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\Fie
 use EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker;
 use EzSystems\EzPlatformGraphQL\Schema\Worker;
 
-class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Worker
+class AddFieldDefinitionToItemMutation extends BaseWorker implements Worker
 {
     const OPERATION_CREATE = 'create';
     const OPERATION_UPDATE = 'update';
@@ -66,12 +66,12 @@ class AddFieldDefinitionToDomainContentMutation extends BaseWorker implements Wo
 
     protected function nameCreateInputType(array $args): string
     {
-        return $this->getNameHelper()->domainContentCreateInputName($args['ContentType']);
+        return $this->getNameHelper()->itemCreateInputName($args['ContentType']);
     }
 
     private function nameUpdateInputType(array $args): string
     {
-        return $this->getNameHelper()->domainContentUpdateInputName($args['ContentType']);
+        return $this->getNameHelper()->itemUpdateInputName($args['ContentType']);
     }
 
     protected function nameFieldDefinitionField(array $args): string

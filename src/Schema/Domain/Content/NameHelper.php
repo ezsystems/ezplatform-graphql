@@ -23,60 +23,168 @@ class NameHelper
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter(null, false);
     }
 
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemConnectionField() instead.
+     */
     public function domainContentCollectionField(ContentType $contentType)
+    {
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemConnectionFieldName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemConnectionField($contentType);
+    }
+
+    public function itemConnectionField(ContentType $contentType)
     {
         return $this->pluralize(lcfirst($this->toCamelCase($contentType->identifier)));
     }
 
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemName() instead.
+     */
     public function domainContentName(ContentType $contentType)
     {
-        return ucfirst($this->toCamelCase($contentType->identifier)) . 'Content';
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemName() instead.', E_USER_DEPRECATED);
+
+        return $this->domainItemName($contentType);
     }
 
+    public function itemName(ContentType $contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'Item';
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemConnectionName() instead.
+     */
     public function domainContentConnection($contentType)
     {
-        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentConnection';
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemConnectionName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemConnectionName($contentType);
     }
 
+    public function itemConnectionName($contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ItemConnection';
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemCreateInputName() instead.
+     */
     public function domainContentCreateInputName(ContentType $contentType)
     {
-        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentCreateInput';
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemCreateInputName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemCreateInputName($contentType);
     }
 
-    public function domainContentUpdateInputName($contentType)
+    public function itemCreateInputName(ContentType $contentType)
     {
-        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentUpdateInput';
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ItemCreateInput';
     }
 
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemUpdateInputName() instead.
+     */
+    public function domainContentUpdateInputName(ContentType $contentType)
+    {
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemUpdateInputName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemUpdateInputName($contentType);
+    }
+
+    public function itemUpdateInputName(ContentType $contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ItemUpdateInput';
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemUpdateInputName() instead.
+     */
     public function domainContentTypeName(ContentType $contentType)
     {
-        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ContentType';
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemTypeName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemTypeName($contentType);
     }
 
+    public function itemTypeName(ContentType $contentType)
+    {
+        return ucfirst($this->toCamelCase($contentType->identifier)) . 'ItemType';
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemField() instead.
+     */
     public function domainContentField(ContentType $contentType)
+    {
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemField() instead.', E_USER_DEPRECATED);
+
+        return $this->itemField($contentType);
+    }
+
+    public function itemField(ContentType $contentType)
     {
         return lcfirst($this->toCamelCase($contentType->identifier));
     }
 
-    public function domainMutationCreateContentField($contentType)
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemMutationCreateItemField() instead.
+     */
+    public function domainMutationCreateContentField(ContentType $contentType)
+    {
+        return $this->itemMutationCreateItemField($contentType);
+    }
+
+    public function itemMutationCreateItemField(ContentType $contentType)
     {
         return 'create' . ucfirst($this->domainContentField($contentType));
     }
 
-    public function domainMutationUpdateContentField($contentType)
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemMutationUpdateItemField() instead.
+     */
+    public function domainMutationUpdateContentField(ContentType $contentType)
     {
-        return 'update' . ucfirst($this->domainContentField($contentType));
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemMutationUpdateItemField() instead.', E_USER_DEPRECATED);
+
+        return $this->itemMutationUpdateItemField($contentType);
     }
 
+    public function itemMutationUpdateItemField($contentType)
+    {
+        return 'update' . ucfirst($this->itemField($contentType));
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemGroupName() instead.
+     */
     public function domainGroupName(ContentTypeGroup $contentTypeGroup)
     {
-        return 'DomainGroup' . ucfirst($this->toCamelCase($this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)));
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemGroupName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemGroupName($contentTypeGroup);
     }
 
+    public function itemGroupName(ContentTypeGroup $contentTypeGroup)
+    {
+        return 'ItemGroup' . ucfirst($this->toCamelCase($this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)));
+    }
+
+    /**
+     * @deprecated since v3.0, will be removed in v4.0. Use itemGroupTypesName() instead.
+     */
     public function domainGroupTypesName(ContentTypeGroup $contentTypeGroup)
     {
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemGroupTypesName() instead.', E_USER_DEPRECATED);
+
+        return $this->itemGroupTypesName($contentTypeGroup);
+    }
+
+    public function itemGroupTypesName(ContentTypeGroup $contentTypeGroup)
+    {
         return sprintf(
-            'DomainGroup%sTypes',
+            'ItemGroup%sTypes',
             ucfirst($this->toCamelCase(
                 $this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)
             ))
@@ -84,6 +192,13 @@ class NameHelper
     }
 
     public function domainGroupField(ContentTypeGroup $contentTypeGroup)
+    {
+        @trigger_error('Deprecated since v3.0, will be removed in v4.0. Use itemGroupField() instead.', E_USER_DEPRECATED);
+
+        return $this->itemGroupField($contentTypeGroup);
+    }
+
+    public function itemGroupField(ContentTypeGroup $contentTypeGroup)
     {
         return lcfirst($this->toCamelCase($this->sanitizeContentTypeGroupIdentifier($contentTypeGroup)));
     }
