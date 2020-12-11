@@ -19,4 +19,5 @@ class Arg extends Input
     public $type;
     public $description;
     public $defaultValue;
+    public $deprecationReason;
 }

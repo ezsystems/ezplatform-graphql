@@ -88,6 +88,10 @@ class SchemaBuilder implements SchemaBuilderInterface
             $arg['defaultValue'] = $argInput->defaultValue;
         }
 
+        if (!empty($argInput->deprecationReason)) {
+            $arg['deprecationReason'] = $argInput->deprecationReason;
+        }
+
         $this->schema[$type]['config']['fields'][$field]['args'][$argInput->name] = $arg;
     }
 
