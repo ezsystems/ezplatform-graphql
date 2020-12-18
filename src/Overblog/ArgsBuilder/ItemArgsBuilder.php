@@ -13,7 +13,7 @@ class ItemArgsBuilder implements MappingInterface
     /**
      * {@inheritdoc}
      */
-    public function toMappingDefinition(array $config)
+    public function toMappingDefinition(array $config): array
     {
         return [
             'contentId' => ['type' => 'Int', 'description' => 'Content ID of the article'],
