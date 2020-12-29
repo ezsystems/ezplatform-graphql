@@ -270,29 +270,21 @@ class DomainContentMutationResolver
     private function renderFieldValidationErrors(RepositoryExceptions\ContentFieldValidationException $e, API\Values\ContentType\ContentType $contentType)
     {
         $errors = [];
-        foreach ($e->getFieldErrors() as $fieldDefId => $fieldErrors) {
+        foreach ($e->getFieldErrors() as $fieldDefId => $fieldErrorByLanguage) {
             $fieldDefinition = $contentType->getFieldDefinitions()->filter(
                 static function (FieldDefinition $fieldDefinition) use ($fieldDefId) {
                     return $fieldDefinition->id === $fieldDefId;
                 }
             )->first();
 
-            foreach ($fieldErrors['eng-GB'] as $fieldError) {
-                $translatableMessage = $fieldError->getTranslatableMessage();
-                if ($translatableMessage instanceof API\Values\Translation\Plural) {
-                    if (count($fieldError['values']) === 1) {
-                        $message = $translatableMessage->singular;
-                    } else {
-                        $message = $translatableMessage->plural;
-                    }
-                } else {
-                    $message = $translatableMessage->message;
-                }
-                $errors[] = sprintf("Field '%s' failed validation: %s",
-                    $fieldDefinition->identifier,
-                    $message
-                );
-            }
+            // use error from first available language
+            $fieldError = reset($fieldErrorByLanguage);
+
+            // depending on $fieldError instance, values injected in Plural::__toString or Message::__toString
+            $errors[] = sprintf("Field '%s' failed validation: %s",
+                $fieldDefinition->identifier,
+                (string)$fieldError->getTranslatableMessage()
+            );
         }
 
         return $errors;
