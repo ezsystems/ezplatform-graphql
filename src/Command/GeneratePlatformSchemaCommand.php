@@ -6,6 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use EzSystems\EzPlatformGraphQL\Schema\Generator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
-class GeneratePlatformSchemaCommand extends Command
+class GeneratePlatformSchemaCommand extends Command implements BackwardCompatibleCommand
 {
     /**
      * @var \EzSystems\EzPlatformGraphQL\Schema\Generator
@@ -37,8 +38,9 @@ class GeneratePlatformSchemaCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ezplatform:graphql:generate-schema')
-            ->setDescription('Generates the GraphQL schema for the eZ Platform instance')
+            ->setName('ibexa:graphql:generate-schema')
+            ->setAliases(['ezplatform:graphql:generate-schema'])
+            ->setDescription('Generates the GraphQL schema for the Ibexa DXP instance')
             ->addOption('dry-run', null, InputOption::VALUE_OPTIONAL, 'Do not write, output the schema only', false)
             ->addOption('include', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
     }
@@ -76,5 +78,13 @@ class GeneratePlatformSchemaCommand extends Command
     {
         $command = $this->getApplication()->find('graphql:compile');
         $command->run(new StringInput('graphql:compile'), $output);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:graphql:generate-schema'];
     }
 }
