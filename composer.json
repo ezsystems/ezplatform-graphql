@@ -2,7 +2,7 @@
     "name": "ezsystems/ezplatform-graphql",
     "description": "GraphQL server for the eZ Platform Open Source CMS Repository.",
     "type": "ezplatform-bundle",
-    "license": "MIT",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Bertrand Dunogier",
