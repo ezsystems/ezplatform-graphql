@@ -82,7 +82,10 @@ class DomainContentResolver
      */
     public function resolveDomainContentItem($args, $contentTypeIdentifier)
     {
-        if (isset($args['id'])) {
+        if (isset($args['contentId'])) {
+            $criterion = new Query\Criterion\ContentId($args['id']);
+        } elseif (isset($args['id'])) {
+            @trigger_error("The 'id' argument is deprecated since v2.3.0, use 'contentId' instead", E_USER_DEPRECATED);
             $criterion = new Query\Criterion\ContentId($args['id']);
         } elseif (isset($args['remoteId'])) {
             $criterion = new Query\Criterion\RemoteId($args['remoteId']);

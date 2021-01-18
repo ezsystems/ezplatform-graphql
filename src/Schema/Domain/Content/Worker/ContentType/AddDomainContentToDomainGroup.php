@@ -30,6 +30,11 @@ class AddDomainContentToDomainGroup extends BaseWorker implements Worker
 
         $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
             'id', 'Int',
+            ['description' => sprintf('Content ID of the %s (deprecated since v2.3.0 of ezplatform-graphql, use contentId instead)', $contentType->identifier)]
+        ));
+
+        $schema->addArgToField($this->groupName($args), $this->typeField($args), new Input\Arg(
+            'contentId', 'Int',
             ['description' => sprintf('Content ID of the %s', $contentType->identifier)]
         ));
 
