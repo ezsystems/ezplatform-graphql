@@ -25,6 +25,20 @@ class SearchQueryMapperSpec extends ObjectBehavior
             ->shouldFilterByFullText('graphql');
     }
 
+    public function it_maps_Subtree_to_a_Subtree_criterion()
+    {
+        $this
+            ->mapInputToQuery(['Subtree' => '/1/2/'])
+            ->shouldFilterBySubtree(['/1/2/']);
+    }
+
+    public function it_maps_IsFieldEmpty_to_a_IsFieldEmpty_criterion()
+    {
+        $this
+            ->mapInputToQuery(['IsFieldEmpty' => ['target' => 'title', 'empty' => false]])
+            ->shouldFilterByIsFieldEmpty('title', false);
+    }
+
     public function it_maps_Modified_before_to_a_created_lte_DateMetaData_criterion()
     {
         $this
@@ -207,6 +221,30 @@ class SearchQueryMapperSpec extends ObjectBehavior
                     return false;
                 }
                 return ($value === null || $criterion->value == $value);
+            },
+            'filterBySubtree' => function (Query $query, array $subtree) {
+                $criterion = $this->findCriterionInQueryFilter(
+                    $query,
+                    Query\Criterion\Subtree::class
+                );
+
+                if ($criterion === null) {
+                    return false;
+                }
+
+                return $criterion->value === $subtree;
+            },
+            'filterByIsFieldEmpty' => function (Query $query, string $field, bool $empty) {
+                $criterion = $this->findCriterionInQueryFilter(
+                    $query,
+                    Query\Criterion\IsFieldEmpty::class
+                );
+
+                if ($criterion === null) {
+                    return false;
+                }
+
+                return $criterion->target === $field && $criterion->value[0] === $empty;
             },
             'filterByFieldWithOperator' => function(Query $query, $operator) {
                 $criterion = $this->findCriterionInQueryFilter($query, Query\Criterion\Field::class);

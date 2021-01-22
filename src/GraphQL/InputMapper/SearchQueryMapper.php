@@ -52,6 +52,15 @@ class SearchQueryMapper
         if (isset($inputArray['ParentLocationId'])) {
             $criteria[] = new Query\Criterion\ParentLocationId($inputArray['ParentLocationId']);
         }
+        if (isset($inputArray['Subtree'])) {
+            $criteria[] = new Query\Criterion\Subtree($inputArray['Subtree']);
+        }
+        if (isset($inputArray['IsFieldEmpty'])) {
+            $criteria[] = new Query\Criterion\IsFieldEmpty(
+                $inputArray['IsFieldEmpty']['target'],
+                $inputArray['IsFieldEmpty']['empty']
+            );
+        }
 
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Modified'));
         $criteria = array_merge($criteria, $this->mapDateMetadata($inputArray, 'Created'));

@@ -20,11 +20,29 @@ ContentSearchQuery:
             ParentLocationId:
                 type: "[Int]"
                 description: "Filter content based on its parent location id"
+            Subtree:
+                type: "[String]"
+                description: "Filter content based on its subtree location"
+            IsFieldEmpty:
+                type: "IsFieldEmptyInput"
+                description: "Filter content based on field is empty or not"
             Field:
                 type: "[FieldCriterionInput]"
                 description: "Field filter"
             SortBy:
                 type: "SortByOptions"
+
+IsFieldEmptyInput:
+    type: "input-object"
+    config:
+        fields:
+            target:
+                type: "String"
+                description: "A field definition identifier"
+            empty:
+                type: "Boolean"
+                description: "If field is empty or not"
+                defaultValue: true
 
 FieldCriterionInput:
      type: "input-object"
