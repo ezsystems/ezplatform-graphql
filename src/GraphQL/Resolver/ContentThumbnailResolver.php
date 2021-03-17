@@ -85,18 +85,6 @@ final class ContentThumbnailResolver
                 $assetContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
 
                 return $this->assetMapper->getAssetField($assetContent);
-            } elseif ($field->fieldTypeIdentifier === 'ezobjectrelation') {
-                $relatedContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
-
-                return $this->getThumbnailImageField($relatedContent);
-            }
-        }
-
-        foreach ($content->getFieldsByLanguage() as $field) {
-            if ($field->fieldTypeIdentifier === 'ezobjectrelation') {
-                $relatedContent = $this->contentLoader->findSingle(new Criterion\ContentId($field->value->destinationContentId));
-
-                return $this->getThumbnailImageField($relatedContent);
             }
         }
 
