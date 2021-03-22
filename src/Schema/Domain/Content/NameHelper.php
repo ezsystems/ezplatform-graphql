@@ -21,7 +21,7 @@ class NameHelper
     /**
      * @var array
      */
-    private $fieldNameOverrides ;
+    private $fieldNameOverrides;
 
     public function __construct(array $fieldNameOverrides)
     {
@@ -99,7 +99,7 @@ class NameHelper
         $fieldName = lcfirst($this->toCamelCase($fieldDefinition->identifier));
 
         // Workaround for https://issues.ibexa.co/browse/EZP-32261
-        if (array_key_exists($fieldName, $this->fieldNameOverrides)) {
+        if (\array_key_exists($fieldName, $this->fieldNameOverrides)) {
             return $this->fieldNameOverrides[$fieldName];
         }
 
@@ -122,7 +122,7 @@ class NameHelper
         }
 
         if (substr($name, -1) === 'y') {
-            if (in_array(substr($name, -2, 1), ['a', 'e', 'i', 'o', 'u'])) {
+            if (\in_array(substr($name, -2, 1), ['a', 'e', 'i', 'o', 'u'])) {
                 return $name . 's';
             } else {
                 return substr($name, 0, -1) . 'ies';
@@ -137,7 +137,7 @@ class NameHelper
             return substr($name, 0, -2) . 'i';
         }
 
-        if (in_array(substr($name, -2), ['on', 'um'])) {
+        if (\in_array(substr($name, -2), ['on', 'um'])) {
             return substr($name, 0, -2) . 'a';
         }
 
