@@ -18,9 +18,15 @@ class NameHelper
      */
     private $caseConverter;
 
-    public function __construct()
+    /**
+     * @var array
+     */
+    private $fieldNameOverrides ;
+
+    public function __construct(array $fieldNameOverrides)
     {
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter(null, false);
+        $this->fieldNameOverrides = $fieldNameOverrides;
     }
 
     public function domainContentCollectionField(ContentType $contentType)
@@ -90,7 +96,14 @@ class NameHelper
 
     public function fieldDefinitionField(FieldDefinition $fieldDefinition)
     {
-        return lcfirst($this->toCamelCase($fieldDefinition->identifier));
+        $fieldName = lcfirst($this->toCamelCase($fieldDefinition->identifier));
+
+        // Workaround for https://issues.ibexa.co/browse/EZP-32261
+        if (array_key_exists($fieldName, $this->fieldNameOverrides)) {
+            return $this->fieldNameOverrides[$fieldName];
+        }
+
+        return $fieldName;
     }
 
     private function toCamelCase($string)
