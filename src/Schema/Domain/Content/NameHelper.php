@@ -19,7 +19,7 @@ class NameHelper
     private $caseConverter;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $fieldNameOverrides;
 
