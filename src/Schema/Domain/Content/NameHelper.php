@@ -9,6 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 class NameHelper
@@ -19,13 +20,19 @@ class NameHelper
     private $caseConverter;
 
     /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var string[]
      */
     private $fieldNameOverrides;
 
-    public function __construct(array $fieldNameOverrides)
+    public function __construct(LoggerInterface $logger, array $fieldNameOverrides)
     {
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter(null, false);
+        $this->logger = $logger;
         $this->fieldNameOverrides = $fieldNameOverrides;
     }
 
@@ -100,7 +107,16 @@ class NameHelper
 
         // Workaround for https://issues.ibexa.co/browse/EZP-32261
         if (\array_key_exists($fieldName, $this->fieldNameOverrides)) {
-            return $this->fieldNameOverrides[$fieldName];
+            $newFieldName = $this->fieldNameOverrides[$fieldName];
+            $this->logger->warning(
+                sprintf(
+                    'The field name "%s" was overridden to "%s"',
+                    $fieldName,
+                    $newFieldName
+                )
+            );
+
+            return $newFieldName;
         }
 
         return $fieldName;
