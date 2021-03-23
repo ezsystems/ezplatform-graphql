@@ -10,6 +10,7 @@ use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 class NameHelper
@@ -29,10 +30,10 @@ class NameHelper
      */
     private $fieldNameOverrides;
 
-    public function __construct(LoggerInterface $logger, array $fieldNameOverrides)
+    public function __construct(array $fieldNameOverrides, LoggerInterface $logger = null)
     {
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter(null, false);
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
         $this->fieldNameOverrides = $fieldNameOverrides;
     }
 
