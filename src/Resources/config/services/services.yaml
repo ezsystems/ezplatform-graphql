@@ -16,3 +16,7 @@ services:
     EzSystems\EzPlatformGraphQL\Security\NonAdminGraphQLRequestMatcher:
         arguments:
             $siteAccessGroups: '%ezpublish.siteaccess.groups%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper:
+        arguments:
+            $fieldNameOverrides: '%ezplatform_graphql.schema.content.field_name.override%'
