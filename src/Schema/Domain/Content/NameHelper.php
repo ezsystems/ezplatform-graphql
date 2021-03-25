@@ -9,18 +9,31 @@ namespace EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 use eZ\Publish\API\Repository\Values\ContentType\ContentType;
 use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
 use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
-class NameHelper
+class NameHelper implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var \Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter
      */
     private $caseConverter;
 
-    public function __construct()
+    /**
+     * @var string[]
+     */
+    private $fieldNameOverrides;
+
+    public function __construct(array $fieldNameOverrides, LoggerInterface $logger = null)
     {
         $this->caseConverter = new CamelCaseToSnakeCaseNameConverter(null, false);
+        $this->logger = $logger ?? new NullLogger();
+        $this->fieldNameOverrides = $fieldNameOverrides;
     }
 
     /**
@@ -205,7 +218,23 @@ class NameHelper
 
     public function fieldDefinitionField(FieldDefinition $fieldDefinition)
     {
-        return lcfirst($this->toCamelCase($fieldDefinition->identifier));
+        $fieldName = lcfirst($this->toCamelCase($fieldDefinition->identifier));
+
+        // Workaround for https://issues.ibexa.co/browse/EZP-32261
+        if (\array_key_exists($fieldName, $this->fieldNameOverrides)) {
+            $newFieldName = $this->fieldNameOverrides[$fieldName];
+            $this->logger->warning(
+                sprintf(
+                    'The field name "%s" was overridden to "%s"',
+                    $fieldName,
+                    $newFieldName
+                )
+            );
+
+            return $newFieldName;
+        }
+
+        return $fieldName;
     }
 
     private function toCamelCase($string)
@@ -224,7 +253,7 @@ class NameHelper
         }
 
         if (substr($name, -1) === 'y') {
-            if (in_array(substr($name, -2, 1), ['a', 'e', 'i', 'o', 'u'])) {
+            if (\in_array(substr($name, -2, 1), ['a', 'e', 'i', 'o', 'u'])) {
                 return $name . 's';
             } else {
                 return substr($name, 0, -1) . 'ies';
@@ -239,7 +268,7 @@ class NameHelper
             return substr($name, 0, -2) . 'i';
         }
 
-        if (in_array(substr($name, -2), ['on', 'um'])) {
+        if (\in_array(substr($name, -2), ['on', 'um'])) {
             return substr($name, 0, -2) . 'a';
         }
 

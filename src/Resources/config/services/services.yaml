@@ -37,3 +37,7 @@ services:
             $configResolver: '@ezpublish.config.resolver'
             $provider: '@ezpublish.siteaccess.provider'
             $siteAccessGroups: '%ezpublish.siteaccess.groups%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper:
+        arguments:
+            $fieldNameOverrides: '%ezplatform_graphql.schema.content.field_name.override%'

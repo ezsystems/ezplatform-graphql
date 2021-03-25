@@ -1,4 +1,6 @@
 parameters:
+  ezplatform_graphql.schema.content.field_name.override:
+    id: id_
   ezplatform_graphql.schema.content.mapping.field_definition_type:
     ezauthor:
       value_type: "[AuthorFieldValue]"
