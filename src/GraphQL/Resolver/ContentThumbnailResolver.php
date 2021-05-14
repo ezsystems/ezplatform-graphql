@@ -40,6 +40,7 @@ final class ContentThumbnailResolver
             'width' => $thumbnail->width,
             'height' => $thumbnail->height,
             'mimeType' => $thumbnail->mimeType,
+            'alternativeText' => '',
         ];
     }
 }
