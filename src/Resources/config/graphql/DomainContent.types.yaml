@@ -139,3 +139,5 @@ Thumbnail:
                 description: "The height as number of pixels (example: 200)"
             alternativeText:
                 type: String
+            mimeType:
+                type: String
