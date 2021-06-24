@@ -27,10 +27,10 @@ Queries look like this:
   content {
     articles {
       title
-      body { html }
+      body { html5 }
       image {
         name
-        variations(alias: large) { uri }
+        variation(identifier: large) { uri }
       }
     }
     folder(id: 1234) {
