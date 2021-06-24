@@ -27,7 +27,7 @@ Queries look like this:
   content {
     articles {
       title
-      body { html }
+      body { html5 }
       image {
         name
         variation(identifier: large) { uri }
