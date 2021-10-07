@@ -33,11 +33,13 @@ class AddFieldValueToItem extends BaseWorker implements Worker
             $this->typeName($args),
             new Input\Field($this->fieldName($args), $definition['type'], $definition)
         );
-        $schema->addArgToField(
-            $this->typeName($args),
-            $this->fieldName($args),
-            new Input\Arg('language', 'RepositoryLanguage')
-        );
+        if ($args['FieldDefinition']->isTranslatable) {
+            $schema->addArgToField(
+                $this->typeName($args),
+                $this->fieldName($args),
+                new Input\Arg('language', 'RepositoryLanguage')
+            );
+        }
     }
 
     private function getDefinition(FieldDefinition $fieldDefinition)
