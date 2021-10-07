@@ -20,7 +20,7 @@
         "ezsystems/ezplatform-rest": "^4.0@dev",
         "ezsystems/ezplatform-richtext": "^4.0@dev",
         "lexik/jwt-authentication-bundle": "^2.8",
-        "overblog/graphql-bundle": "^0.12",
+        "overblog/graphql-bundle": "^0.13",
         "erusev/parsedown": "^1.7",
         "symfony/dependency-injection": "^5.0",
         "symfony/http-kernel": "^5.0",
