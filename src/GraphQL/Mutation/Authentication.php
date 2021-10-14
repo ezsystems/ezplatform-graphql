@@ -8,26 +8,36 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\Core\MVC\Symfony\Security\User;
+use eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface;
+use Ibexa\Rest\Server\Security\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class Authentication
 {
-    /**
-     * @var \eZ\Publish\API\Repository\UserService
-     */
-    private $userService;
-
     /**
      * @var \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface
      */
     private $tokenManager;
 
-    public function __construct(UserService $userService, JWTTokenManagerInterface $tokenManager)
-    {
-        $this->userService = $userService;
+    /**
+     * @var \eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface|null
+     */
+    private $authenticator;
+
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
+
+    public function __construct(
+        JWTTokenManagerInterface $tokenManager,
+        AuthenticatorInterface $authenticator,
+        RequestStack $requestStack
+    ) {
         $this->tokenManager = $tokenManager;
+        $this->authenticator = $authenticator;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -38,13 +48,20 @@ final class Authentication
         $username = $args['username'];
         $password = $args['password'];
 
-        $apiUser = $this->userService->loadUserByLogin($username);
-        if (!$this->userService->checkUserCredentials($apiUser, $password)) {
-            return ['message' => 'Wrong username or password', 'token' => null];
+        $request = $this->requestStack->getCurrentRequest();
+        $request->attributes->set('username', $username);
+        $request->attributes->set('password', (string) $password);
+
+        try {
+            $user = $this->authenticator->authenticate($request)->getUser();
+
+            $token = $this->tokenManager->create(
+                new JWTUser($user, $username)
+            );
+
+            return ['token' => $token];
+        } catch (AuthenticationException $e) {
+            throw new UnauthorizedException('Invalid login or password', $request->getPathInfo());
         }
-
-        $token = $this->tokenManager->create(new User($apiUser, ['ROLE_USER']));
-
-        return ['token' => $token];
     }
 }
