@@ -11,7 +11,7 @@ use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolv
 /**
  * Generates the ImageVariationIdentifier enum that indexes images variations identifiers.
  *
- * @deprecated since 2.3, will be removed in 4.0.
+ * @deprecated since 1.0, will be removed in 4.0.
  */
 class ImagesVariationsBuilder implements SchemaBuilder
 {
