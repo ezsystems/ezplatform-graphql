@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\EzPlatformGraphQL\Schema\Domain;
+namespace Ibexa\GraphQL\Schema\Domain;
 
 /**
  * Validates given name according to GraphQL specification. See http://spec.graphql.org/June2018/#sec-Names.
