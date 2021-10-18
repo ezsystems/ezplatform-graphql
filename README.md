@@ -4,7 +4,7 @@ This package is part of [Ibexa DXP](https://ibexa.co).
 
 To use this package, [install Ibexa DXP](https://doc.ibexa.co/en/latest/install/).
 
-This package containt a GraphQL server implementation to [Ibexa DXP](https://www.ibexa.co/products) and 
+This package contains a GraphQL server implementation for [Ibexa DXP](https://www.ibexa.co/products) and 
 Ibexa Open Source.
 
 ## COPYRIGHT
