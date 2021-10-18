@@ -17,6 +17,6 @@ final class NameValidator
 
     public function isValidName(string $name): bool
     {
-        return preg_match(self::NAME_PATTERN, $name) == 1;
+        return preg_match(self::NAME_PATTERN, $name) === 1;
     }
 }
