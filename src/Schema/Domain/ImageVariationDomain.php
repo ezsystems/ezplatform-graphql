@@ -44,7 +44,7 @@ class ImageVariationDomain implements Domain\Iterator, Schema\Worker, LoggerAwar
     {
         foreach ($this->configResolver->getParameter('image_variations') as $identifier => $variation) {
             if (!$this->nameValidator->isValidName($identifier)) {
-                $message = "Skipped schema generation for Image Variation with identifier '%s'"
+                $message = "Skipped schema generation for Image Variation with identifier '%s'. "
                     . 'Please rename given image variation according to GraphQL specification '
                     . '(http://spec.graphql.org/June2018/#sec-Names)';
 
