@@ -14,6 +14,7 @@ use Generator;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
+use Ibexa\GraphQL\Schema\Domain\NameValidator;
 
 /**
  * Adds configured image variations to the ImageVariationIdentifier type.
@@ -28,7 +29,7 @@ class ImageVariationDomain implements Domain\Iterator, Schema\Worker, LoggerAwar
     /** @var \eZ\Publish\Core\MVC\ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \EzSystems\EzPlatformGraphQL\Schema\Domain\NameValidator */
+    /** @var \Ibexa\GraphQL\Schema\Domain\NameValidator */
     private $nameValidator;
 
     public function __construct(
