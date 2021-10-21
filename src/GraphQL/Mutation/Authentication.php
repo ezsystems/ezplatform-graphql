@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
 use eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface;
+use Ibexa\Rest\Server\Security\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -49,7 +50,9 @@ final class Authentication
         try {
             $user = $this->getAuthenticator()->authenticate($request)->getUser();
 
-            $token = $this->tokenManager->create($user);
+            $token = $this->tokenManager->create(
+                new JWTUser($user, $username)
+            );
 
             return ['token' => $token];
         } catch (AuthenticationException $e) {
