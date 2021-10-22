@@ -57,3 +57,9 @@ services:
             - method: setLogger
               arguments:
                   - '@logger'
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\ContentDomainIterator:
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'
