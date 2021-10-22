@@ -43,6 +43,7 @@ class GeneratePlatformSchemaCommand extends Command implements BackwardCompatibl
             ->setDescription('Generates the GraphQL schema for the Ibexa DXP instance')
             ->addOption('dry-run', null, InputOption::VALUE_OPTIONAL, 'Do not write, output the schema only', false)
             ->addOption('include', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
+            //->addOption('include', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Type to output or write', []);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -69,7 +70,7 @@ class GeneratePlatformSchemaCommand extends Command implements BackwardCompatibl
         }
 
         $output->writeln('');
-        $this->compileTypes($output);
+        //$this->compileTypes($output);
 
         return 0;
     }
