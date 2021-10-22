@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
 use eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface;
-use Ibexa\Rest\Server\Security\JWTUser;
+use EzSystems\EzPlatformGraphQL\Security\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
