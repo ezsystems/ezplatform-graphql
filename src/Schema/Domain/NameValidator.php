@@ -11,7 +11,7 @@ namespace Ibexa\GraphQL\Schema\Domain;
 /**
  * Validates given name according to GraphQL specification. See http://spec.graphql.org/June2018/#sec-Names.
  */
-final class NameValidator
+class NameValidator
 {
     private const NAME_PATTERN = '/^[_a-zA-Z][_a-zA-Z0-9]*$/';
 
