@@ -4,13 +4,9 @@ services:
         autowire: true
         public: false
 
-    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\:
-        resource: ../../GraphQL/DataLoader
-
-
-    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchContentLoader:
+    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentTypeLoader:
         arguments:
-            $searchService: '@ezpublish.siteaccessaware.service.search'
+            - '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\RepositoryContentTypeLoader'
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentLoader:
         arguments:
@@ -18,17 +14,17 @@ services:
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentLoader'
 
+    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentTypeLoader'
 
+    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\LocationLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchLocationLoader'
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\RepositoryContentTypeLoader:
         arguments:
             $contentTypeService: '@ezpublish.siteaccessaware.service.content_type'
 
-    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentTypeLoader:
+    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchContentLoader:
         arguments:
-            - '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\RepositoryContentTypeLoader'
-
-    EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentTypeLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentTypeLoader'
+            $searchService: '@ezpublish.siteaccessaware.service.search'
 
     EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\SearchLocationLoader:
         arguments:
