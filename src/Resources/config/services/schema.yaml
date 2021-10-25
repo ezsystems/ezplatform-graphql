@@ -4,9 +4,6 @@ services:
         autowire: true
         public: false
 
-    EzSystems\EzPlatformGraphQL\Schema\:
-        resource: '../../Schema/*'
-
     _instanceof:
         EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\BaseWorker:
             calls:
@@ -20,7 +17,7 @@ services:
             tags:
                 - {name: 'ezplatform_graphql.schema_domain_iterator'}
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToDomainContent: ~
+    EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder: ~
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper:
         alias: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
@@ -50,6 +47,42 @@ services:
         arguments:
             $innerMapper: '@EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\SelectionFieldDefinitionMapper.inner'
 
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemOfTypeConnectionToGroup: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemToGroup: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemTypeToItemGroupTypes: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\AddItemTypeToItemTypeIdentifierList: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineItem: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineItemConnection: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineItemMutation: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentType\DefineItemType: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup\AddDomainGroupToDomain: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup\DefineDomainGroup: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\ContentTypeGroup\DefineDomainGroupTypes: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToItemMutation: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldDefinitionToItemType: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\FieldDefinition\AddFieldValueToItem: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\Language\AddLanguageToEnum: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\ContentDomainIterator: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\LanguagesIterator: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper: ~
+
     Ibexa\GraphQL\Schema\Domain\NameValidator: ~
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\ImageVariationDomain:
@@ -57,3 +90,18 @@ services:
             - method: setLogger
               arguments:
                   - '@logger'
+
+    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\ContentDomainIterator:
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'
+
+    EzSystems\EzPlatformGraphQL\Schema\Builder:
+        alias: 'EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder'
+
+    EzSystems\EzPlatformGraphQL\Schema\Generator: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\ImagesVariationsBuilder: ~
+
+    EzSystems\EzPlatformGraphQL\Schema\SchemaGenerator: ~
