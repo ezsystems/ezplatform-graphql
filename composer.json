@@ -36,7 +36,7 @@
         "psr-4": {
             "spec\\EzSystems\\EzPlatformGraphQL\\Tools\\": "spec/Tools",
             "spec\\EzSystems\\EzPlatformGraphQL\\": "spec/EzSystems/EzPlatformGraphQL",
-            "sepc\\Ibexa\\GraphQL\\": "spec/Ibexa/GraphQL"
+            "spec\\Ibexa\\GraphQL\\": "spec/Ibexa/GraphQL"
         }
     },
     "extra": {
