@@ -10,8 +10,9 @@ services:
         tags:
             -  { name: console.command }
 
-    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\:
-        resource: '../../GraphQL/InputMapper'
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQueryMapper: ~
+
+    EzSystems\EzPlatformGraphQL\GraphQL\InputMapper\SearchQuerySortByMapper: ~
 
     EzSystems\EzPlatformGraphQL\Security\NonAdminGraphQLRequestMatcher:
         arguments:
