@@ -47,6 +47,8 @@ services:
             $thumbnailStrategy: '@eZ\Publish\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
 
     EzSystems\EzPlatformGraphQL\GraphQL\Mutation\Authentication:
+        arguments:
+            $authenticator: '@?ezpublish_rest.session_authenticator'
         tags:
             - { name: overblog_graphql.mutation, alias: "CreateToken", method: "createToken" }
 
