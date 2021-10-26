@@ -8,26 +8,31 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Mutation;
 
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\Core\MVC\Symfony\Security\User;
+use eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface;
+use EzSystems\EzPlatformGraphQL\Security\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 final class Authentication
 {
-    /**
-     * @var \eZ\Publish\API\Repository\UserService
-     */
-    private $userService;
-
-    /**
-     * @var \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface
-     */
+    /** @var \Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface */
     private $tokenManager;
 
-    public function __construct(UserService $userService, JWTTokenManagerInterface $tokenManager)
-    {
-        $this->userService = $userService;
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    private $requestStack;
+
+    /** @var \eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface|null */
+    private $authenticator;
+
+    public function __construct(
+        JWTTokenManagerInterface $tokenManager,
+        RequestStack $requestStack,
+        ?AuthenticatorInterface $authenticator = null
+    ) {
         $this->tokenManager = $tokenManager;
+        $this->requestStack = $requestStack;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -38,13 +43,34 @@ final class Authentication
         $username = $args['username'];
         $password = $args['password'];
 
-        $apiUser = $this->userService->loadUserByLogin($username);
-        if (!$this->userService->checkUserCredentials($apiUser, $password)) {
+        $request = $this->requestStack->getCurrentRequest();
+        $request->attributes->set('username', $username);
+        $request->attributes->set('password', (string) $password);
+
+        try {
+            $user = $this->getAuthenticator()->authenticate($request)->getUser();
+
+            $token = $this->tokenManager->create(
+                new JWTUser($user, $username)
+            );
+
+            return ['token' => $token];
+        } catch (AuthenticationException $e) {
             return ['message' => 'Wrong username or password', 'token' => null];
         }
+    }
 
-        $token = $this->tokenManager->create(new User($apiUser, ['ROLE_USER']));
+    private function getAuthenticator(): AuthenticatorInterface
+    {
+        if (null === $this->authenticator) {
+            throw new \RuntimeException(
+                sprintf(
+                    "No %s instance injected. Ensure 'ezpublish_rest_session' is configured under your firewall",
+                    AuthenticatorInterface::class
+                )
+            );
+        }
 
-        return ['token' => $token];
+        return $this->authenticator;
     }
 }
