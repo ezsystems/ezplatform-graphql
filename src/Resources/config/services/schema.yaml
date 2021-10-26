@@ -77,8 +77,6 @@ services:
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Worker\Language\AddLanguageToEnum: ~
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\Content\ContentDomainIterator: ~
-
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\LanguagesIterator: ~
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper: ~
