@@ -123,9 +123,9 @@ final class ItemResolver
         return $item;
     }
 
-    public function resolveItemFieldValue(Item $item, $fieldDefinitionIdentifier): Field
+    public function resolveItemFieldValue(Item $item, $fieldDefinitionIdentifier, $args = null): Field
     {
-        return Field::fromField($item->getContent()->getField($fieldDefinitionIdentifier));
+        return Field::fromField($item->getContent()->getField($fieldDefinitionIdentifier, $args['language'] ?? null));
     }
 
     public function resolveItemsOfTypeAsConnection(string $contentTypeIdentifier, $args): Connection
