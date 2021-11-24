@@ -71,9 +71,8 @@ class UpdateSchemaIfNeeded implements EventSubscriberInterface
 
         $this->logger->info("Update needed with timestamp $remoteSchemaTimestamp");
 
-        $newSchemaPath = $this->updateSchemaFromSharedResource($remoteSchemaTimestamp);
-
-        $installSchemaCallback = function() use($newSchemaPath, $lock) {
+        $installSchemaCallback = function() use($remoteSchemaTimestamp, $lock) {
+            $newSchemaPath = $this->updateSchemaFromSharedResource($remoteSchemaTimestamp);
             if ($this->logger) {
                 $this->logger->info("Applying the updated schema ($newSchemaPath -> $this->definitionsDirectory)");
             }
