@@ -20,9 +20,9 @@ class RedisTimestampHandler implements TimestampHandler
      */
     private $key;
 
-    public function __construct(Redis $redis, string $key = 'graphql_schema_timestamp')
+    public function __construct(Redis $graphQLSyncRedis, string $key = 'graphql_schema_timestamp')
     {
-        $this->redis = $redis;
+        $this->redis = $graphQLSyncRedis;
         $this->key = $key;
     }
 

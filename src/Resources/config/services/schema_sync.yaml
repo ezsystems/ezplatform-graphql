@@ -7,6 +7,9 @@ services:
         autoconfigure: true
         autowire: true
         public: false
+        bind:
+            EzSystems\EzPlatformGraphQL\Schema\Sync\TimestampHandler: '@EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler'
+            Redis $graphQLSyncRedis: '@ibexa_graphql.sync.redis_client'
 
     EzSystems\EzPlatformGraphQL\Command\PublishSchemaCommand:
         arguments:
@@ -26,14 +29,11 @@ services:
         arguments:
             $definitionsDirectory: '%ibexa_graphql.definitions_directory%'
 
-    ibexa_graphql.redis:
+    ibexa_graphql.sync.redis_client:
         class: Redis
         calls:
             - connect: ['%env(REDIS_GRAPHQL_HOST)%', '%env(REDIS_GRAPHQL_PORT)%']
             - select: ['%env(REDIS_GRAPHQL_DBINDEX)%']
 
-    EzSystems\EzPlatformGraphQL\Schema\Sync\TimestampHandler: '@EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler'
+    EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler: ~
 
-    EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler:
-        arguments:
-            $redis: '@ibexa_graphql.redis'

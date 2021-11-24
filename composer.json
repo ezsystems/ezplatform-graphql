@@ -19,7 +19,6 @@
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "ezsystems/ezplatform-rest": "^1.2@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
-        "ext-redis": "*",
         "lexik/jwt-authentication-bundle": "^2.8",
         "overblog/graphql-bundle": "^0.12",
         "erusev/parsedown": "^1.7",
@@ -43,6 +42,10 @@
         "friendsofphp/php-cs-fixer": "^2.16.0",
         "ezsystems/ezplatform-code-style": "^0.1.0",
         "mikey179/vfsstream": "^1.6"
+    },
+    "suggest": {
+        "aws/aws-sdk-php": "For compiled schema synchronization over AWS-S3",
+        "ext-redis": "*"
     },
     "autoload": {
         "psr-4": {

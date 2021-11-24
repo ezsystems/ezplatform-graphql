@@ -6,6 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\DependencyInjection;
 
+use Aws\S3\S3Client;
 use EzSystems\EzPlatformGraphQL\DependencyInjection\GraphQL\YamlSchemaProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -42,6 +43,13 @@ class EzSystemsEzPlatformGraphQLExtension extends Extension implements PrependEx
         $loader->load('services/schema_sync.yaml');
         $loader->load('services/services.yaml');
         $loader->load('default_settings.yaml');
+
+        if (extension_loaded('redis')) {
+            $loader->load('services/schema_sync.yaml');
+            if (class_exists(S3Client::class)) {
+                $loader->load('services/schema_sync_s3.yaml');
+            }
+        }
     }
 
     /**
