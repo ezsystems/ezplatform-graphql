@@ -7,10 +7,25 @@
 namespace EzSystems\EzPlatformGraphQL\Schema\Builder;
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder as SchemaBuilderInterface;
+use Ibexa\GraphQL\Schema\Domain\NameValidator;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
-class SchemaBuilder implements SchemaBuilderInterface
+class SchemaBuilder implements SchemaBuilderInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     private $schema = [];
+
+    /** @var \Ibexa\GraphQL\Schema\Domain\NameValidator */
+    private $nameValidator;
+
+    public function __construct(NameValidator $nameValidator)
+    {
+        $this->nameValidator = $nameValidator;
+        $this->logger = new NullLogger();
+    }
 
     public function getSchema(): array
     {
@@ -19,6 +34,11 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     public function addType(Input\Type $typeInput)
     {
+        if (!$this->nameValidator->isValidName($typeInput->name)) {
+            $this->generateInvalidGraphQLNameWarning($typeInput->type, $typeInput->name);
+            return;
+        }
+
         if ($this->hasType($typeInput->name)) {
             throw new \Exception("The type $typeInput->name is already defined");
         }
@@ -43,6 +63,11 @@ class SchemaBuilder implements SchemaBuilderInterface
 
     public function addFieldToType($type, Input\Field $fieldInput)
     {
+        if (!$this->nameValidator->isValidName($fieldInput->name)) {
+            $this->generateInvalidGraphQLNameWarning($fieldInput->type, $fieldInput->name);
+            return;
+        }
+
         if (!$this->hasType($type)) {
             throw new \Exception("Expected type $type to be defined, but it was not");
         }
@@ -149,5 +174,14 @@ class SchemaBuilder implements SchemaBuilderInterface
     public function hasEnum($enum): bool
     {
         return $this->hasType($enum);
+    }
+
+    private function generateInvalidGraphQLNameWarning(string $type, string $name): void
+    {
+        $message = "Skipping schema generation for %s with identifier '%s'. "
+            . 'Please rename given %s according to GraphQL specification '
+            . '(http://spec.graphql.org/June2018/#sec-Names)';
+
+        $this->logger->warning(sprintf($message, $type, $name, $type));
     }
 }
