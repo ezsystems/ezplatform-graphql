@@ -54,7 +54,7 @@ class ContentDomainIteratorSpec extends ObjectBehavior
     }
 
     function it_yields_content_types_with_their_group_from_a_content_type_group(
-        ContentTypeService $contentTypeService,
+        ContentTypeService $contentTypeService
     ) {
         $contentTypeService->loadContentTypeGroups()->willReturn([
             $group = new ContentTypeGroup(['identifier' => 'Group']),
