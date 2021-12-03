@@ -23,7 +23,8 @@ class ImageVariationDomain implements Domain\Iterator, Schema\Worker
     /** @var \eZ\Publish\Core\MVC\ConfigResolverInterface */
     private $configResolver;
 
-    public function __construct(ConfigResolverInterface $configResolver) {
+    public function __construct(ConfigResolverInterface $configResolver)
+    {
         $this->configResolver = $configResolver;
     }
 

@@ -36,6 +36,7 @@ class SchemaBuilder implements SchemaBuilderInterface, LoggerAwareInterface
     {
         if (!$this->nameValidator->isValidName($typeInput->name)) {
             $this->generateInvalidGraphQLNameWarning($typeInput->type, $typeInput->name);
+
             return;
         }
 
@@ -65,6 +66,7 @@ class SchemaBuilder implements SchemaBuilderInterface, LoggerAwareInterface
     {
         if (!$this->nameValidator->isValidName($fieldInput->name)) {
             $this->generateInvalidGraphQLNameWarning($fieldInput->type, $fieldInput->name);
+
             return;
         }
 
