@@ -180,10 +180,9 @@ class SchemaBuilder implements SchemaBuilderInterface, LoggerAwareInterface
 
     private function generateInvalidGraphQLNameWarning(string $type, string $name): void
     {
-        $message = "Skipping schema generation for %s with identifier '%s'. "
-            . 'Please rename given %s according to GraphQL specification '
-            . '(http://spec.graphql.org/June2018/#sec-Names)';
+        $message = "Skipping schema generation for %s with identifier '%s' as it stands against GraphQL specification. "
+            . 'For more details see http://spec.graphql.org/[latest-release]/#sec-Names.';
 
-        $this->logger->warning(sprintf($message, $type, $name, $type));
+        $this->logger->warning(sprintf($message, $type, $name));
     }
 }
