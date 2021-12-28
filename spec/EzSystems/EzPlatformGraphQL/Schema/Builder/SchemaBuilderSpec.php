@@ -1,10 +1,16 @@
 <?php
 
+/**
+ * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Builder;
 
 use EzSystems\EzPlatformGraphQL\Schema\Builder\Input;
 use EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder;
+use Ibexa\GraphQL\Schema\Domain\NameValidator;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class SchemaBuilderSpec extends ObjectBehavior
 {
@@ -17,13 +23,20 @@ class SchemaBuilderSpec extends ObjectBehavior
     const ARG = 'arg';
     const ARG_TYPE = 'Boolean';
 
-    function it_is_initializable()
+    public function let(NameValidator $nameValidator)
+    {
+        $this->beConstructedWith($nameValidator);
+    }
+
+    public function it_is_initializable()
     {
         $this->shouldHaveType(SchemaBuilder::class);
     }
 
-    function it_adds_a_type_to_the_schema()
+    public function it_adds_a_type_to_the_schema(NameValidator $nameValidator)
     {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $this->addType($this->inputType('Parent', 'Interface'));
 
         $schema = $this->getSchema();
@@ -33,8 +46,10 @@ class SchemaBuilderSpec extends ObjectBehavior
         $schema->shouldHaveGraphQLTypeThatImplements('Interface');
     }
 
-    function it_adds_a_field_to_an_existing_type()
+    public function it_adds_a_field_to_an_existing_type(NameValidator $nameValidator)
     {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $this->addType($this->inputType());
         $this->addFieldToType(self::TYPE,
             $this->inputField('Description', '@=resolver("myresolver")')
@@ -47,8 +62,10 @@ class SchemaBuilderSpec extends ObjectBehavior
         $schema->shouldHaveGraphQLTypeFieldWithResolve('@=resolver("myresolver")');
     }
 
-    function it_adds_an_argument_to_an_existing_type_field()
+    public function it_adds_an_argument_to_an_existing_type_field(NameValidator $nameValidator)
     {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $this->addType($this->inputType());
         $this->addFieldToType(self::TYPE, $this->inputField());
         $this->addArgToField(self::TYPE, self::FIELD, $this->inputArg('Description'));
@@ -112,7 +129,7 @@ class SchemaBuilderSpec extends ObjectBehavior
             self::TYPE, self::TYPE_TYPE,
             [
                 'inherits' => $inherits,
-                'interfaces' => $interfaces
+                'interfaces' => $interfaces,
             ]
         );
     }
