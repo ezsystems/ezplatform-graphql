@@ -19,11 +19,7 @@ services:
 
     EzSystems\EzPlatformGraphQL\Schema\Builder\SchemaBuilder:
         arguments:
-            - '@Ibexa\GraphQL\Schema\Domain\NameValidator'
-        calls:
-            - method: setLogger
-              arguments:
-                  - '@logger'
+            $nameValidator: '@Ibexa\GraphQL\Schema\Domain\NameValidator'
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\FieldDefinitionMapper:
         alias: EzSystems\EzPlatformGraphQL\Schema\Domain\Content\Mapper\FieldDefinition\DefaultFieldDefinitionMapper
@@ -87,9 +83,15 @@ services:
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper: ~
 
-    Ibexa\GraphQL\Schema\Domain\NameValidator: ~
+    Ibexa\GraphQL\Schema\Domain\NameValidator:
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'
 
-    EzSystems\EzPlatformGraphQL\Schema\Domain\ImageVariationDomain: ~
+    EzSystems\EzPlatformGraphQL\Schema\Domain\ImageVariationDomain:
+        arguments:
+            $nameValidator: '@Ibexa\GraphQL\Schema\Domain\NameValidator'
 
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\ContentDomainIterator: ~
 
