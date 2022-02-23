@@ -19,6 +19,7 @@
         "ezsystems/ezplatform-admin-ui": "^2.0@dev",
         "ezsystems/ezplatform-rest": "^1.2@dev",
         "ezsystems/ezplatform-richtext": "^2.0@dev",
+        "ibexa/graphql-php": "^0.13",
         "lexik/jwt-authentication-bundle": "^2.8",
         "overblog/graphql-bundle": "^0.13",
         "erusev/parsedown": "^1.7",
