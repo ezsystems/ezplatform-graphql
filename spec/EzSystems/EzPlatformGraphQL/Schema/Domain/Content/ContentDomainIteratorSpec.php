@@ -1,6 +1,7 @@
 <?php
 namespace spec\EzSystems\EzPlatformGraphQL\Schema\Domain\Content;
 
+use Ibexa\GraphQL\Schema\Domain\NameValidator;
 use spec\EzSystems\EzPlatformGraphQL\Tools\TypeArgument;
 use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
@@ -13,9 +14,11 @@ use EzSystems\EzPlatformGraphQL\Schema\Builder;
 
 class ContentDomainIteratorSpec extends ObjectBehavior
 {
-    public function let(ContentTypeService $contentTypeService)
-    {
-        $this->beConstructedWith($contentTypeService);
+    public function let(
+        ContentTypeService $contentTypeService,
+        NameValidator $nameValidator
+    ) {
+        $this->beConstructedWith($contentTypeService, $nameValidator);
     }
 
     function it_is_initializable()
@@ -54,8 +57,11 @@ class ContentDomainIteratorSpec extends ObjectBehavior
     }
 
     function it_yields_content_types_with_their_group_from_a_content_type_group(
-        ContentTypeService $contentTypeService
+        ContentTypeService $contentTypeService,
+        NameValidator $nameValidator
     ) {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $contentTypeService->loadContentTypeGroups()->willReturn([
             $group = new ContentTypeGroup(['identifier' => 'Group']),
         ]);
@@ -76,8 +82,11 @@ class ContentDomainIteratorSpec extends ObjectBehavior
     }
 
     function it_yields_fields_definitions_with_their_content_types_and_group_from_a_content_type(
-        ContentTypeService $contentTypeService
+        ContentTypeService $contentTypeService,
+        NameValidator $nameValidator
     ) {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $contentTypeService->loadContentTypeGroups()->willReturn([
             $group = new ContentTypeGroup(['identifier' => 'Group']),
         ]);
@@ -104,8 +113,11 @@ class ContentDomainIteratorSpec extends ObjectBehavior
     }
 
     function it_only_yields_fields_definitions_from_the_current_content_type(
-        ContentTypeService $contentTypeService
+        ContentTypeService $contentTypeService,
+        NameValidator $nameValidator
     ) {
+        $nameValidator->isValidName(Argument::any())->willReturn(true);
+
         $contentTypeService->loadContentTypeGroups()->willReturn([
             $group = new ContentTypeGroup([
                 'identifier' => 'group'
