@@ -21,10 +21,3 @@ services:
     EzSystems\EzPlatformGraphQL\Schema\Domain\Content\NameHelper:
         arguments:
             $fieldNameOverrides: '%ezplatform_graphql.schema.content.field_name.override%'
-
-    EzSystems\EzPlatformGraphQL\GraphQL\Mapper\ContentImageAssetMapperStrategy:
-        arguments:
-            $assetMapper: '@eZ\Publish\Core\FieldType\ImageAsset\AssetMapper'
-            $contentLoader: '@EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\CachedContentLoader'
-        tags:
-            - { name: ibexa.fieldtype.image_asset.mapper_strategy, priority: 0 }

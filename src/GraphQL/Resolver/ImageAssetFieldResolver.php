@@ -6,15 +6,15 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use EzSystems\EzPlatformGraphQL\GraphQL\Mapper\ImageAssetMapperStrategyInterface;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
+use Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface;
 
 /**
  * @internal
  */
 class ImageAssetFieldResolver
 {
-    /* @var \Ibexa\GraphQL\Mapper\ImageAssetMapperStrategyInterface[] */
+    /* @var \Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface[] */
     private $strategies;
 
     /**
