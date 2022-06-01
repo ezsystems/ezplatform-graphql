@@ -6,9 +6,7 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
+use EzSystems\EzPlatformGraphQL\GraphQL\Mapper\ImageAssetMapperStrategyInterface;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
 
 /**
@@ -16,27 +14,27 @@ use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
  */
 class ImageAssetFieldResolver
 {
-    /**
-     * @var DomainContentResolver
-     */
-    private $domainContentResolver;
-    /**
-     * @var ContentLoader
-     */
-    private $contentLoader;
-    /**
-     * @var AssetMapper
-     */
-    private $assetMapper;
+    /* @var \Ibexa\GraphQL\Mapper\ImageAssetMapperStrategyInterface[] */
+    private $strategies;
 
-    public function __construct(ContentLoader $contentLoader, DomainContentResolver $domainContentResolver, AssetMapper $assetMapper)
+    /**
+     * @param iterable<ImageAssetMapperStrategyInterface> $strategies
+     */
+    public function __construct(iterable $strategies)
     {
-        $this->domainContentResolver = $domainContentResolver;
-        $this->contentLoader = $contentLoader;
-        $this->assetMapper = $assetMapper;
+        foreach ($strategies as $strategy) {
+            if ($strategy instanceof ImageAssetMapperStrategyInterface) {
+                $this->addStrategy($strategy);
+            }
+        }
     }
 
-    public function resolveDomainImageAssetFieldValue(Field $field)
+    private function addStrategy(ImageAssetMapperStrategyInterface $strategy): void
+    {
+        $this->strategies[] = $strategy;
+    }
+
+    public function resolveDomainImageAssetFieldValue(Field $field): ?Field
     {
         $destinationContentId = $field->value->destinationContentId;
 
@@ -44,14 +42,14 @@ class ImageAssetFieldResolver
             return null;
         }
 
-        $assetField = $this->assetMapper->getAssetField(
-            $this->contentLoader->findSingle(new Criterion\ContentId($destinationContentId))
-        );
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->canProcess($field->value)) {
+                $assetField = $strategy->process($field->value);
 
-        if (empty($assetField->value->alternativeText)) {
-            $assetField->value->alternativeText = $field->value->alternativeText;
+                return Field::fromField($assetField);
+            }
         }
 
-        return Field::fromField($assetField);
+        return null;
     }
 }
