@@ -7,7 +7,7 @@
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
-use Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface;
+use Ibexa\GraphQL\GraphQL\Mapper\ImageAssetMapperStrategyInterface;
 
 /**
  * @internal
