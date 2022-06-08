@@ -14,24 +14,19 @@ use Ibexa\GraphQL\GraphQL\Mapper\ImageAssetMapperStrategyInterface;
  */
 class ImageAssetFieldResolver
 {
-    /* @var \Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface[] */
+    /* @var array<\Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface> */
     private $strategies;
 
     /**
-     * @param iterable<ImageAssetMapperStrategyInterface> $strategies
+     * @param iterable<\Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface> $strategies
      */
     public function __construct(iterable $strategies)
     {
         foreach ($strategies as $strategy) {
             if ($strategy instanceof ImageAssetMapperStrategyInterface) {
-                $this->addStrategy($strategy);
+                $this->strategies[] = $strategy;
             }
         }
-    }
-
-    private function addStrategy(ImageAssetMapperStrategyInterface $strategy): void
-    {
-        $this->strategies[] = $strategy;
     }
 
     public function resolveDomainImageAssetFieldValue(Field $field): ?Field
