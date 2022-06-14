@@ -6,37 +6,30 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
-use EzSystems\EzPlatformGraphQL\GraphQL\DataLoader\ContentLoader;
 use EzSystems\EzPlatformGraphQL\GraphQL\Value\Field;
+use Ibexa\GraphQL\GraphQL\Mapper\ImageAssetMapperStrategyInterface;
 
 /**
  * @internal
  */
 class ImageAssetFieldResolver
 {
-    /**
-     * @var DomainContentResolver
-     */
-    private $domainContentResolver;
-    /**
-     * @var ContentLoader
-     */
-    private $contentLoader;
-    /**
-     * @var AssetMapper
-     */
-    private $assetMapper;
+    /* @var array<\Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface> */
+    private $strategies;
 
-    public function __construct(ContentLoader $contentLoader, DomainContentResolver $domainContentResolver, AssetMapper $assetMapper)
+    /**
+     * @param iterable<\Ibexa\Core\FieldType\ImageAsset\ImageAssetMapperStrategyInterface> $strategies
+     */
+    public function __construct(iterable $strategies)
     {
-        $this->domainContentResolver = $domainContentResolver;
-        $this->contentLoader = $contentLoader;
-        $this->assetMapper = $assetMapper;
+        foreach ($strategies as $strategy) {
+            if ($strategy instanceof ImageAssetMapperStrategyInterface) {
+                $this->strategies[] = $strategy;
+            }
+        }
     }
 
-    public function resolveDomainImageAssetFieldValue(Field $field)
+    public function resolveDomainImageAssetFieldValue(Field $field): ?Field
     {
         $destinationContentId = $field->value->destinationContentId;
 
@@ -44,14 +37,14 @@ class ImageAssetFieldResolver
             return null;
         }
 
-        $assetField = $this->assetMapper->getAssetField(
-            $this->contentLoader->findSingle(new Criterion\ContentId($destinationContentId))
-        );
+        foreach ($this->strategies as $strategy) {
+            if ($strategy->canProcess($field->value)) {
+                $assetField = $strategy->process($field->value);
 
-        if (empty($assetField->value->alternativeText)) {
-            $assetField->value->alternativeText = $field->value->alternativeText;
+                return Field::fromField($assetField);
+            }
         }
 
-        return Field::fromField($assetField);
+        return null;
     }
 }

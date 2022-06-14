@@ -126,6 +126,8 @@ services:
             - { name: overblog_graphql.resolver, alias: "DateTimeFormat", method: "resolveDateToFormat"}
 
     EzSystems\EzPlatformGraphQL\GraphQL\Resolver\ImageAssetFieldResolver:
+        arguments:
+            $strategies: !tagged_iterator ibexa.field_type.image_asset.mapper.strategy
         tags:
             - { name: overblog_graphql.resolver, alias: "DomainImageAssetFieldValue", method: "resolveDomainImageAssetFieldValue"}
 
