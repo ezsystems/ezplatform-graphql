@@ -93,17 +93,20 @@ BinaryBaseFieldValue:
     config:
         fields:
             id:
-                type: String
+                type: "String"
+                resolve: "@=value.id"
             fileName:
-                type: String
+                type: "String"
+                resolve: "@=value.fileName"
             fileSize:
-                type: Int
+                type: "Int"
+                resolve: "@=value.fileSize"
             mimeType:
-                type: String
+                type: "String"
+                resolve: "@=value.mimeType"
             uri:
-                type: String
-            text:
-                type: String
+                type: "String"
+                resolve: "@=value.uri"
 
 BinaryFileFieldValue:
     type: object
