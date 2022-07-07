@@ -88,13 +88,10 @@ AuthorFieldValue:
             email:
                 type: "String"
 
-BinaryBaseFieldValue:
+BinaryFileFieldValue:
     type: object
     config:
         fields:
-            id:
-                type: "String"
-                resolve: "@=value.id"
             fileName:
                 type: "String"
                 resolve: "@=value.fileName"
@@ -107,14 +104,6 @@ BinaryBaseFieldValue:
             uri:
                 type: "String"
                 resolve: "@=value.uri"
-
-BinaryFileFieldValue:
-    type: object
-    config:
-        fields:
-            downloadCount:
-                type: Int
-    inherits: [BinaryBaseFieldValue]
 
 CountryFieldValue:
     type: object
@@ -210,7 +199,7 @@ MediaFieldValue:
                 type: Int
                 description: "Width of the media."
                 resolve: "@=value.width"
-    inherits: [BinaryBaseFieldValue]
+    inherits: [BinaryFileFieldValue]
 
 PriceFieldValue:
     type: object
