@@ -88,30 +88,22 @@ AuthorFieldValue:
             email:
                 type: "String"
 
-BinaryBaseFieldValue:
-    type: object
-    config:
-        fields:
-            id:
-                type: String
-            fileName:
-                type: String
-            fileSize:
-                type: Int
-            mimeType:
-                type: String
-            uri:
-                type: String
-            text:
-                type: String
-
 BinaryFileFieldValue:
     type: object
     config:
         fields:
-            downloadCount:
-                type: Int
-    inherits: [BinaryBaseFieldValue]
+            fileName:
+                type: "String"
+                resolve: "@=value.fileName"
+            fileSize:
+                type: "Int"
+                resolve: "@=value.fileSize"
+            mimeType:
+                type: "String"
+                resolve: "@=value.mimeType"
+            uri:
+                type: "String"
+                resolve: "@=value.uri"
 
 CountryFieldValue:
     type: object
@@ -207,7 +199,7 @@ MediaFieldValue:
                 type: Int
                 description: "Width of the media."
                 resolve: "@=value.width"
-    inherits: [BinaryBaseFieldValue]
+    inherits: [BinaryFileFieldValue]
 
 PriceFieldValue:
     type: object
