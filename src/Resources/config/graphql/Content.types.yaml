@@ -88,10 +88,10 @@ ContentRelation:
                 type: "String"
             sourceContent:
                 type: "DomainContent"
-                resolve: "@=value.sourceContentInfo"
+                resolve: "@=resolver('DomainContentItem', [{id: value.sourceContentInfo.id}, null])"
             destinationContent:
                 type: "DomainContent"
-                resolve: "@=value.destinationContentInfo"
+                resolve: "@=resolver('DomainContentItem', [{id: value.destinationContentInfo.id}, null])"
             type:
                 type: RelationType
 
