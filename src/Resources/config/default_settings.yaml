@@ -29,6 +29,9 @@ parameters:
       input_type: DateFieldInput
     ezemail:
       value_type: String
+    ezuser:
+      value_type: String
+      value_resolver: 'field.id'
     ezfloat:
       definition_type: FloatFieldDefinition
       value_type: Float

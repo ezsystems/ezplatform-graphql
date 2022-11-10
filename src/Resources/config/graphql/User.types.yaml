@@ -16,14 +16,6 @@ User:
                 type: "Version"
                 description: "Current version metadata"
                 resolve: "@=value.versionInfo"
-            login:
-                type: "String"
-            email:
-                type: "String"
-            passwordHash:
-                type: "String"
-            hashAlgorithm:
-                type: "String"
             enabled:
                 type: "Boolean"
             maxLogin:
