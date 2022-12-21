@@ -36,6 +36,9 @@ ImageFieldValue:
             height:
                 type: "Int"
                 resolve: "@=value.height"
+            additionalData:
+                type: "ImageAdditionalData"
+                resolve: "@=value.additionalData"
             variations:
                 type: "[ImageVariation]"
                 args:
@@ -50,6 +53,17 @@ ImageFieldValue:
                         type: ImageVariationIdentifier!
                         description: "A variation identifier."
                 resolve: "@=resolver('ImageVariation', [value.value, args])"
+
+ImageAdditionalData:
+    type: object
+    config:
+        fields:
+            focalPointX:
+                type: "Int"
+                description: "The X value of focal point"
+            focalPointY:
+                type: "Int"
+                description: "The Y value of focal point"
 
 ImageVariation:
     type: object
