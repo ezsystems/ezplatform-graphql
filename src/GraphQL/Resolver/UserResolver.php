@@ -12,6 +12,7 @@ use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\Content;
 use eZ\Publish\API\Repository\Values\User\User;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
+use Overblog\GraphQLBundle\Error\UserWarning;
 
 /**
  * @internal
@@ -53,7 +54,7 @@ class UserResolver
         try {
             return $this->userService->loadUser($userId);
         } catch (NotFoundException $e) {
-            return null;
+            throw new UserWarning($e->getMessage());
         }
     }
 
