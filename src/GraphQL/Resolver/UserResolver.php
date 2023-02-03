@@ -6,10 +6,13 @@
  */
 namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 
+use eZ\Publish\API\Repository\Exceptions\NotFoundException;
 use eZ\Publish\API\Repository\LocationService;
 use eZ\Publish\API\Repository\UserService;
 use eZ\Publish\API\Repository\Values\Content\Content;
+use eZ\Publish\API\Repository\Values\User\User;
 use eZ\Publish\API\Repository\Values\User\UserGroup;
+use Overblog\GraphQLBundle\Error\UserWarning;
 
 /**
  * @internal
@@ -46,9 +49,13 @@ class UserResolver
         }
     }
 
-    public function resolveUserById($userId)
+    public function resolveUserById($userId): ?User
     {
-        return $this->userService->loadUser($userId);
+        try {
+            return $this->userService->loadUser($userId);
+        } catch (NotFoundException $e) {
+            throw new UserWarning($e->getMessage());
+        }
     }
 
     /**
