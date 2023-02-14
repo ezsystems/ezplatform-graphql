@@ -65,6 +65,9 @@
             "dev-master": "2.3.x-dev"
         }
     },
+    "config": {
+        "allow-plugins": false
+    },
     "scripts": {
         "fix-cs": "php-cs-fixer fix -v --show-progress=estimating",
         "check-cs": "@fix-cs --dry-run",
