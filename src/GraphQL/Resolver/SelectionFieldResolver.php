@@ -39,7 +39,7 @@ class SelectionFieldResolver
         if ($field === null) {
             return null;
         }
-        
+
         $fieldDefinition = $this
             ->contentTypeLoader->load($content->contentInfo->contentTypeId)
             ->getFieldDefinition($field->fieldDefIdentifier);
