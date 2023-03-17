@@ -4,7 +4,7 @@ parameters:
   ezplatform_graphql.schema.content.mapping.field_definition_type:
     ezauthor:
       value_type: "[AuthorFieldValue]"
-      value_resolver: 'field.authors'
+      value_resolver: 'field !== null ? field.authors : null'
       input_type: '[AuthorInput]'
     ezbinaryfile:
       definition_type: BinaryFieldDefinition
@@ -13,7 +13,7 @@ parameters:
     ezboolean:
       definition_type: CheckboxFieldDefinition
       value_type: Boolean
-      value_resolver: 'field.bool'
+      value_resolver: 'field !== null ? field.bool : null'
       input_type: Boolean
     ezcountry:
       definition_type: CountryFieldDefinition
@@ -21,11 +21,11 @@ parameters:
       input_type: '[String]'
     ezdate:
       value_type: DateTime
-      value_resolver: 'field.date'
+      value_resolver: 'field !== null ? field.date : null'
       input_type: DateFieldInput
     ezdatetime:
       value_type: DateTime
-      value_resolver: 'field.value'
+      value_resolver: 'field !== null ? field.value : null'
       input_type: DateFieldInput
     ezemail:
       value_type: String
@@ -35,7 +35,7 @@ parameters:
     ezfloat:
       definition_type: FloatFieldDefinition
       value_type: Float
-      value_resolver: 'field.value'
+      value_resolver: 'field !== null ? field.value : null'
       input_type: Float
     ezgmaplocation:
       value_type: MapLocationFieldValue
@@ -50,11 +50,11 @@ parameters:
     ezinteger:
       definition_type: IntegerFieldDefinition
       value_type: Int
-      value_resolver: 'field.value'
+      value_resolver: 'field !== null ? field.value : null'
       input_type: Int
     ezkeyword:
       value_type: '[String]'
-      value_resolver: 'field.values'
+      value_resolver: 'field !== null ? field.values : null'
       input_type: '[String]'
     ezmedia:
       definition_type: MediaFieldDefinition

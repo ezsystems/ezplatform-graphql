@@ -136,8 +136,12 @@ class DomainContentResolver
         return Field::fromField($content->getField($fieldDefinitionIdentifier, $args['language'] ?? null));
     }
 
-    public function resolveDomainRelationFieldValue(Field $field, $multiple = false)
+    public function resolveDomainRelationFieldValue(?Field $field, $multiple = false)
     {
+        if ($field === null) {
+            return null;
+        }
+
         $destinationContentIds = $this->getContentIds($field);
 
         if (empty($destinationContentIds) || array_key_exists(0, $destinationContentIds) && null === $destinationContentIds[0]) {
