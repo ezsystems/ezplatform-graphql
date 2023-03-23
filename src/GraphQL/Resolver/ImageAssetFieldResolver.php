@@ -29,8 +29,12 @@ class ImageAssetFieldResolver
         }
     }
 
-    public function resolveDomainImageAssetFieldValue(Field $field): ?Field
+    public function resolveDomainImageAssetFieldValue(?Field $field): ?Field
     {
+        if ($field === null) {
+            return null;
+        }
+
         $destinationContentId = $field->value->destinationContentId;
 
         if ($destinationContentId === null) {
