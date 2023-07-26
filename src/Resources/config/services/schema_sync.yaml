@@ -1,0 +1,39 @@
+parameters:
+    ibexa_graphql.definitions_directory: '%kernel.cache_dir%/overblog/graphql-bundle/__definitions__'
+    ibexa_graphql.sync.shared_directory: '/tmp/graphql-schema'
+
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+        bind:
+            EzSystems\EzPlatformGraphQL\Schema\Sync\TimestampHandler: '@EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler'
+            Redis $graphQLSyncRedis: '@ibexa_graphql.sync.redis_client'
+
+    EzSystems\EzPlatformGraphQL\Command\PublishSchemaCommand:
+        arguments:
+            $definitionsDirectory: '%ibexa_graphql.definitions_directory%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\LocalFolderSharedSchema:
+        arguments:
+            $sharedDirectory: '%ibexa_graphql.sync.shared_directory%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\SharedSchema: '@EzSystems\EzPlatformGraphQL\Schema\Sync\LocalFolderSharedSchema'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\AddTypesSolutions:
+        arguments:
+            $definitionsDirectory: '%ibexa_graphql.definitions_directory%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\UpdateSchemaIfNeeded:
+        arguments:
+            $definitionsDirectory: '%ibexa_graphql.definitions_directory%'
+
+    ibexa_graphql.sync.redis_client:
+        class: Redis
+        calls:
+            - connect: ['%env(REDIS_GRAPHQL_HOST)%', '%env(REDIS_GRAPHQL_PORT)%']
+            - select: ['%env(REDIS_GRAPHQL_DBINDEX)%']
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler: ~
+
