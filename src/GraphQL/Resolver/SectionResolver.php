@@ -9,6 +9,7 @@ namespace EzSystems\EzPlatformGraphQL\GraphQL\Resolver;
 use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
 use eZ\Publish\API\Repository\Values\Content\Section;
 use eZ\Publish\API\Repository\SectionService;
+use GraphQL\Error\UserError;
 
 /**
  * @internal
@@ -29,8 +30,8 @@ class SectionResolver
     {
         try {
             return $this->sectionService->loadSection($sectionId);
-        } catch (UnauthorizedException $ex) {
-            return null;
+        } catch (UnauthorizedException $e) {
+            throw new UserError($e->getMessage());
         }
     }
 }
