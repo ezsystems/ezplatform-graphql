@@ -266,3 +266,16 @@ SelectionFieldValue:
                 type: "String"
                 description: "String representation of the value"
                 resolve: "@=value"
+
+UrlFieldValue:
+    type: object
+    config:
+        fields:
+            link:
+                type: String
+                description: "The link's URL"
+                resolve: "@=value.link"
+            text:
+                type: String
+                description: "The link's name or description"
+                resolve: "@=value.text"

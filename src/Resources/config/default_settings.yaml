@@ -81,4 +81,5 @@ parameters:
       definition_type: TextBlockFieldDefinition
       value_type: String
     ezurl:
+      value_type: UrlFieldValue
       input_type: UrlFieldInput
