@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        bind:
+            Aws\S3\S3Client $graphQLSyncS3Client: '@ibexa_graphql.sync.s3_client'
+            EzSystems\EzPlatformGraphQL\Schema\Sync\TimestampHandler: '@EzSystems\EzPlatformGraphQL\Schema\Sync\RedisTimestampHandler'
+
+    ibexa_graphql.sync.s3_client:
+        class: Aws\S3\S3Client
+        arguments:
+            -   version: '2006-03-01'
+                region: '%env(GRAPHQL_SYNC_S3_REGION)%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\S3SharedSchema:
+        arguments:
+            $bucket: '%env(GRAPHQL_SYNC_S3_BUCKET)%'
+
+    EzSystems\EzPlatformGraphQL\Schema\Sync\SharedSchema: '@EzSystems\EzPlatformGraphQL\Schema\Sync\S3SharedSchema'
